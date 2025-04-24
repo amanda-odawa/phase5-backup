@@ -1,0 +1,76 @@
+{
+  "diseases": [
+    {
+      "id": 1,
+      "name": "Malaria",
+      "description": "A mosquito-borne infectious disease caused by Plasmodium parasites.",
+      "symptoms": "Fever, chills, headache, nausea, and fatigue.",
+      "prevention": "Use mosquito nets, insect repellent, and take antimalarial drugs.",
+      "treatment": "Antimalarial medications like chloroquine or artemisinin-based combination therapies.",
+      "image": "disease1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Tuberculosis",
+      "description": "A bacterial infection caused by Mycobacterium tuberculosis, primarily affecting the lungs.",
+      "symptoms": "Cough with sputum, chest pain, weight loss, and night sweats.",
+      "prevention": "BCG vaccine, good ventilation, and early treatment of active cases.",
+      "treatment": "A 6-9 month course of antibiotics like isoniazid and rifampicin.",
+      "image": "disease2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "HIV/AIDS",
+      "description": "A viral infection that attacks the immune system, caused by the Human Immunodeficiency Virus.",
+      "symptoms": "Fever, weight loss, fatigue, and opportunistic infections.",
+      "prevention": "Safe sex practices, needle exchange programs, and pre-exposure prophylaxis (PrEP).",
+      "treatment": "Antiretroviral therapy (ART) to manage the virus.",
+      "image": "disease3.jpg"
+    }
+  ],
+  "areas": [
+    {
+      "id": 1,
+      "name": "Sub-Saharan Africa",
+      "diseaseId": 1,
+      "description": "High prevalence of malaria due to tropical climate and limited healthcare access.",
+      "latitude": -8.7832,
+      "longitude": 34.5085,
+      "image": "area1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "South Asia",
+      "diseaseId": 2,
+      "description": "Tuberculosis is widespread due to dense populations and poor sanitation.",
+      "latitude": 20.5937,
+      "longitude": 78.9629,
+      "image": "area2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Eastern Europe",
+      "diseaseId": 3,
+      "description": "Rising cases of HIV/AIDS due to limited awareness and stigma.",
+      "latitude": 54.5260,
+      "longitude": 15.2551,
+      "image": "area3.jpg"
+    }
+  ],
+  "reviews": [],
+  "donations": [],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "user1",
+      "password": "user123",
+      "role": "user"
+    }
+  ]
+}
