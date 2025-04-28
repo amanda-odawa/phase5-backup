@@ -3,16 +3,22 @@ import api from '../utils/api';
 
 function DonationForm({ areaId }) {
   const [amount, setAmount] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!amount || parseFloat(amount) <= 0) {
+      setError('Please enter a valid donation amount greater than 0.');
+      return;
+    }
+
     try {
       await api.post('/donations', { areaId, amount: parseFloat(amount), date: new Date().toISOString() });
       alert('Donation submitted successfully!');
       setAmount('');
+      setError('');
     } catch (error) {
       console.error('Error submitting donation:', error);
-      alert('Failed to submit donation.');
+      setError('Failed to submit donation. Please try again.');
     }
   };
 
@@ -26,6 +32,7 @@ function DonationForm({ areaId }) {
         placeholder="Enter donation amount"
         className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
       />
+      {error && <p className="text-danger mt-2">{error}</p>}
       <button
         onClick={handleSubmit}
         className="mt-4 bg-secondary text-white px-4 py-2 rounded hover:bg-green-600"

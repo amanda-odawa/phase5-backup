@@ -7,11 +7,16 @@ import api from '../utils/api';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!username.trim() || !password.trim()) {
+      setError('Please enter both username and password.');
+      return;
+    }
+
     try {
       const response = await api.get('/users', {
         params: { username, password }
@@ -20,11 +25,11 @@ function Login() {
         dispatch(login(response.data[0]));
         navigate('/');
       } else {
-        alert('Invalid credentials.');
+        setError('Invalid credentials.');
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert('Login failed. Please try again.');
+      setError('Login failed. Please try again.');
     }
   };
 
@@ -46,6 +51,7 @@ function Login() {
           placeholder="Password"
           className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
         />
+        {error && <p className="text-danger mb-4">{error}</p>}
         <button
           onClick={handleSubmit}
           className="w-full bg-primary text-white p-3 rounded-md hover:bg-blue-600"

@@ -14,6 +14,7 @@ function ManageDiseases() {
     treatment: '',
     image: ''
   });
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     if (status === 'idle') {
@@ -26,23 +27,49 @@ function ManageDiseases() {
     setFormData({ ...disease });
   };
 
-  const handleAdd = (e) => {
-    e.preventDefault();
-    dispatch(addDisease({ ...formData, id: Date.now() }))
-      .then(() => setFormData({
-        name: '',
-        description: '',
-        symptoms: '',
-        prevention: '',
-        treatment: '',
-        image: ''
-      }));
+  const validateForm = () => {
+    if (!formData.name.trim() || !formData.description.trim() || !formData.symptoms.trim() || !formData.prevention.trim() || !formData.treatment.trim()) {
+      return 'All fields except image are required.';
+    }
+    if (!formData.image.trim()) {
+      return 'Please enter an image filename.';
+    }
+    return '';
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const handleAdd = () => {
+    const error = validateForm();
+    if (error) {
+      setFormError(error);
+      return;
+    }
+
+    dispatch(addDisease({ ...formData, id: Date.now() }))
+      .then(() => {
+        setFormData({
+          name: '',
+          description: '',
+          symptoms: '',
+          prevention: '',
+          treatment: '',
+          image: ''
+        });
+        setFormError('');
+      });
+  };
+
+  const handleUpdate = () => {
+    const error = validateForm();
+    if (error) {
+      setFormError(error);
+      return;
+    }
+
     dispatch(updateDisease({ id: editingDisease.id, updatedDisease: formData }))
-      .then(() => setEditingDisease(null));
+      .then(() => {
+        setEditingDisease(null);
+        setFormError('');
+      });
   };
 
   const handleDelete = (id) => {
@@ -59,62 +86,61 @@ function ManageDiseases() {
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Manage Illnesses</h1>
       <div className="bg-white p-8 rounded-lg shadow-md mb-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{editingDisease ? 'Edit Illness' : 'Add New Illness'}</h2>
-        <form onSubmit={editingDisease ? handleUpdate : handleAdd}>
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="Name"
-            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <textarea
-            value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            placeholder="Description"
-            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <textarea
-            value={formData.symptoms}
-            onChange={(e) => setFormData({ ...formData, symptoms: e.target.value })}
-            placeholder="Symptoms"
-            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <textarea
-            value={formData.prevention}
-            onChange={(e) => setFormData({ ...formData, prevention: e.target.value })}
-            placeholder="Prevention"
-            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <textarea
-            value={formData.treatment}
-            onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
-            placeholder="Treatment"
-            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <input
-            type="text"
-            value={formData.image}
-            onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-            placeholder="Image filename (e.g., disease4.jpg)"
-            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <div className="flex space-x-4">
+        <input
+          type="text"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          placeholder="Name"
+          className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <textarea
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          placeholder="Description"
+          className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <textarea
+          value={formData.symptoms}
+          onChange={(e) => setFormData({ ...formData, symptoms: e.target.value })}
+          placeholder="Symptoms"
+          className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <textarea
+          value={formData.prevention}
+          onChange={(e) => setFormData({ ...formData, prevention: e.target.value })}
+          placeholder="Prevention"
+          className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <textarea
+          value={formData.treatment}
+          onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
+          placeholder="Treatment"
+          className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <input
+          type="text"
+          value={formData.image}
+          onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+          placeholder="Image filename (e.g., disease4.jpg)"
+          className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        {formError && <p className="text-danger mb-4">{formError}</p>}
+        <div className="flex space-x-4">
+          <button
+            onClick={editingDisease ? handleUpdate : handleAdd}
+            className={`w-full ${editingDisease ? 'bg-secondary' : 'bg-primary'} text-white p-3 rounded-md hover:${editingDisease ? 'bg-green-600' : 'bg-blue-600'}`}
+          >
+            {editingDisease ? 'Update' : 'Add'} Illness
+          </button>
+          {editingDisease && (
             <button
-              type="submit"
-              className={`w-full ${editingDisease ? 'bg-secondary' : 'bg-primary'} text-white p-3 rounded-md hover:${editingDisease ? 'bg-green-600' : 'bg-blue-600'}`}
+              onClick={() => setEditingDisease(null)}
+              className="w-full bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600"
             >
-              {editingDisease ? 'Update' : 'Add'} Illness
+              Cancel
             </button>
-            {editingDisease && (
-              <button
-                onClick={() => setEditingDisease(null)}
-                className="w-full bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600"
-              >
-                Cancel
-              </button>
-            )}
-          </div>
-        </form>
+          )}
+        </div>
       </div>
       <div className="bg-white p-8 rounded-lg shadow-md">
         <table className="w-full border-collapse">

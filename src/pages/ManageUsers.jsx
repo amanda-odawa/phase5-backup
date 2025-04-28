@@ -7,6 +7,7 @@ function ManageUsers() {
   const { users, status, error } = useSelector((state) => state.users);
   const [editingUser, setEditingUser] = useState(null);
   const [formData, setFormData] = useState({ username: '', password: '', role: 'user' });
+  const [formError, setFormError] = useState('');
 
   useEffect(() => {
     if (status === 'idle') {
@@ -19,10 +20,28 @@ function ManageUsers() {
     setFormData({ username: user.username, password: user.password, role: user.role });
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    if (!formData.username.trim() || !formData.password.trim()) {
+      return 'Username and password are required.';
+    }
+    if (!['user', 'admin'].includes(formData.role)) {
+      return 'Please select a valid role.';
+    }
+    return '';
+  };
+
+  const handleUpdate = () => {
+    const error = validateForm();
+    if (error) {
+      setFormError(error);
+      return;
+    }
+
     dispatch(updateUser({ id: editingUser.id, updatedUser: formData }))
-      .then(() => setEditingUser(null));
+      .then(() => {
+        setEditingUser(null);
+        setFormError('');
+      });
   };
 
   const handleDelete = (id) => {
@@ -31,12 +50,60 @@ function ManageUsers() {
     }
   };
 
+  const handleCancel = () => {
+    setEditingUser(null);
+    setFormData({ username: '', password: '', role: 'user' });
+    setFormError('');
+  };
+
   if (status === 'loading') return <div className="text-center mt-12 text-gray-600">Loading...</div>;
   if (status === 'failed') return <div className="text-center mt-12 text-danger">Error: {error}</div>;
 
   return (
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Manage Users</h1>
+      {editingUser && (
+        <div className="bg-white p-8 rounded-lg shadow-md mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Edit User</h2>
+          <input
+            type="text"
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+            placeholder="Username"
+            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <input
+            type="password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            placeholder="Password"
+            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <select
+            value={formData.role}
+            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+            className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          {formError && <p className="text-danger mb-4">{formError}</p>}
+          <div className="flex space-x-4">
+            <button
+              onClick={handleUpdate}
+              className="w-full bg-secondary text-white p-3 rounded-md hover:bg-green-600"
+            >
+              Update User
+            </button>
+            <button
+              onClick={handleCancel}
+              className="w-full bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
       <div className="bg-white p-8 rounded-lg shadow-md">
         <table className="w-full border-collapse">
           <thead>
@@ -69,49 +136,6 @@ function ManageUsers() {
             ))}
           </tbody>
         </table>
-        {editingUser && (
-          <div className="mt-6 p-6 bg-gray-100 rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Edit User</h2>
-            <form onSubmit={handleUpdate}>
-              <input
-                type="text"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                placeholder="Username"
-                className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                placeholder="Password"
-                className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <select
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-              <div className="flex space-x-4">
-                <button
-                  type="submit"
-                  className="bg-secondary text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => setEditingUser(null)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
       </div>
     </div>
   );

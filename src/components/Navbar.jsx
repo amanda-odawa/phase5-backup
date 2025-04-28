@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../store/authSlice';
-import SearchFilterBar from './SearchFilterBar';
-import logo from '../assets/logo.png';
+import { logout } from '@/store/authSlice';
+import SearchFilterBar from '@/components/SearchFilterBar';
+import logo from '@/assets/logo.png';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

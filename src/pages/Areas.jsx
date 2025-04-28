@@ -17,26 +17,32 @@ function Areas() {
     }
   }, [status, dispatch]);
 
-  const filteredAreas = areas.filter((area) =>
-    area.name.toLowerCase().includes(searchQuery) ||
-    area.description.toLowerCase().includes(searchQuery)
+  const filteredAreas = areas.filter(
+    (area) =>
+      area.name.toLowerCase().includes(searchQuery) ||
+      area.description.toLowerCase().includes(searchQuery)
   );
 
-  if (status === 'loading') return <div className="text-center mt-12 text-gray-600">Loading...</div>;
-  if (status === 'failed') return <div className="text-center mt-12 text-danger">Error: {error}</div>;
+  if (status === 'loading') {
+    return <div className="text-center text-gray-600 mt-10">Loading areas...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div className="text-center text-red-600 mt-10">Error fetching areas: {error}</div>;
+  }
+
+  if (!filteredAreas || filteredAreas.length === 0) {
+    return <div className="text-center text-gray-600 mt-10">No areas found matching your search.</div>;
+  }
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">Affected Locations</h2>
-      {filteredAreas.length === 0 ? (
-        <p className="text-center text-gray-600">No locations found matching your search.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredAreas.map((area) => (
-            <AreaCard key={area.id} area={area} />
-          ))}
-        </div>
-      )}
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Affected Areas</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredAreas.map((area) => (
+          <AreaCard key={area.id} area={area} />
+        ))}
+      </div>
     </div>
   );
 }

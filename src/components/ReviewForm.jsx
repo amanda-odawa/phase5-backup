@@ -3,16 +3,22 @@ import api from '../utils/api';
 
 function ReviewForm({ areaId }) {
   const [review, setReview] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!review.trim()) {
+      setError('Please enter a suggestion.');
+      return;
+    }
+
     try {
       await api.post('/reviews', { areaId, content: review, date: new Date().toISOString() });
       alert('Suggestion submitted successfully!');
       setReview('');
+      setError('');
     } catch (error) {
       console.error('Error submitting suggestion:', error);
-      alert('Failed to submit suggestion.');
+      setError('Failed to submit suggestion. Please try again.');
     }
   };
 
@@ -25,6 +31,7 @@ function ReviewForm({ areaId }) {
         placeholder="How would you like to help eradicate the disease in this area?"
         className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
       />
+      {error && <p className="text-danger mt-2">{error}</p>}
       <button
         onClick={handleSubmit}
         className="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-blue-600"

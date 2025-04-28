@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { store } from './store/store';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -23,7 +23,7 @@ import { Navigate } from 'react-router-dom';
 
 function App() {
   const ProtectedRoute = ({ children, roleRequired }) => {
-    const user = store.getState().auth.user;
+    const user = useSelector((state) => state.auth.user);
     if (!user) return <Navigate to="/login" />;
     if (roleRequired && user.role !== roleRequired) return <Navigate to="/" />;
     return children;
@@ -94,6 +94,7 @@ function App() {
                 }
               />
               <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<div className="container mx-auto px-4 py-12 text-center text-gray-600">404 - Page Not Found</div>} />
             </Routes>
           </main>
           <Footer />

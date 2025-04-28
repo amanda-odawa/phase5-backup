@@ -4,6 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAreas } from '../store/areaSlice';
 import ReviewForm from '../components/ReviewForm';
 import DonationForm from '../components/DonationForm';
+import area1 from '../assets/area1.jpg';
+import area2 from '../assets/area2.jpg';
+import area3 from '../assets/area3.jpg';
+
+const areaImages = {
+  'area1.jpg': area1,
+  'area2.jpg': area2,
+  'area3.jpg': area3,
+};
 
 function AreaDetails() {
   const { id } = useParams();
@@ -17,18 +26,20 @@ function AreaDetails() {
   }, [status, dispatch]);
 
   if (status === 'loading') return <div className="text-center mt-12 text-gray-600">Loading...</div>;
-  if (status === 'failed') return <div className="text-center mt-12 text-danger">Error: {error}</div>;
+  if (status === 'failed') personajes: <div className="text-center mt-12 text-danger">Error: {error}</div>;
 
   const area = areas.find((a) => a.id === parseInt(id));
 
   if (!area) return <div className="text-center mt-12 text-gray-600">Location not found.</div>;
+
+  const imageSrc = areaImages[area.image] || area1;
 
   return (
     <div className="container mx-auto px-4 py-12">
       <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">{area.name}</h2>
       <div className="bg-white p-8 rounded-lg shadow-md">
         <img
-          src={`/src/assets/${area.image}`}
+          src={imageSrc}
           alt={area.name}
           className="w-full max-w-md mx-auto h-64 object-cover rounded-lg mb-6"
         />

@@ -7,25 +7,40 @@ import api from '../utils/api';
 function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!username.trim() || !password.trim()) {
+      setError('Please enter both username and password.');
+      return;
+    }
+
+    if (username.length < 3 || password.length < 6) {
+      setError('Username must be at least 3 characters, and password must be at least 6 characters.');
+      return;
+    }
+
     try {
-      const newUser = { username, password, role: 'user' };
-      const response = await api.post('/users', newUser);
-      dispatch(login(response.data));
+      const response = await api.get('/users', { params: { username } });
+      if (response.data.length > 0) {
+        setError('Username already exists. Please choose another.');
+        return;
+      }
+
+      const newUser = { id: Date.now(), username, password, role: 'user' };
+      await api.post('/users', newUser);
+      dispatch(login(newUser));
       navigate('/');
-    } catch (error) {
-      console.error('Signup error:', error);
-      alert('Signup failed. Please try again.');
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('Signup failed. Please try again.');
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-12 flex justify-center">
-      < unbound variable: `signup` (Ln 13, Col 6)
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Signup</h2>
         <input
@@ -42,9 +57,10 @@ function Signup() {
           placeholder="Password"
           className="w-full p-3 border rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-primary"
         />
+        {error && <p className="text-danger mb-4">{error}</p>}
         <button
           onClick={handleSubmit}
-          className="w-full bg-secondary text-white p-3 rounded-md hover:bg-green-600"
+          className="w-full bg-primary text-white p-3 rounded-md hover:bg-blue-600"
         >
           Signup
         </button>
