@@ -1,7 +1,7 @@
 {
   "diseases": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Malaria",
       "description": "A mosquito-borne infectious disease caused by Plasmodium parasites.",
       "symptoms": "Fever, chills, headache, nausea, and fatigue.",
@@ -10,7 +10,7 @@
       "image": "disease1.jpg"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Tuberculosis",
       "description": "A bacterial infection caused by Mycobacterium tuberculosis, primarily affecting the lungs.",
       "symptoms": "Cough with sputum, chest pain, weight loss, and night sweats.",
@@ -19,7 +19,7 @@
       "image": "disease2.jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "HIV/AIDS",
       "description": "A viral infection that attacks the immune system, caused by the Human Immunodeficiency Virus.",
       "symptoms": "Fever, weight loss, fatigue, and opportunistic infections.",
@@ -30,7 +30,7 @@
   ],
   "areas": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Sub-Saharan Africa",
       "diseaseId": 1,
       "description": "High prevalence of malaria due to tropical climate and limited healthcare access.",
@@ -39,7 +39,7 @@
       "image": "area1.jpg"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "South Asia",
       "diseaseId": 2,
       "description": "Tuberculosis is widespread due to dense populations and poor sanitation.",
@@ -48,11 +48,11 @@
       "image": "area2.jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Eastern Europe",
       "diseaseId": 3,
       "description": "Rising cases of HIV/AIDS due to limited awareness and stigma.",
-      "latitude": 54.5260,
+      "latitude": 54.526,
       "longitude": 15.2551,
       "image": "area3.jpg"
     }
@@ -61,15 +61,21 @@
   "donations": [],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "password": "admin123",
       "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "user1",
       "password": "user123",
+      "role": "user"
+    },
+    {
+      "id": "5543",
+      "username": "John Doe ",
+      "password": "12345678",
       "role": "user"
     }
   ]

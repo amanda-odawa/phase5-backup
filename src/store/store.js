@@ -4,7 +4,7 @@ import authReducer from './authSlice';
 import diseaseReducer from './diseaseSlice';
 import userReducer from './userSlice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     areas: areaReducer,
     auth: authReducer,
@@ -12,3 +12,5 @@ export const store = configureStore({
     users: userReducer,
   },
 });
+
+export default store;

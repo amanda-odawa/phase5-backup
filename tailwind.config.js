@@ -11,6 +11,15 @@ export default {
         secondary: '#10B981', // Green for success actions
         danger: '#EF4444', // Red for errors or logout
       },
+      container: {
+        center: true,
+        padding: '1rem',
+        screens: {
+          sm: '100%',
+          md: '100%',
+          lg: '1200px',
+        },
+      },
     },
   },
   plugins: [],

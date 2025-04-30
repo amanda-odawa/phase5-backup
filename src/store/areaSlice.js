@@ -7,8 +7,7 @@ export const fetchAreas = createAsyncThunk('areas/fetchAreas', async (_, { rejec
     const response = await api.get('/areas');
     return response.data;
   } catch (error) {
-    console.error('Error fetching areas:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to fetch areas');
   }
 });
 
@@ -17,8 +16,7 @@ export const addArea = createAsyncThunk('areas/addArea', async (area, { rejectWi
     const response = await api.post('/areas', area);
     return response.data;
   } catch (error) {
-    console.error('Error adding area:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to add area');
   }
 });
 
@@ -27,8 +25,7 @@ export const updateArea = createAsyncThunk('areas/updateArea', async ({ id, upda
     const response = await api.put(`/areas/${id}`, updatedArea);
     return response.data;
   } catch (error) {
-    console.error('Error updating area:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to update area');
   }
 });
 
@@ -37,8 +34,7 @@ export const deleteArea = createAsyncThunk('areas/deleteArea', async (id, { reje
     await api.delete(`/areas/${id}`);
     return id;
   } catch (error) {
-    console.error('Error deleting area:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to delete area');
   }
 });
 
@@ -46,7 +42,7 @@ const areaSlice = createSlice({
   name: 'areas',
   initialState: {
     areas: [],
-    status: 'idle',
+    loading: false,
     error: null,
   },
   reducers: {},
@@ -54,39 +50,58 @@ const areaSlice = createSlice({
     builder
       // Fetch Areas
       .addCase(fetchAreas.pending, (state) => {
-        state.status = 'loading';
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchAreas.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.loading = false;
         state.areas = action.payload;
       })
       .addCase(fetchAreas.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload || 'Failed to fetch areas';
+        state.loading = false;
+        state.error = action.payload;
       })
       // Add Area
+      .addCase(addArea.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(addArea.fulfilled, (state, action) => {
+        state.loading = false;
         state.areas.push(action.payload);
       })
       .addCase(addArea.rejected, (state, action) => {
-        state.error = action.payload || 'Failed to add area';
+        state.loading = false;
+        state.error = action.payload;
       })
       // Update Area
+      .addCase(updateArea.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(updateArea.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.areas.findIndex((area) => area.id === action.payload.id);
         if (index !== -1) {
           state.areas[index] = action.payload;
         }
       })
       .addCase(updateArea.rejected, (state, action) => {
-        state.error = action.payload || 'Failed to update area';
+        state.loading = false;
+        state.error = action.payload;
       })
       // Delete Area
+      .addCase(deleteArea.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(deleteArea.fulfilled, (state, action) => {
+        state.loading = false;
         state.areas = state.areas.filter((area) => area.id !== action.payload);
       })
       .addCase(deleteArea.rejected, (state, action) => {
-        state.error = action.payload || 'Failed to delete area';
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

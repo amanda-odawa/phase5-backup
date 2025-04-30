@@ -7,8 +7,7 @@ export const fetchDiseases = createAsyncThunk('diseases/fetchDiseases', async (_
     const response = await api.get('/diseases');
     return response.data;
   } catch (error) {
-    console.error('Error fetching diseases:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to fetch diseases');
   }
 });
 
@@ -17,8 +16,7 @@ export const addDisease = createAsyncThunk('diseases/addDisease', async (disease
     const response = await api.post('/diseases', disease);
     return response.data;
   } catch (error) {
-    console.error('Error adding disease:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to add disease');
   }
 });
 
@@ -27,8 +25,7 @@ export const updateDisease = createAsyncThunk('diseases/updateDisease', async ({
     const response = await api.put(`/diseases/${id}`, updatedDisease);
     return response.data;
   } catch (error) {
-    console.error('Error updating disease:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to update disease');
   }
 });
 
@@ -37,8 +34,7 @@ export const deleteDisease = createAsyncThunk('diseases/deleteDisease', async (i
     await api.delete(`/diseases/${id}`);
     return id;
   } catch (error) {
-    console.error('Error deleting disease:', error);
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data || error.message || 'Failed to delete disease');
   }
 });
 
@@ -46,7 +42,7 @@ const diseaseSlice = createSlice({
   name: 'diseases',
   initialState: {
     diseases: [],
-    status: 'idle',
+    loading: false,
     error: null,
   },
   reducers: {},
@@ -54,39 +50,58 @@ const diseaseSlice = createSlice({
     builder
       // Fetch Diseases
       .addCase(fetchDiseases.pending, (state) => {
-        state.status = 'loading';
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchDiseases.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.loading = false;
         state.diseases = action.payload;
       })
       .addCase(fetchDiseases.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload || 'Failed to fetch diseases';
+        state.loading = false;
+        state.error = action.payload;
       })
       // Add Disease
+      .addCase(addDisease.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(addDisease.fulfilled, (state, action) => {
+        state.loading = false;
         state.diseases.push(action.payload);
       })
       .addCase(addDisease.rejected, (state, action) => {
-        state.error = action.payload || 'Failed to add disease';
+        state.loading = false;
+        state.error = action.payload;
       })
       // Update Disease
+      .addCase(updateDisease.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(updateDisease.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.diseases.findIndex((disease) => disease.id === action.payload.id);
         if (index !== -1) {
           state.diseases[index] = action.payload;
         }
       })
       .addCase(updateDisease.rejected, (state, action) => {
-        state.error = action.payload || 'Failed to update disease';
+        state.loading = false;
+        state.error = action.payload;
       })
       // Delete Disease
+      .addCase(deleteDisease.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(deleteDisease.fulfilled, (state, action) => {
+        state.loading = false;
         state.diseases = state.diseases.filter((disease) => disease.id !== action.payload);
       })
       .addCase(deleteDisease.rejected, (state, action) => {
-        state.error = action.payload || 'Failed to delete disease';
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
