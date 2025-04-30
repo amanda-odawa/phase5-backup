@@ -1,11 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../utils/api';
+import disease1 from '../assets/disease1.jpg';
+import disease2 from '../assets/disease2.jpg';
+import disease3 from '../assets/disease3.jpg';
+
+// Map image imports to disease IDs
+const diseaseImages = {
+  1: disease1,
+  2: disease2,
+  3: disease3,
+};
 
 // Async thunks for disease operations
 export const fetchDiseases = createAsyncThunk('diseases/fetchDiseases', async (_, { rejectWithValue }) => {
   try {
     const response = await api.get('/diseases');
-    return response.data;
+    // Map the fetched diseases to include the imported images
+    return response.data.map(disease => ({
+      ...disease,
+      image: diseaseImages[disease.id] || 'https://via.placeholder.com/300x150?text=Disease+Image',
+    }));
   } catch (error) {
     return rejectWithValue(error.response?.data || error.message || 'Failed to fetch diseases');
   }

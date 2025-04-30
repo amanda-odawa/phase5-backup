@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';
-import heroImage from '@/assets/hero.jpg';
+import heroImage from '../assets/hero.jpg'; // Updated path (remove @ alias)
 
 function Home() {
   const dispatch = useDispatch();
@@ -14,11 +14,16 @@ function Home() {
 
   const featuredDiseases = diseases.slice(0, 3); // Show top 3 diseases
 
+  // Handle image loading errors
+  const handleImageError = (e) => {
+    e.target.src = 'https://via.placeholder.com/300x150?text=Image+Failed+to+Load';
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Hero Section */}
       <section className="relative h-[80vh] bg-gray-900 text-white">
-        <img src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-40" />
+        <img src={heroImage} alt="Hero" className="w-full h-full object-cover opacity-40" onError={handleImageError} />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent flex items-center justify-center text-center">
           <div className="text-white animate-fade-in">
             <h1 className="text-5xl font-bold mb-4">Welcome to Communicable Diseases Charity</h1>
@@ -78,6 +83,7 @@ function Home() {
                     src={disease.image || 'https://via.placeholder.com/300x150?text=Disease+Image'}
                     alt={disease.name}
                     className="w-full h-48 object-cover"
+                    onError={handleImageError}
                   />
                   <div className="p-6">
                     <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100">{disease.name}</h3>
