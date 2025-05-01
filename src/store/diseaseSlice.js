@@ -25,6 +25,19 @@ export const fetchDiseases = createAsyncThunk('diseases/fetchDiseases', async (_
   }
 });
 
+export const fetchDiseaseById = createAsyncThunk('diseases/fetchDiseaseById', async (id, { rejectWithValue }) => {
+  try {
+    const response = await api.get(`/diseases/${id}`);
+    const disease = response.data;
+    return {
+      ...disease,
+      image: diseaseImages[disease.id] || 'https://via.placeholder.com/300x150?text=Disease+Image',
+    };
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message || 'Failed to fetch disease');
+  }
+});
+
 export const addDisease = createAsyncThunk('diseases/addDisease', async (disease, { rejectWithValue }) => {
   try {
     const response = await api.post('/diseases', disease);
@@ -56,6 +69,7 @@ const diseaseSlice = createSlice({
   name: 'diseases',
   initialState: {
     diseases: [],
+    disease: null,
     loading: false,
     error: null,
   },
@@ -72,6 +86,19 @@ const diseaseSlice = createSlice({
         state.diseases = action.payload;
       })
       .addCase(fetchDiseases.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Fetch Disease by ID
+      .addCase(fetchDiseaseById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDiseaseById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.disease = action.payload;
+      })
+      .addCase(fetchDiseaseById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

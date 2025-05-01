@@ -19,7 +19,8 @@
     "react-leaflet": "^4.2.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",

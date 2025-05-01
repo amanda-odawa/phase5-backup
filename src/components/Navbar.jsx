@@ -63,21 +63,27 @@ function Navbar() {
         </div>
         <nav
           id="navbar-menu"
-          className={`md:flex md:items-center ${isOpen ? 'block' : 'hidden'} w-full md:w-auto absolute md:static top  top-16 left-0 bg-blue-900 md:bg-transparent md:p-0 p-4 transition-all duration-300 ease-in-out z-40`}
+          className={`md:flex md:items-center ${isOpen ? 'block' : 'hidden'} w-full md:w-auto absolute md:static top-16 left-0 bg-blue-900 md:bg-transparent md:p-0 p-4 transition-all duration-300 ease-in-out z-40`}
         >
           <div className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
             <Link to="/" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Home</Link>
             <Link to="/about" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">About</Link>
-            <Link to="/diseases" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Illnesses</Link>
-            <Link to="/areas" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Locations</Link>
+            <Link to="/diseases" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Diseases</Link>
+            <Link to="/areas" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Areas</Link>
             <Link to="/map-analysis" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Maps</Link>
             <Link to="/contact" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Contact</Link>
+            <Link to="/donation-form" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Donate</Link>
             {isAuthenticated ? (
               <>
                 <Link to="/profile" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Profile</Link>
-                {user.role === 'admin' ? (
-                  <Link to="/admin-dashboard" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Admin Dashboard</Link>
-                ) : (
+                {user.role === 'admin' && (
+                  <>
+                    <Link to="/admin-dashboard" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Admin Dashboard</Link>
+                    <Link to="/add-disease" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Add Disease</Link>
+                    <Link to="/add-area" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Add Area</Link>
+                  </>
+                )}
+                {user.role !== 'admin' && (
                   <Link to="/user-dashboard" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">User Dashboard</Link>
                 )}
                 <button

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux'; // Added missing import
+import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -19,6 +19,10 @@ import ManageDiseases from './pages/ManageDiseases';
 import ManageAreas from './pages/ManageAreas';
 import UserProfile from './pages/UserProfile';
 import DonationForm from './components/DonationForm';
+import AddDisease from './pages/AddDisease';
+import EditDisease from './pages/EditDisease';
+import AddArea from './pages/AddArea';
+import EditArea from './pages/EditArea';
 import { Navigate } from 'react-router-dom';
 
 function App() {
@@ -93,6 +97,24 @@ function App() {
             }
           />
           <Route path="/donation-form" element={<DonationForm />} />
+          <Route
+            path="/add-disease"
+            element={
+              <ProtectedRoute roleRequired="admin">
+                <AddDisease />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-disease/:id"
+            element={
+              <ProtectedRoute roleRequired="admin">
+                <EditDisease />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/add-area" element={<AddArea />} />
+          <Route path="/edit-area/:id" element={<EditArea />} />
           <Route path="*" element={<div className="container mx-auto px-4 py-12 text-center text-gray-600 dark:text-gray-400">404 - Page Not Found</div>} />
         </Routes>
       </main>

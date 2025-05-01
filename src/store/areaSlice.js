@@ -11,6 +11,15 @@ export const fetchAreas = createAsyncThunk('areas/fetchAreas', async (_, { rejec
   }
 });
 
+export const fetchAreaById = createAsyncThunk('areas/fetchAreaById', async (id, { rejectWithValue }) => {
+  try {
+    const response = await api.get(`/areas/${id}`);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response?.data || error.message || 'Failed to fetch area');
+  }
+});
+
 export const addArea = createAsyncThunk('areas/addArea', async (area, { rejectWithValue }) => {
   try {
     const response = await api.post('/areas', area);
@@ -42,6 +51,7 @@ const areaSlice = createSlice({
   name: 'areas',
   initialState: {
     areas: [],
+    area: null,
     loading: false,
     error: null,
   },
@@ -58,6 +68,19 @@ const areaSlice = createSlice({
         state.areas = action.payload;
       })
       .addCase(fetchAreas.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Fetch Area by ID
+      .addCase(fetchAreaById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAreaById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.area = action.payload;
+      })
+      .addCase(fetchAreaById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
