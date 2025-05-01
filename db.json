@@ -7,7 +7,13 @@
       "symptoms": "Fever, chills, headache, nausea, and fatigue.",
       "prevention": "Use mosquito nets, insect repellent, and take antimalarial drugs.",
       "treatment": "Antimalarial medications like chloroquine or artemisinin-based combination therapies.",
-      "image": "disease1.jpg"
+      "image": "disease1.jpg",
+      "category": "Vector-borne",
+      "prevalence": "High",
+      "regions": [
+        "Sub-Saharan Africa"
+      ],
+      "cases": 241000000
     },
     {
       "id": "2",
@@ -16,7 +22,13 @@
       "symptoms": "Cough with sputum, chest pain, weight loss, and night sweats.",
       "prevention": "BCG vaccine, good ventilation, and early treatment of active cases.",
       "treatment": "A 6-9 month course of antibiotics like isoniazid and rifampicin.",
-      "image": "disease2.jpg"
+      "image": "disease2.jpg",
+      "category": "Bacterial",
+      "prevalence": "Low",
+      "regions": [
+        "South Asia"
+      ],
+      "cases": 2500000
     },
     {
       "id": "3",
@@ -25,36 +37,56 @@
       "symptoms": "Fever, weight loss, fatigue, and opportunistic infections.",
       "prevention": "Safe sex practices, needle exchange programs, and pre-exposure prophylaxis (PrEP).",
       "treatment": "Antiretroviral therapy (ART) to manage the virus.",
-      "image": "disease3.jpg"
+      "image": "disease3.jpg",
+      "category": "Viral",
+      "prevalence": "Medium",
+      "regions": [
+        "Eastern Europe",
+        "Sub-Saharan Africa"
+      ],
+      "cases": 25700000
     }
   ],
   "areas": [
     {
       "id": "1",
       "name": "Sub-Saharan Africa",
-      "diseaseId": 1,
+      "diseases": [
+        "Malaria",
+        "HIV/AIDS"
+      ],
       "description": "High prevalence of malaria due to tropical climate and limited healthcare access.",
       "latitude": -8.7832,
       "longitude": 34.5085,
-      "image": "area1.jpg"
+      "image": "area1.jpg",
+      "totalCases": 384000000,
+      "population": 1500000000
     },
     {
       "id": "2",
       "name": "South Asia",
-      "diseaseId": 2,
+      "diseases": [
+        "Tuberculosis"
+      ],
       "description": "Tuberculosis is widespread due to dense populations and poor sanitation.",
       "latitude": 20.5937,
       "longitude": 78.9629,
-      "image": "area2.jpg"
+      "image": "area2.jpg",
+      "totalCases": 2500000,
+      "population": 1800000000
     },
     {
       "id": "3",
       "name": "Eastern Europe",
-      "diseaseId": 3,
+      "diseases": [
+        "HIV/AIDS"
+      ],
       "description": "Rising cases of HIV/AIDS due to limited awareness and stigma.",
       "latitude": 54.526,
       "longitude": 15.2551,
-      "image": "area3.jpg"
+      "image": "area3.jpg",
+      "totalCases": 1000000,
+      "population": 300000000
     }
   ],
   "reviews": [],
@@ -74,8 +106,20 @@
     },
     {
       "id": "5543",
-      "username": "John Doe ",
+      "username": "John Doe",
       "password": "12345678",
+      "role": "user"
+    },
+    {
+      "id": "ff3e",
+      "username": "John Keen",
+      "password": "123456789",
+      "role": "user"
+    },
+    {
+      "id": "187a",
+      "username": "John Keen",
+      "password": "123456789",
       "role": "user"
     }
   ]
