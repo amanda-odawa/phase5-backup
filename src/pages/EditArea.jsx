@@ -7,6 +7,7 @@ function EditArea() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const { area, loading, error } = useSelector((state) => state.areas);
 
   const [areaData, setAreaData] = useState({
@@ -14,6 +15,12 @@ function EditArea() {
     totalCases: '',
     population: '',
   });
+
+  // Check if user is logged in and is an admin
+  if (!user || user.role !== 'admin') {
+    navigate('/login');
+    return null;
+  }
 
   // Fetch area data
   useEffect(() => {

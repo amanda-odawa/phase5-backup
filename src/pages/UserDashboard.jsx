@@ -1,97 +1,46 @@
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import api from '../utils/api';
 
 function UserDashboard() {
-  const user = useSelector((state) => state.auth.user);
-  const [donations, setDonations] = useState([]);
-  const [reviews, setReviews] = useState([]);
+  const { user } = useSelector((state) => state.auth);
+  const donations = useSelector((state) => state.donations?.donations || []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const donationResponse = await api.get('/donations', { params: { userId: user.id } });
-        const reviewResponse = await api.get('/reviews', { params: { userId: user.id } });
-        setDonations(donationResponse.data);
-        setReviews(reviewResponse.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    fetchData();
-  }, [user.id]);
+  // Filter donations made by the current user
+  const userDonations = donations.filter((donation) => donation.userId === user?.id);
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-        Welcome, {user.username}!
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Link
-          to="/diseases"
-          className="bg-primary text-white p-6 rounded-lg shadow-md text-center hover:bg-blue-600"
-        >
-          <h2 className="text-2xl font-bold">Explore Illnesses</h2>
-          <p className="mt-2">Learn more about communicable diseases.</p>
-        </Link>
-        <Link
-          to="/areas"
-          className="bg-primary text-white p-6 rounded-lg shadow-md text-center hover:bg-blue-600"
-        >
-          <h2 className="text-2xl font-bold">Explore Locations</h2>
-          <p className="mt-2">Discover areas affected by diseases.</p>
-        </Link>
-      </div>
-      <div className="bg-white p-8 rounded-lg shadow-md mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Your Donations</h2>
-        {donations.length === 0 ? (
-          <p className="text-gray-600">You haven't made any donations yet.</p>
-        ) : (
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="p-3 text-left">Area ID</th>
-                <th className="p-3 text-left">Amount</th>
-                <th className="p-3 text-left">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {donations.map((donation) => (
-                <tr key={donation.id} className="border-b">
-                  <td className="p-3">{donation.areaId}</td>
-                  <td className="p-3">${donation.amount}</td>
-                  <td className="p-3">{new Date(donation.date).toLocaleDateString()}</td>
-                </tr>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16 transition-colors duration-300">
+      <div className="container mx-auto px-4">
+        <h1 className="text-4xl font-bold text-center mb-12">User Dashboard</h1>
+        <div className="bg-white dark:bg-gray-700 shadow-lg rounded-lg p-6 mb-8">
+          <h2 className="text-2xl font-semibold mb-4">Welcome, {user?.username || 'User'}!</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-2"><strong>Role:</strong> {user?.role || 'N/A'}</p>
+          <p className="text-gray-600 dark:text-gray-300">Thank you for supporting our mission to combat communicable diseases.</p>
+        </div>
+        <div className="bg-white dark:bg-gray-700 shadow-lg rounded-lg p-6">
+          <h2 className="text-2xl font-semibold mb-4">Your Donation History</h2>
+          {userDonations.length === 0 ? (
+            <p className="text-gray-600 dark:text-gray-300">You haven't made any donations yet.</p>
+          ) : (
+            <div className="space-y-4">
+              {userDonations.map((donation) => (
+                <div
+                  key={donation.id}
+                  className="border-b border-gray-200 dark:border-gray-600 pb-4 last:border-b-0"
+                >
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <strong>Amount:</strong> ${donation.amount}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <strong>Date:</strong> {new Date(donation.date).toLocaleDateString()}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <strong>Message:</strong> {donation.message || 'No message provided.'}
+                  </p>
+                </div>
               ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Your Suggestions</h2>
-        {reviews.length === 0 ? (
-          <p className="text-gray-600">You haven't submitted any suggestions yet.</p>
-        ) : (
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="p-3 text-left">Area ID</th>
-                <th className="p-3 text-left">Suggestion</th>
-                <th className="p-3 text-left">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reviews.map((review) => (
-                <tr key={review.id} className="border-b">
-                  <td className="p-3">{review.areaId}</td>
-                  <td className="p-3">{review.content}</td>
-                  <td className="p-3">{new Date(review.date).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

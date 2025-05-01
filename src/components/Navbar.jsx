@@ -81,6 +81,8 @@ function Navbar() {
                     <Link to="/admin-dashboard" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Admin Dashboard</Link>
                     <Link to="/add-disease" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Add Disease</Link>
                     <Link to="/add-area" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Add Area</Link>
+                    <Link to="/manage-diseases" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Manage Diseases</Link>
+                    <Link to="/manage-areas" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Manage Areas</Link>
                   </>
                 )}
                 {user.role !== 'admin' && (

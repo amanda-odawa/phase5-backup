@@ -3,6 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
+import area1 from '../assets/area1.jpg';
+import area2 from '../assets/area2.jpg';
+import area3 from '../assets/area3.jpg';
+
+// Map image filenames to imported images
+const imageMap = {
+  'area1.jpg': area1,
+  'area2.jpg': area2,
+  'area3.jpg': area3,
+};
 
 function Areas() {
   const dispatch = useDispatch();
@@ -104,6 +114,11 @@ function Areas() {
                 key={area.id}
                 className="bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105"
               >
+                <img
+                  src={imageMap[area.image] || 'https://via.placeholder.com/300x150?text=Area+Image'}
+                  alt={area.name}
+                  className="w-full h-48 object-cover"
+                />
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-2">{area.name}</h2>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">{area.description}</p>
