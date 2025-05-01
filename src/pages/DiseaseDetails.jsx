@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchDiseases } from '@/store/diseaseSlice';
-import DonationForm from '@/components/DonationForm';
-import ReviewForm from '@/components/ReviewForm';
+import { fetchDiseases } from '../store/diseaseSlice';
+import DonationForm from '../components/DonationForm';
+import ReviewForm from '../components/ReviewForm';
 
-// Import images using the @ alias
-import disease1 from '@/assets/disease1.jpg';
-import disease2 from '@/assets/disease2.jpg';
-import disease3 from '@/assets/disease3.jpg';
-import disease4 from '@/assets/disease4.jpg';
+// Import images
+import disease1 from '../assets/disease1.jpg';
+import disease2 from '../assets/disease2.jpg';
+import disease3 from '../assets/disease3.jpg';
+import disease4 from '../assets/disease4.jpg';
 
 const diseaseImages = {
   'disease1': disease1,
@@ -28,11 +28,13 @@ function DiseaseDetails() {
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchDiseases());
+    } else if (status === 'succeeded' && diseases.length === 0) {
+      dispatch(fetchDiseases());
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, diseases.length]);
 
   useEffect(() => {
-    const foundDisease = diseases.find((d) => d.id === parseInt(id));
+    const foundDisease = diseases.find((d) => d.id === id);
     if (foundDisease) {
       setDisease(foundDisease);
     } else if (status === 'succeeded' && !foundDisease) {
@@ -40,9 +42,24 @@ function DiseaseDetails() {
     }
   }, [diseases, id, navigate, status]);
 
-  if (status === 'loading') return <div className="text-center mt-12 text-gray-600">Loading...</div>;
-  if (status === 'failed') return <div className="text-center mt-12 text-danger">Error: {error}</div>;
-  if (!disease) return <div className="text-center mt-12 text-gray-600">Illness not found.</div>;
+  if (status === 'loading')
+    return (
+      <div className="text-center mt-12 text-gray-600">
+        Loading...
+      </div>
+    );
+  if (status === 'failed')
+    return (
+      <div className="text-center mt-12 text-danger">
+        Error: {error}
+      </div>
+    );
+  if (!disease)
+    return (
+      <div className="text-center mt-12 text-gray-600">
+        Illness not found.
+      </div>
+    );
 
   return (
     <div className="container mx-auto px-4 py-12">

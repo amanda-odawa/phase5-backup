@@ -1,5 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchDiseases } from './store/diseaseSlice';
+import { fetchAreas } from './store/areaSlice';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -32,6 +36,13 @@ function App() {
     if (roleRequired && user.role !== roleRequired) return <Navigate to="/" />;
     return children;
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchDiseases());
+    dispatch(fetchAreas());
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 transition-colors duration-300">

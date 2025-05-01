@@ -22,15 +22,32 @@ function AreaDetails() {
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchAreas());
+    } else if (status === 'succeeded' && areas.length === 0) {
+      dispatch(fetchAreas());
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, areas.length]);
 
-  if (status === 'loading') return <div className="text-center mt-12 text-gray-600">Loading...</div>;
-  if (status === 'failed') personajes: <div className="text-center mt-12 text-danger">Error: {error}</div>;
+  if (status === 'loading')
+    return (
+      <div className="text-center mt-12 text-gray-600">
+        Loading...
+      </div>
+    );
+  if (status === 'failed')
+    return (
+      <div className="text-center mt-12 text-danger">
+        Error: {error}
+      </div>
+    );
 
-  const area = areas.find((a) => a.id === parseInt(id));
+  const area = areas.find((a) => a.id === id);
 
-  if (!area) return <div className="text-center mt-12 text-gray-600">Location not found.</div>;
+  if (!area)
+    return (
+      <div className="text-center mt-12 text-gray-600">
+        Location not found.
+      </div>
+    );
 
   const imageSrc = areaImages[area.image] || area1;
 
