@@ -1,9 +1,12 @@
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-8 transition-colors duration-300">
+    <footer className="bg-[#213146] text-white py-4">
       <div className="container mx-auto px-4 text-center">
-        <p className="mb-4">📧 info@healthreach.org</p>
-        <p>© 2025 HealthReach. All rights reserved.</p>
+        {/* Contact Email */}
+        <p className="text-sm sm:text-base mb-2">📧 info@healthreach.org</p>
+
+        {/* Rights Notice */}
+        <p className="text-xs sm:text-sm">© 2025 HealthReach. All rights reserved.</p>
       </div>
     </footer>
   );

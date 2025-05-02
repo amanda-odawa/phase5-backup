@@ -1,26 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/authSlice';
-import SearchFilterBar from '../components/SearchFilterBar';
 import logo from '../assets/logo.png';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -28,83 +16,129 @@ function Navbar() {
   };
 
   return (
-    <header className="navbar bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" aria-label="Home">
-          <img src={logo} alt="Charity Logo" className="h-12 transform transition-transform duration-300 hover:scale-110" />
-        </Link>
-        <div className="flex items-center space-x-4">
+    <header className="bg-white shadow-md sticky top-0 z-50">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        {/* Logo aligned far left */}
+        <div className="flex-shrink-0">
+          <Link to="/" aria-label="Home">
+            <img src={logo} alt="Logo" className="h-10 md:h-12 hover:scale-105 transition-transform" />
+          </Link>
+        </div>
+
+        {/* Hamburger menu */}
+        <div className="md:hidden">
           <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-110"
-            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {darkMode ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            )}
-          </button>
-          <button
-            className="md:hidden text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition-transform duration-300 transform hover:scale-110"
             onClick={() => setIsOpen(!isOpen)}
-            aria-expanded={isOpen}
-            aria-controls="navbar-menu"
-            aria-label="Toggle navigation"
+            className="text-black focus:outline-none"
+            aria-label="Toggle menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"} />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16m-7 6h7'}
+              />
             </svg>
           </button>
         </div>
+
+        {/* Desktop Menu */}
         <nav
-          id="navbar-menu"
-          className={`md:flex md:items-center ${isOpen ? 'block' : 'hidden'} w-full md:w-auto absolute md:static top-16 left-0 bg-blue-900 md:bg-transparent md:p-0 p-4 transition-all duration-300 ease-in-out z-40`}
+          className={`${
+            isOpen ? 'block' : 'hidden'
+          } absolute top-full left-0 w-full bg-white border-t md:border-0 md:static md:block md:w-auto`}
         >
-          <div className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
-            <Link to="/" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Home</Link>
-            <Link to="/about" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">About</Link>
-            <Link to="/diseases" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Diseases</Link>
-            <Link to="/areas" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Areas</Link>
-            <Link to="/map-analysis" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Maps</Link>
-            <Link to="/contact" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Contact</Link>
-            <Link to="/donation-form" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Donate</Link>
+          <ul className="flex flex-col md:flex-row md:items-center md:space-x-8 px-4 md:px-0 py-2 md:py-0 md:ml-auto">
+            <li>
+              <Link to="/" className="block py-2 text-black hover:font-bold">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/diseases" className="block py-2 text-black hover:font-bold">
+                Diseases
+              </Link>
+            </li>
+            <li>
+              <Link to="/regions" className="block py-2 text-black hover:font-bold">
+                Regions
+              </Link>
+            </li>
+            <li>
+              <Link to="/donation-form" className="block py-2 text-black hover:font-bold">
+                Donate
+              </Link>
+            </li>
             {isAuthenticated ? (
               <>
-                <Link to="/profile" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Profile</Link>
+                <li>
+                  <Link to="/profile" className="block py-2 text-black hover:font-bold">
+                    Profile
+                  </Link>
+                </li>
                 {user.role === 'admin' && (
                   <>
-                    <Link to="/admin-dashboard" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Admin Dashboard</Link>
-                    <Link to="/add-disease" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Add Disease</Link>
-                    <Link to="/add-area" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Add Area</Link>
-                    <Link to="/manage-diseases" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Manage Diseases</Link>
-                    <Link to="/manage-areas" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Manage Areas</Link>
+                    <li>
+                      <Link to="/admin-dashboard" className="block py-2 text-black hover:font-bold">
+                        Admin Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/add-disease" className="block py-2 text-black hover:font-bold">
+                        Add Disease
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/add-area" className="block py-2 text-black hover:font-bold">
+                        Add Area
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/manage-diseases" className="block py-2 text-black hover:font-bold">
+                        Manage Diseases
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/manage-areas" className="block py-2 text-black hover:font-bold">
+                        Manage Areas
+                      </Link>
+                    </li>
                   </>
                 )}
                 {user.role !== 'admin' && (
-                  <Link to="/user-dashboard" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">User Dashboard</Link>
+                  <li>
+                    <Link to="/user-dashboard" className="block py-2 text-black hover:font-bold">
+                      User Dashboard
+                    </Link>
+                  </li>
                 )}
-                <button
-                  onClick={handleLogout}
-                  className="py-2 md:py-0 text-red-400 hover:underline focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-300"
-                >
-                  Logout
-                </button>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="block py-2 text-red-600 hover:font-bold"
+                  >
+                    Logout
+                  </button>
+                </li>
               </>
             ) : (
               <>
-                <Link to="/login" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Login</Link>
-                <Link to="/signup" className="py-2 md:py-0 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors duration-300">Signup</Link>
+                <li>
+                  <Link to="/login" className="block py-2 text-black hover:font-bold">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/signup" className="block py-2 text-black hover:font-bold">
+                    Signup
+                  </Link>
+                </li>
               </>
             )}
-          </div>
+          </ul>
         </nav>
       </div>
-      <SearchFilterBar />
     </header>
   );
 }

@@ -7,7 +7,6 @@ import { fetchAreas } from './store/areaSlice';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import About from './pages/About';
 import Diseases from './pages/Diseases';
 import Areas from './pages/Areas';
 import DiseaseDetails from './pages/DiseaseDetails';
@@ -15,7 +14,6 @@ import AreaDetails from './pages/AreaDetails';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import MapAnalysis from './pages/MapAnalysis';
-import Contact from './pages/Contact';
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
 import ManageUsers from './pages/ManageUsers';
@@ -50,7 +48,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          
           <Route path="/diseases" element={<Diseases />} />
           <Route path="/diseases/:id" element={<DiseaseDetails />} />
           <Route path="/areas" element={<Areas />} />
@@ -58,7 +56,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/map-analysis" element={<MapAnalysis />} />
-          <Route path="/contact" element={<Contact />} />
+          
           <Route
             path="/admin-dashboard"
             element={
