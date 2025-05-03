@@ -61,12 +61,12 @@ function Navbar() {
               </Link>
             </li>
             <li>
-              <Link to="/regions" className="block py-2 text-black hover:font-bold">
-                Regions
+              <Link to="/areas" className="block py-2 text-black hover:font-bold">
+                Affected Areas
               </Link>
             </li>
             <li>
-              <Link to="/donation-form" className="block py-2 text-black hover:font-bold">
+              <Link to="/donation" className="block py-2 text-black hover:font-bold">
                 Donate
               </Link>
             </li>
@@ -127,11 +127,6 @@ function Navbar() {
                 <li>
                   <Link to="/login" className="block py-2 text-black hover:font-bold">
                     Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/signup" className="block py-2 text-black hover:font-bold">
-                    Signup
                   </Link>
                 </li>
               </>

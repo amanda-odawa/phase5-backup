@@ -22,35 +22,36 @@ function Home() {
   return (
     <div className="bg-white text-gray-900">
     {/* Intro Section */}
-    <section className="bg-[#0097b2] text-white flex flex-col lg:flex-row lg:h-[350px] overflow-hidden">
+    <section className="relative">
       {/* Text Area */}
-      <div className="w-full lg:w-[70%] px-6 lg:px-24 py-12 flex items-center">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+      <div className="bg-[#0097b2] text-white">
+        <div className="w-full px-8 lg:px-24 py-14">
+        <div className="md:w-2/3">
+          <h1 className="text-4xl md:text-4xl font-bold mb-6">
             Fighting Communicable Diseases Together
           </h1>
-          <p className="text-lg md:text-xl">
+          <p className="text-xl mb-8">
             Join our mission to eradicate preventable diseases and improve global health outcomes through education, research, and community action. Through collaboration with healthcare providers, volunteers, and supporters like you, we're creating lasting impact in vulnerable communities around the world.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-5">
+          <div className="flex flex-wrap gap-4">
           <Link
             to="/donation-form"
-            className="inline-block bg-white text-[#0097b2] hover:bg-gray-100 font-medium py-3 px-6 rounded-md text-center"
+            className=" bg-white text-[#0097b2] hover:bg-gray-100 font-medium py-3 px-6 rounded-md text-center"
           >
             Donate Now
           </Link>
           <Link
             to="/diseases"
-            className="inline-block border border-white text-white hover:bg-white hover:text-[#0097b2] font-medium py-3 px-6 rounded-md text-center"
+            className="border border-white text-white hover:bg-white hover:text-[#0097b2] font-medium py-3 px-6 rounded-md text-center"
           >
             Learn More
           </Link>
           </div>
         </div>
       </div>
-
+</div>
       {/* Image Area (always visible, but layout adjusts) */}
-      <div className="w-full lg:w-[30%] h-[300px] lg:h-full">
+      <div className="hidden lg:block absolute top-0 right-0 w-1/3 h-full bg-cover bg-center">
         <img
           src={covidImage}
           alt="Virus"

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAreas } from '../store/areaSlice';
 import ReviewForm from '../components/ReviewForm';
-import DonationForm from '../components/DonationForm';
+import Donation from '../pages/Donation';
 import area1 from '../assets/area1.jpg';
 import area2 from '../assets/area2.jpg';
 import area3 from '../assets/area3.jpg';
@@ -62,7 +62,7 @@ function AreaDetails() {
         />
         <p className="text-gray-600 mb-4"><strong>Description:</strong> {area.description}</p>
         <ReviewForm areaId={area.id} />
-        <DonationForm areaId={area.id} />
+        <Donation areaId={area.id} />
       </div>
     </div>
   );

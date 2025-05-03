@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDiseases } from '../store/diseaseSlice';
-import DonationForm from '../components/DonationForm';
+import Donation from '../pages/Donation';
 import ReviewForm from '../components/ReviewForm';
 
 // Import images
@@ -82,7 +82,7 @@ function DiseaseDetails() {
 
       <div className="mt-10">
         <h2 className="text-2xl font-semibold mb-4">Support the Cause</h2>
-        <DonationForm areaId={null} diseaseId={id} />
+        <Donation areaId={null} diseaseId={id} />
       </div>
 
       <div className="mt-10">

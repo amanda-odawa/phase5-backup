@@ -20,7 +20,7 @@ import ManageUsers from './pages/ManageUsers';
 import ManageDiseases from './pages/ManageDiseases';
 import ManageAreas from './pages/ManageAreas';
 import UserProfile from './pages/UserProfile';
-import DonationForm from './components/DonationForm';
+import Donation from './pages/Donation';
 import AddDisease from './pages/AddDisease';
 import EditDisease from './pages/EditDisease';
 import AddArea from './pages/AddArea';
@@ -48,7 +48,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          
+          <Route path="/donation" element={<Donation />} />
           <Route path="/diseases" element={<Diseases />} />
           <Route path="/diseases/:id" element={<DiseaseDetails />} />
           <Route path="/areas" element={<Areas />} />
@@ -105,7 +105,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/donation-form" element={<DonationForm />} />
           <Route
             path="/add-disease"
             element={

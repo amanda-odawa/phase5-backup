@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../store/authSlice';
 import { toast } from 'react-toastify';
 
@@ -28,12 +28,21 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-16 transition-colors duration-300">
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-md transform transition-transform duration-300 hover:scale-105">
-        <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">Login</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 pt-0">
+      <div className="text-center mb-10 ">
+        <h1 className="text-3xl font-semibold text-center mb-2">Sign in to your account</h1>
+        <p className="mt-2 text-sm text-gray-600">
+          Or{' '}
+          <Link to="/signup" className="text-blue-600 hover:underline">
+            create a new account
+          </Link>
+        </p>
+      </div>
+
+      <div className="bg-gray-100 p-8 -mt-6 rounded-lg w-full max-w-lg shadow-sm">
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700 dark:text-gray-300 mb-2">
+          <div className="mb-6">
+            <label htmlFor="username" className="block text-gray-800 mb-2 font-medium">
               Username
             </label>
             <input
@@ -41,13 +50,12 @@ function Login() {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-300"
-              placeholder="Username"
-              aria-label="Username"
+              className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your username"
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="password" className="block text-gray-800 mb-2 font-medium">
               Password
             </label>
             <input
@@ -55,16 +63,15 @@ function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-300"
-              placeholder="Password"
-              aria-label="Password"
+              className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your password"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-primary text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary transition-transform duration-300 transform hover:scale-105"
+            className="w-full bg-cyan-600 text-white py-3 rounded-md shadow-md hover:bg-cyan-700 transition-colors"
           >
-            Login
+            Sign in
           </button>
         </form>
       </div>
