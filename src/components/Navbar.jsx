@@ -72,46 +72,14 @@ function Navbar() {
             </li>
             {isAuthenticated ? (
               <>
-                <li>
-                  <Link to="/profile" className="block py-2 text-black hover:font-bold">
-                    Profile
-                  </Link>
-                </li>
                 {user.role === 'admin' && (
                   <>
                     <li>
                       <Link to="/admin-dashboard" className="block py-2 text-black hover:font-bold">
-                        Admin Dashboard
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/add-disease" className="block py-2 text-black hover:font-bold">
-                        Add Disease
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/add-area" className="block py-2 text-black hover:font-bold">
-                        Add Area
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/manage-diseases" className="block py-2 text-black hover:font-bold">
-                        Manage Diseases
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/manage-areas" className="block py-2 text-black hover:font-bold">
-                        Manage Areas
+                        Control Panel
                       </Link>
                     </li>
                   </>
-                )}
-                {user.role !== 'admin' && (
-                  <li>
-                    <Link to="/user-dashboard" className="block py-2 text-black hover:font-bold">
-                      User Dashboard
-                    </Link>
-                  </li>
                 )}
                 <li>
                   <button

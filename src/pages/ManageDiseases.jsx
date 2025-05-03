@@ -163,7 +163,7 @@ function ManageDiseases() {
         <div className="flex space-x-4">
           <button
             onClick={editingDisease ? handleUpdate : handleAdd}
-            className="btn-primary w-full p-3 text-white rounded-md flex items-center justify-center"
+            className="btn-primary w-full p-3  rounded-md flex items-center justify-center"
             disabled={loading}
             aria-label={editingDisease ? 'Update illness' : 'Add illness'}
           >
@@ -173,48 +173,13 @@ function ManageDiseases() {
           {editingDisease && (
             <button
               onClick={() => setEditingDisease(null)}
-              className="w-full bg-gray-500 text-white p-3 rounded-md hover:bg-gray-600"
+              className="w-full bg-gray-500  p-3 rounded-md hover:bg-gray-600"
               aria-label="Cancel edit"
             >
               Cancel
             </button>
           )}
         </div>
-      </div>
-      <div className="bg-white p-8 rounded-lg shadow-md card">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Description</th>
-              <th className="p-3 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {diseases.map((disease) => (
-              <tr key={disease.id} className="border-b">
-                <td className="p-3">{disease.name}</td>
-                <td className="p-3">{disease.description}</td>
-                <td className="p-3">
-                  <button
-                    onClick={() => handleEdit(disease)}
-                    className="btn-primary text-white px-3 py-1 rounded mr-2"
-                    aria-label={`Edit ${disease.name}`}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => setShowDeleteConfirm(disease.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                    aria-label={`Delete ${disease.name}`}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">

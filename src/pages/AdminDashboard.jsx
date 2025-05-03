@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDiseases, deleteDisease } from '../store/diseaseSlice';
 import { fetchAreas, deleteArea } from '../store/areaSlice';
+import { fetchUsers } from '../store/userSlice'; 
+import { updateUser } from '../store/userSlice';
 import { toast } from 'react-toastify';
 
 function AdminDashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const totalUsers = useSelector((state) => state.users.users.length);
   const { diseases, status: diseaseStatus } = useSelector((state) => state.diseases);
   const { areas, status: areaStatus } = useSelector((state) => state.areas);
+  const { users, status: userStatus } = useSelector((state) => state.users);
   const [activeTab, setActiveTab] = useState('Users');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
@@ -19,8 +21,16 @@ function AdminDashboard() {
   useEffect(() => {
     dispatch(fetchDiseases());
     dispatch(fetchAreas());
+    dispatch(fetchUsers());
     setTimeout(() => setLoading(false), 1000);
   }, [dispatch]);
+
+  const handleRoleChange = (userId, newRole) => {
+    dispatch(updateUser({ id: userId, updatedUser: { role: newRole } }))
+      .unwrap()
+      .then(() => toast.success('User role updated'))
+      .catch(() => toast.error('Failed to update user role'));
+  };
 
   const handleDeleteDisease = async (id) => {
     try {
@@ -54,23 +64,15 @@ function AdminDashboard() {
       area.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const filteredUsers = users.filter(
+    (user) =>
+      user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );  
+
   return (
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Admin Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md text-center card">
-          <h2 className="text-2xl font-bold text-gray-800">Total Users</h2>
-          <p className="mt-2 text-gray-600">{totalUsers}</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md text-center card">
-          <h2 className="text-2xl font-bold text-gray-800">Total Illnesses</h2>
-          <p className="mt-2 text-gray-600">{diseases.length}</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md text-center card">
-          <h2 className="text-2xl font-bold text-gray-800">Total Locations</h2>
-          <p className="mt-2 text-gray-600">{areas.length}</p>
-        </div>
-      </div>
       <div className="flex space-x-4 mb-6">
         <button onClick={() => setActiveTab('Users')} className={`p-2 ${activeTab === 'Users' ? 'border-b-2 border-blue-500' : ''}`}>Users</button>
         <button onClick={() => setActiveTab('Diseases')} className={`p-2 ${activeTab === 'Diseases' ? 'border-b-2 border-blue-500' : ''}`}>Diseases</button>
@@ -93,19 +95,48 @@ function AdminDashboard() {
         <>
           {activeTab === 'Users' && (
             <div>
-              <button onClick={() => navigate('/manage-users')} className="btn-primary p-2 text-white rounded-md mb-4">Manage Users</button>
-              <p className="text-gray-600">Click the button above to manage users.</p>
+              <button onClick={() => navigate('/signup')} className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors">+ Add User</button>
+              <div className="bg-white p-8 rounded-lg shadow-md card">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="bg-gray-200">
+                      <th className="p-3 text-left">Username</th>
+                      <th className="p-3 text-left">Email</th>
+                      <th className="p-3">Role</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredUsers.map((user) => (
+                      <tr key={user.id} className="border-b">
+                        <td className="p-3">{user.username}</td>
+                        <td className="p-3">{user.email}</td>
+                        <td className="p-3">
+                          <select
+                            value={user.role}
+                            onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                            className="border p-1 rounded-md"
+                          >
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
           {activeTab === 'Diseases' && (
             <div>
-              <button onClick={() => navigate('/manage-diseases')} className="btn-primary p-2 text-white rounded-md mb-4">+ Add Disease</button>
+              <button onClick={() => navigate('/add-disease')} className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors">+ Add Disease</button>
               <div className="bg-white p-8 rounded-lg shadow-md card">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-gray-200">
                       <th className="p-3 text-left">Name</th>
-                      <th className="p-3 text-left">Description</th>
+                      <th className="p-3 text-left">Category</th>
+                      <th className="p-3 text-left">Prevalence</th>
                       <th className="p-3 text-left">Actions</th>
                     </tr>
                   </thead>
@@ -113,18 +144,19 @@ function AdminDashboard() {
                     {filteredDiseases.map((disease) => (
                       <tr key={disease.id} className="border-b">
                         <td className="p-3">{disease.name}</td>
-                        <td className="p-3">{disease.description}</td>
+                        <td className="p-3">{disease.category}</td>
+                        <td className="p-3">{disease.prevalence}</td>
                         <td className="p-3">
                           <button
-                            onClick={() => navigate('/manage-diseases')}
-                            className="btn-primary text-white px-3 py-1 rounded mr-2"
+                            onClick={() => navigate('/edit-disease/:id')}
+                            className="btn-primary text-blue-500 pr-3 py-1 rounded mr-2"
                             aria-label={`Edit ${disease.name}`}
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => setShowDeleteConfirm({ type: 'disease', id: disease.id })}
-                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                            className="btn-primary text-red-500 px-3 py-1 rounded"
                             aria-label={`Delete ${disease.name}`}
                           >
                             Delete
@@ -139,13 +171,14 @@ function AdminDashboard() {
           )}
           {activeTab === 'Regions' && (
             <div>
-              <button onClick={() => navigate('/manage-areas')} className="btn-primary p-2 text-white rounded-md mb-4">+ Add Region</button>
+              <button onClick={() => navigate('/add-area')} className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors">+ Add Region</button>
               <div className="bg-white p-8 rounded-lg shadow-md card">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-gray-200">
                       <th className="p-3 text-left">Name</th>
-                      <th className="p-3 text-left">Description</th>
+                      <th className="p-3 text-left">Total Cases</th>
+                      <th className="p-3 text-left">Population</th>
                       <th className="p-3 text-left">Actions</th>
                     </tr>
                   </thead>
@@ -153,18 +186,19 @@ function AdminDashboard() {
                     {filteredAreas.map((area) => (
                       <tr key={area.id} className="border-b">
                         <td className="p-3">{area.name}</td>
-                        <td className="p-3">{area.description}</td>
+                        <td className="p-3">{area.totalCases}</td>
+                        <td className="p-3">{area.population}</td>
                         <td className="p-3">
                           <button
-                            onClick={() => navigate('/manage-areas')}
-                            className="btn-primary text-white px-3 py-1 rounded mr-2"
+                            onClick={() => navigate('/edit-area')}
+                            className="btn-primary text-blue-500 pr-3 py-1 rounded mr-2"
                             aria-label={`Edit ${area.name}`}
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => setShowDeleteConfirm({ type: 'area', id: area.id })}
-                            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                            className="btn-primary text-red-500 px-3 py-1 rounded"
                             aria-label={`Delete ${area.name}`}
                           >
                             Delete

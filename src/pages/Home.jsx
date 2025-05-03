@@ -35,7 +35,7 @@ function Home() {
           </p>
           <div className="flex flex-wrap gap-4">
           <Link
-            to="/donation-form"
+            to="/donation"
             className=" bg-white text-[#0097b2] hover:bg-gray-100 font-medium py-3 px-6 rounded-md text-center"
           >
             Donate Now

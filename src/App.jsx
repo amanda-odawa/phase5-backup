@@ -13,13 +13,10 @@ import Areas from './pages/Areas';
 import AreaDetails from './pages/AreaDetails';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-
 import AdminDashboard from './pages/AdminDashboard';
-import UserDashboard from './pages/UserDashboard';
-import ManageUsers from './pages/ManageUsers';
-import ManageDiseases from './pages/ManageDiseases';
-import ManageAreas from './pages/ManageAreas';
-import UserProfile from './pages/UserProfile';
+// import ManageUsers from './pages/ManageUsers';
+// import ManageDiseases from './pages/ManageDiseases';
+// import ManageAreas from './pages/ManageAreas';
 import Donation from './pages/Donation';
 import AddDisease from './pages/AddDisease';
 import EditDisease from './pages/EditDisease';
@@ -55,73 +52,60 @@ function App() {
           <Route path="/areas/:id" element={<AreaDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          
-          <Route
-            path="/admin-dashboard"
-            element={
-              <ProtectedRoute roleRequired="admin">
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
+
+          <Route path="/admin-dashboard" element={
+            <ProtectedRoute roleRequired="admin">
+              <AdminDashboard />
+            </ProtectedRoute>}
           />
-          <Route
-            path="/manage-users"
-            element={
+          {/* <Route
+            path="/manage-users" element={
               <ProtectedRoute roleRequired="admin">
                 <ManageUsers />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/manage-diseases"
-            element={
+            path="/manage-diseases" element={
               <ProtectedRoute roleRequired="admin">
                 <ManageDiseases />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/manage-areas"
-            element={
+            path="/manage-areas" element={
               <ProtectedRoute roleRequired="admin">
                 <ManageAreas />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route
-            path="/user-dashboard"
-            element={
-              <ProtectedRoute>
-                <UserDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/add-disease"
-            element={
+            path="/add-disease" element={
               <ProtectedRoute roleRequired="admin">
                 <AddDisease />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/edit-disease/:id"
-            element={
+            path="/edit-disease/:id" element={
               <ProtectedRoute roleRequired="admin">
                 <EditDisease />
               </ProtectedRoute>
             }
           />
-          <Route path="/add-area" element={<AddArea />} />
-          <Route path="/edit-area/:id" element={<EditArea />} />
+          <Route path="/add-area" element={
+            <ProtectedRoute roleRequired="admin">
+              <AddArea />
+            </ProtectedRoute>
+            } 
+          />
+          <Route path="/edit-area/:id" element={
+            <ProtectedRoute roleRequired="admin">
+              <EditArea />
+            </ProtectedRoute>
+            } 
+          />
+
           <Route path="*" element={<div className="container mx-auto px-4 py-12 text-center text-gray-600 dark:text-gray-400">404 - Page Not Found</div>} />
         </Routes>
       </main>

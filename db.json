@@ -49,20 +49,6 @@
   ],
   "areas": [
     {
-      "id": "1",
-      "name": "Africa",
-      "diseases": [
-        "Malaria",
-        "HIV/AIDS"
-      ],
-      "description": "High prevalence of malaria due to tropical climate and limited healthcare access.",
-      "latitude": -8.7832,
-      "longitude": 34.5085,
-      "image": "area1.jpg",
-      "totalCases": 384000000,
-      "population": 1500000000
-    },
-    {
       "id": "2",
       "name": "Asia",
       "diseases": [
@@ -90,49 +76,66 @@
     }
   ],
   "reviews": [],
-  "donations": [],
+  "donations": [
+    {
+      "id": "58d6",
+      "amount": 10,
+      "region": "Africa",
+      "date": "2025-05-03T15:20:19.576Z"
+    },
+    {
+      "id": "2de3",
+      "amount": 10,
+      "region": "South America",
+      "date": "2025-05-03T15:21:04.112Z"
+    }
+  ],
   "users": [
     {
       "id": "1",
       "username": "admin",
+      "email": "admin@admin.com",
       "password": "admin123",
       "role": "admin"
     },
     {
       "id": "2",
       "username": "user1",
+      "email": "user1@gmail.com",
       "password": "user123",
       "role": "user"
     },
     {
       "id": "5543",
-      "username": "John Doe",
+      "username": "JohnDoe",
+      "email": "johndoe@gmail.com",
       "password": "12345678",
       "role": "user"
     },
     {
       "id": "ff3e",
-      "username": "John Keen",
+      "username": "JohnKeen",
+      "email": "johnkeen@gmail.com",
       "password": "123456789",
       "role": "user"
     },
     {
-      "id": "187a",
-      "username": "John Keen",
-      "password": "123456789",
+      "id": "b4ec",
+      "username": "amandaodawa",
+      "email": "amanda.odawa@student.moringaschool.com",
+      "password": "3P#nYy#Y1r#^c$uV",
       "role": "user"
     },
     {
-      "id": "0eb7",
-      "username": "Victor Keen ",
-      "password": "123456",
+      "id": "9ef6",
+      "username": "amandaodawa2",
+      "email": "odawaamanda@gmail.com",
+      "password": "456456",
       "role": "user"
     },
     {
-      "id": "a0f6",
-      "username": "Victor Keen ",
-      "password": "123456",
-      "role": "user"
+      "role": "admin",
+      "id": "40aa"
     }
   ]
 }
