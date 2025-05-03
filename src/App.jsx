@@ -8,12 +8,12 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Diseases from './pages/Diseases';
-import Areas from './pages/Areas';
 import DiseaseDetails from './pages/DiseaseDetails';
+import Areas from './pages/Areas';
 import AreaDetails from './pages/AreaDetails';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import MapAnalysis from './pages/MapAnalysis';
+
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
 import ManageUsers from './pages/ManageUsers';
@@ -55,7 +55,6 @@ function App() {
           <Route path="/areas/:id" element={<AreaDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/map-analysis" element={<MapAnalysis />} />
           
           <Route
             path="/admin-dashboard"

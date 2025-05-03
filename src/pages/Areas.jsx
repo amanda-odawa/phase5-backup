@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import area1 from '../assets/area1.jpg';
 import area2 from '../assets/area2.jpg';
 import area3 from '../assets/area3.jpg';
@@ -16,20 +18,21 @@ const imageMap = {
 
 function Areas() {
   const dispatch = useDispatch();
-  const { areas, loading: areasLoading, error: areasError } = useSelector((state) => state.areas);
-  const { diseases, loading: diseasesLoading, error: diseasesError } = useSelector((state) => state.diseases);
+  const { areas, status: areaStatus, error: areaError } = useSelector((state) => state.areas);
+  const { diseases, status: diseaseStatus, error: diseaseError } = useSelector((state) => state.diseases);
   const [searchTerm, setSearchTerm] = useState('');
   const [diseaseFilter, setDiseaseFilter] = useState('');
   const [regionFilter, setRegionFilter] = useState('');
   const [prevalenceFilter, setPrevalenceFilter] = useState('');
 
   useEffect(() => {
-    dispatch(fetchAreas());
-    dispatch(fetchDiseases());
-  }, [dispatch]);
+    if (areaStatus === 'idle') dispatch(fetchAreas());
+    if (diseaseStatus === 'idle') dispatch(fetchDiseases());
+  }, [dispatch, areaStatus, diseaseStatus]);
 
   const filteredAreas = areas.filter((area) => {
-    const matchesSearch = area.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch =
+      area.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          area.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDisease = diseaseFilter ? area.diseases.includes(diseaseFilter) : true;
     const matchesRegion = regionFilter ? area.name === regionFilter : true;
@@ -42,28 +45,39 @@ function Areas() {
     return matchesSearch && matchesDisease && matchesRegion && matchesPrevalence;
   });
 
+  const stats = filteredAreas.length
+    ? filteredAreas.reduce(
+        (acc, area) => {
+          acc.totalCases += area.totalCases || 0;
+          acc.population += area.population || 0;
+          acc.diseases = [...new Set([...acc.diseases, ...area.diseases])];
+          return acc;
+        },
+        { totalCases: 0, population: 0, diseases: [] }
+      )
+    : { totalCases: 0, population: 0, diseases: [] };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16 transition-colors duration-300">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-12">Affected Areas</h1>
+        <h1 className="text-4xl font-bold text-center mb-6">Affected Areas</h1>
         <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
           Explore the global distribution of communicable diseases and their impact on different regions.
         </p>
 
-        {/* Search and Filters */}
+        {/* Filters */}
         <div className="mb-8 flex flex-col md:flex-row items-center justify-center gap-4">
           <input
             type="text"
             placeholder="Search areas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full md:w-1/3 px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 transition-colors duration-300"
+            className="w-full md:w-1/3 px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
           />
-          <div className="flex flex-col md:flex-row gap-4">
             <select
               value={diseaseFilter}
               onChange={(e) => setDiseaseFilter(e.target.value)}
-              className="px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 transition-colors duration-300"
+            className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
             >
               <option value="">Filter by Disease</option>
               <option value="Malaria">Malaria</option>
@@ -73,7 +87,7 @@ function Areas() {
             <select
               value={regionFilter}
               onChange={(e) => setRegionFilter(e.target.value)}
-              className="px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 transition-colors duration-300"
+            className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
             >
               <option value="">Filter by Region</option>
               <option value="Sub-Saharan Africa">Sub-Saharan Africa</option>
@@ -83,7 +97,7 @@ function Areas() {
             <select
               value={prevalenceFilter}
               onChange={(e) => setPrevalenceFilter(e.target.value)}
-              className="px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 transition-colors duration-300"
+            className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
             >
               <option value="">Filter by Prevalence</option>
               <option value="High">High</option>
@@ -91,23 +105,53 @@ function Areas() {
               <option value="Low">Low</option>
             </select>
           </div>
-        </div>
 
-        {(areasLoading || diseasesLoading) && (
-          <div className="flex justify-center">
-            <svg className="animate-spin h-8 w-8 text-primary" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z" />
-            </svg>
+        {/* Map */}
+        <MapContainer
+          center={[0, 0]}
+          zoom={2}
+          style={{ height: '400px', width: '100%' }}
+          className="rounded-lg shadow-md mb-8"
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          />
+          {filteredAreas.map((area) => (
+            <Marker key={area.id} position={[area.latitude, area.longitude]}>
+              <Popup>
+                <strong>{area.name}</strong>
+                <p>{area.description}</p>
+                <p><strong>Diseases:</strong> {area.diseases.join(', ')}</p>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+
+        {/* Statistics */}
+        {filteredAreas.length > 0 && (
+          <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md mb-10">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+              {regionFilter || 'Global'} Statistics
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <p className="text-2xl font-bold">{stats.totalCases.toLocaleString()}</p>
+                <p className="text-gray-600 dark:text-gray-300">Total Cases</p>
+        </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.population.toLocaleString()}</p>
+                <p className="text-gray-600 dark:text-gray-300">Population</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold">{stats.diseases.length}</p>
+                <p className="text-gray-600 dark:text-gray-300">Diseases</p>
+              </div>
+            </div>
           </div>
         )}
-        {(areasError || diseasesError) && (
-          <p className="text-center text-danger">{areasError || diseasesError}</p>
-        )}
-        {!(areasLoading || diseasesLoading) && !areasError && !diseasesError && filteredAreas.length === 0 && (
-          <p className="text-center text-gray-600 dark:text-gray-400">No areas found.</p>
-        )}
-        {!(areasLoading || diseasesLoading) && !areasError && !diseasesError && filteredAreas.length > 0 && (
+
+        {/* Area Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {filteredAreas.map((area) => (
               <div
@@ -124,7 +168,7 @@ function Areas() {
                   <p className="text-gray-600 dark:text-gray-300 mb-4">{area.description}</p>
                   <Link
                     to={`/areas/${area.id}`}
-                    className="inline-block bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary transition-transform duration-300 transform hover:scale-105"
+                  className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                   >
                     View Details
                   </Link>
@@ -132,7 +176,6 @@ function Areas() {
               </div>
             ))}
           </div>
-        )}
       </div>
     </div>
   );
