@@ -33,11 +33,15 @@ function DiseaseCard({ disease }) {
         <div className="flex flex-wrap gap-2 mb-3">
           <span
             className={`px-2 py-1 text-xs rounded-full ${
-              disease.category === 'Vector-borne'
+              disease.category === 'Water-borne'
                 ? 'bg-blue-100 text-blue-800'
                 : disease.category === 'Bacterial'
                 ? 'bg-green-100 text-green-800'
-                : 'bg-purple-100 text-purple-800'
+                : disease.category === 'Viral'
+                ? 'bg-orange-100 text-orange-600'
+                : disease.category === 'Air-borne'
+                ? 'bg-purple-100 text-purple-800'
+                : 'bg-pink-100 text-pink-800'
             }`}
           >
             {disease.category}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';
 import covidImage from '../assets/covid.jpeg'; 
-import DiseaseCard from '../components/DiseaseCard'; // Assumes reusable styling
+import DiseaseCard from '../components/DiseaseCard'; 
 
 function Home() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function Home() {
     dispatch(fetchDiseases());
   }, [dispatch]);
 
-  const featuredDiseases = diseases.slice(0, 3);
+  const featuredDiseases = diseases.slice(0, 4);
 
   const handleImageError = (e) => {
     e.target.src = 'https://via.placeholder.com/300x150?text=Image+Failed+to+Load';

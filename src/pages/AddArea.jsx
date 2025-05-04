@@ -16,8 +16,8 @@ function AddArea() {
     population: '',
     latitude: '',
     longitude: '',
-    diseaseCases: {},
-    totalCases: 0,
+    diseaseCases: {}, // { diseaseId: cases }
+    totalCases: 0, // Will be calculated dynamically
   });
 
   useEffect(() => {
@@ -148,12 +148,12 @@ function AddArea() {
 
             {/* Submit Button (full width) */}
             <div className="md:col-span-2">
-              <button
-                type="submit"
+            <button
+              type="submit"
                 className="w-full bg-[#0097b2] text-white px-4 py-2 rounded-md hover:bg-[#007d96] focus:outline-none focus:ring-2 focus:ring-[#0097b2] transition-transform duration-300 transform hover:scale-105"
-              >
+            >
                 Add Area
-              </button>
+            </button>
             </div>
           </form>
         </div>

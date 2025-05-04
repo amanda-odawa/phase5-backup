@@ -10,18 +10,18 @@
       "prevention": "Use of insecticide-treated nets, antimalarial drugs.",
       "treatment": "Antimalarial medications like chloroquine, artemisinin-based combination therapies",
       "riskFactors": "Living in or visiting malaria-endemic areas, not using mosquito nets.",
-      "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
+      "image": "https://scitechdaily.com/images/Zika-Malaria-Mosquito-Virus-Concept.jpg"
     },
     {
       "name": "Tuberculosis",
-      "category": "viral",
-      "prevalence": "medium",
+      "category": "Bacterial",
+      "prevalence": "Low",
       "about": "A bacterial infection caused by Mycobacterium tuberculosis, primarily affecting the lungs.",
       "symptoms": "Cough with sputum, Chest pain, Weight loss, Night sweats",
       "prevention": "BCG vaccine, Good ventilation, Early treatment of active cases",
       "treatment": "Antimalarial medications like chloroquine, Artemisinin-based combination therapies",
       "riskFactors": "HIV infection, Substance use (such as injection drug use), Specialized treatment for rheumatoid arthritis or Crohn's disease, Organ transplants, Severe kidney disease, Diabetes",
-      "image": "/src/assets/disease2.jpg",
+      "image": "https://www.zenhospital.in/wp-content/uploads/2022/03/Tuberculosis-3.jpg",
       "id": "2"
     },
     {
@@ -34,7 +34,7 @@
       "prevention": "Vaccination, wearing masks, social distancing, hand hygiene.",
       "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
       "riskFactors": "Older age, underlying health conditions, weakened immune system.",
-      "image": "https://via.placeholder.com/300x150?text=COVID-19+Image"
+      "image": "https://media.defense.gov/2020/Mar/09/2003062075/1200/1200/0/200309-D-HN545-003.JPG"
     }
   ],
   "areas": [

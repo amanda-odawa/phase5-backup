@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';
+import { fetchAreas } from '../store/areaSlice'; // Added for fetching areas
 import DiseaseCard from '../components/DiseaseCard';
 
 function Diseases() {
   const dispatch = useDispatch();
   const { diseases, loading, error } = useSelector((state) => state.diseases);
+  const { areas } = useSelector((state) => state.areas); // Get areas from Redux
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get('search') || '';
   const [localSearch, setLocalSearch] = useState(searchQuery);
@@ -16,6 +18,7 @@ function Diseases() {
 
   useEffect(() => {
     dispatch(fetchDiseases());
+    dispatch(fetchAreas()); // Ensure areas are fetched
   }, [dispatch]);
 
   useEffect(() => {
@@ -75,15 +78,25 @@ function Diseases() {
             className="px-4 py-3 border rounded-md bg-white"
           >
             <option value="">All Categories</option>
-            {/* Add dynamic categories based on your data */}
+            <option value="Bacterial">Bacterial</option>
+            <option value="Viral">Viral</option>
+            <option value="Vector-borne">Vector-borne</option>
+            <option value="Air-borne">Air-borne</option>
+            <option value="Water-borne">Water-borne</option>
           </select>
+          
+          {/* Area Filter with dynamic options */}
           <select
             value={areaFilter}
             onChange={(e) => setAreaFilter(e.target.value)}
             className="px-4 py-3 border rounded-md bg-white"
           >
             <option value="">All Areas</option>
-            {/* Add dynamic areas based on your data */}
+            {areas.map((area) => (
+              <option key={area.id} value={area.name}>
+                {area.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -100,7 +113,7 @@ function Diseases() {
           ) : (
             <div className="text-center">No diseases found.</div>
           )}
-          </div>
+        </div>
       </div>
     </div>
   );
