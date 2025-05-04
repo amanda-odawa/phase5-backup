@@ -57,7 +57,7 @@ function AddDisease() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-12">Add New Disease</h1>
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg p-8">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg p-8">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-300 mb-2">Name</label>

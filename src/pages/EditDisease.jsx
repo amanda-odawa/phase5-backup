@@ -77,68 +77,133 @@ const EditDisease = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md mt-10">
-      <h2 className="text-2xl font-bold mb-6">Edit Disease</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {['name', 'about', 'symptoms', 'prevention', 'treatment', 'riskFactors'].map((field) => (
-          <input
-            key={field}
-            type="text"
-            name={field}
-            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            value={form[field]}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-md"
-            required
-          />
-        ))}
-
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          className="w-full p-3 border rounded-md"
-          required
-        >
-          <option value="">Select Category</option>
-          <option value="Bacterial">Bacterial</option>
-          <option value="Viral">Viral</option>
-          <option value="Vector-borne">Vector-borne</option>
-          <option value="Water-borne">Water-borne</option>
-          <option value="Air-borne">Air-borne</option>
-        </select>
-
-        <select
-          name="prevalence"
-          value={form.prevalence}
-          onChange={handleChange}
-          className="w-full p-3 border rounded-md"
-          required
-        >
-          <option value="">Select Prevalence</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Disease Image</label>
-          <input
-            type="url"
-            name="image"
-            onChange={handleImageChange}
-            className="w-full p-3 border rounded-md"
-          />
-          {form.image && <img src={form.image} alt="Disease" className="mt-4 w-32 h-32 object-cover" />}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16 transition-colors duration-300">
+      <div className="container mx-auto px-4">
+        <h1 className="text-4xl font-bold text-center mb-12">Edit Disease</h1>
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg p-8">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Name</label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Category</label>
+              <select
+                name="category"
+                value={form.category}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
+              >
+                <option value="">Select Category</option>
+                <option value="Bacterial">Bacterial</option>
+                <option value="Viral">Viral</option>
+                <option value="Vector-borne">Vector-borne</option>
+                <option value="Water-borne">Water-borne</option>
+                <option value="Air-borne">Air-borne</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Prevalence</label>
+              <select
+                name="prevalence"
+                value={form.prevalence}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
+              >
+                <option value="">Select Prevalence</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">About</label>
+              <textarea
+                name="about"
+                value={form.about}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                rows="4"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Symptom(s)</label>
+              <input
+                type="text"
+                name="symptoms"
+                value={form.symptoms}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                placeholder="Separate different symptoms with a coma (,)"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Prevention method(s)</label>
+              <input
+                type="text"
+                name="prevention"
+                value={form.prevention}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                placeholder="Separate different prevention methods with a coma (,) "
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Treatment(s)</label>
+              <input
+                type="text"
+                name="treatment"
+                value={form.treatment}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                placeholder="Separate different treatments with a coma (,) "
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Risk factor(s)</label>
+              <input
+                type="text"
+                name="riskFactors"
+                value={form.riskFactors}
+                onChange={handleChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                placeholder="Separate different risk factors with a coma (,) "
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Image</label>
+              <input
+                type="url"
+                name="image"
+                value={form.image}
+                onChange={handleImageChange}
+                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+              />
+              {form.image && <img src={form.image} alt="Disease" className="mt-4 w-32 h-32 object-cover" />}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-[#0097b2] text-white px-4 py-2 rounded-md hover:bg-[#0097b2] focus:outline-none focus:ring-2 focus:ring-[#0097b2] transition-transform duration-300 transform hover:scale-105"
+            >
+              Update Disease
+            </button>
+          </form>
         </div>
-
-        <button
-          type="submit"
-          className="bg-cyan-600 text-white py-2 px-4 rounded hover:bg-cyan-700"
-        >
-          Update Disease
-        </button>
-      </form>
+      </div>
     </div>
   );
 };

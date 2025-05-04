@@ -1,7 +1,6 @@
 {
   "diseases": [
     {
-      "id": "1",
       "name": "Malaria",
       "category": "Vector-borne",
       "prevalence": "Medium",
@@ -10,7 +9,8 @@
       "prevention": "Use of insecticide-treated nets, antimalarial drugs.",
       "treatment": "Antimalarial medications like chloroquine, artemisinin-based combination therapies",
       "riskFactors": "Living in or visiting malaria-endemic areas, not using mosquito nets.",
-      "image": "https://scitechdaily.com/images/Zika-Malaria-Mosquito-Virus-Concept.jpg"
+      "image": "https://scitechdaily.com/images/Zika-Malaria-Mosquito-Virus-Concept.jpg",
+      "id": "1"
     },
     {
       "name": "Tuberculosis",
@@ -35,7 +35,43 @@
       "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
       "riskFactors": "Older age, underlying health conditions, weakened immune system.",
       "image": "https://media.defense.gov/2020/Mar/09/2003062075/1200/1200/0/200309-D-HN545-003.JPG"
-    }
+    },
+    {
+      "name": "Dengue Fever",
+      "category": "Vector-borne",
+      "prevalence": "High",
+      "about": "Dengue fever is a viral illness transmitted by Aedes mosquitoes, causing flu-like symptoms.",
+      "symptoms": "High fever, severe headache, pain behind the eyes, joint and muscle pain, rash, nausea, vomiting.",
+      "prevention": "Avoiding mosquito bites, using insect repellents, wearing protective clothing, and eliminating mosquito breeding sites.",
+      "treatment": "Supportive care, hydration, pain relievers (avoid aspirin), and in severe cases, hospitalization.",
+      "riskFactors": "Living in or traveling to areas with mosquitoes, previous dengue infection.",
+      "image": "https://publish.eastleighvoice.co.ke/mugera_lock/uploads/2024/08/Pg21-Dengue-fever.jpeg",
+      "id": "4"
+    },
+    {
+      "name": "Cholera",
+      "category": "Water-borne",
+      "prevalence": "Medium",
+      "about": "Cholera is an acute diarrheal disease caused by ingesting water or food contaminated with Vibrio cholerae bacteria.",
+      "symptoms": "Severe watery diarrhea, vomiting, dehydration, muscle cramps.",
+      "prevention": "Access to clean water, proper sanitation, good hygiene practices, and oral cholera vaccines.",
+      "treatment": "Rehydration therapy, antibiotics (in severe cases).",
+      "riskFactors": "Poor sanitation, lack of access to clean drinking water, inadequate handwashing.",
+      "image": "https://d2jx2rerrg6sh3.cloudfront.net/images/news/ImageForNews_791522_17273510771869253.jpg",
+      "id": "5"
+    },
+    {
+      "name": "HIV/AIDS",
+      "category": "Viral",
+      "prevalence": "High",
+      "about": "HIV (Human Immunodeficiency Virus) attacks the immune system, potentially leading to AIDS (Acquired Immunodeficiency Syndrome) if left untreated.",
+      "symptoms": "Initial flu-like symptoms, weight loss, night sweats, swollen lymph nodes, recurrent infections.",
+      "prevention": "Use of condoms, HIV testing, antiretroviral therapy (ART), needle exchange programs.",
+      "treatment": "Antiretroviral therapy (ART), which can help control the virus and prevent progression to AIDS.",
+      "riskFactors": "Unprotected sex, sharing needles, having multiple sexual partners, untreated sexually transmitted infections.",
+      "image": "https://lh3.googleusercontent.com/RHg5BMTXzX8vS0wx6f3Fy8oWwpxUtlIXOv2-dB7OMK4oLAJF7msRfXePVdNxGjKGAwb4gQf_ZHEzeIH4mIHboYej4ItqEd-Nlw=s725",
+      "id": "6"
+    }    
   ],
   "areas": [
     {

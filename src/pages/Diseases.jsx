@@ -43,79 +43,77 @@ function Diseases() {
   });
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 py-16">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-semibold text-center mb-2">Communicable Diseases</h1>
-        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
-          Learn about the most prevalent communicable diseases worldwide, their symptoms,
-          prevention methods, and our efforts to combat them.
-        </p>
+    <div className="min-h-screen bg-white text-gray-900 py-16 px-4 sm:px-8">
+      <h1 className="text-3xl font-semibold text-center mb-2">Communicable Diseases</h1>
+      <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        Learn about the most prevalent communicable diseases worldwide, their symptoms,
+        prevention methods, and our efforts to combat them.
+      </p>
 
-        {/* Search Input */}
-        <div className="mb-6 flex justify-center">
-          <input
-            type="text"
-            placeholder="Search diseases..."
-            value={localSearch}
-            onChange={(e) => setLocalSearch(e.target.value)}
-            className="w-full md:w-1/3 px-4 py-3 border rounded-md bg-gray-50"
-          />
-        </div>
+      {/* Search Input */}
+      <div className="mb-6 flex justify-center">
+        <input
+          type="text"
+          placeholder="Search diseases..."
+          value={localSearch}
+          onChange={(e) => setLocalSearch(e.target.value)}
+          className="w-full md:w-1/3 px-4 py-3 border rounded-md bg-gray-50"
+        />
+      </div>
 
-        {/* Filters */}
-        <div className="mb-6 flex justify-center gap-4 flex-wrap">
-          <select
-            value={prevalenceFilter}
-            onChange={(e) => setPrevalenceFilter(e.target.value)}
-            className="px-4 py-3 border rounded-md bg-white"
-          >
-            <option value="">All Prevalence</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-          </select>
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-4 py-3 border rounded-md bg-white"
-          >
-            <option value="">All Categories</option>
-            <option value="Bacterial">Bacterial</option>
-            <option value="Viral">Viral</option>
-            <option value="Vector-borne">Vector-borne</option>
-            <option value="Air-borne">Air-borne</option>
-            <option value="Water-borne">Water-borne</option>
-          </select>
+      {/* Filters */}
+      <div className="mb-6 flex justify-center gap-4 flex-wrap">
+        <select
+          value={prevalenceFilter}
+          onChange={(e) => setPrevalenceFilter(e.target.value)}
+          className="px-4 py-3 border rounded-md bg-white"
+        >
+          <option value="">All Prevalence</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="px-4 py-3 border rounded-md bg-white"
+        >
+          <option value="">All Categories</option>
+          <option value="Bacterial">Bacterial</option>
+          <option value="Viral">Viral</option>
+          <option value="Vector-borne">Vector-borne</option>
+          <option value="Air-borne">Air-borne</option>
+          <option value="Water-borne">Water-borne</option>
+        </select>
 
-          {/* Area Filter using dynamic logic */}
-          <select
-            value={areaFilter}
-            onChange={(e) => setAreaFilter(e.target.value)}
-            className="px-4 py-3 border rounded-md bg-white"
-          >
-            <option value="">All Areas</option>
-            {areas.map((area) => (
-              <option key={area.id} value={area.id}>
-                {area.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {/* Area Filter using dynamic logic */}
+        <select
+          value={areaFilter}
+          onChange={(e) => setAreaFilter(e.target.value)}
+          className="px-4 py-3 border rounded-md bg-white"
+        >
+          <option value="">All Areas</option>
+          {areas.map((area) => (
+            <option key={area.id} value={area.id}>
+              {area.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {/* Disease Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {loading ? (
-            <div className="text-center">Loading...</div>
-          ) : error ? (
-            <div className="text-center text-red-600">{error}</div>
-          ) : filteredDiseases.length > 0 ? (
-            filteredDiseases.map((disease) => (
-              <DiseaseCard key={disease.id} disease={disease} />
-            ))
-          ) : (
-            <div className="text-center col-span-full">No diseases found.</div>
-          )}
-        </div>
+      {/* Disease Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {loading ? (
+          <div className="text-center col-span-full">Loading...</div>
+        ) : error ? (
+          <div className="text-center text-red-600 col-span-full">{error}</div>
+        ) : filteredDiseases.length > 0 ? (
+          filteredDiseases.map((disease) => (
+            <DiseaseCard key={disease.id} disease={disease} />
+          ))
+        ) : (
+          <div className="text-center col-span-full">No diseases found.</div>
+        )}
       </div>
     </div>
   );
