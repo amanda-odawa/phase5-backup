@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';  // Import useSelector to get user data
 import api from '../utils/api';
 
 function ReviewForm({ areaId, diseaseId }) {
@@ -6,18 +7,28 @@ function ReviewForm({ areaId, diseaseId }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
+  // Access the logged-in user's username from the Redux store
+  const user = useSelector((state) => state.auth.user);
+
   const handleSubmit = async () => {
     if (!review.trim()) {
       setError('Please enter a suggestion.');
       return;
     }
 
+    if (!user) {
+      setError('You must be logged in to submit a review.');
+      return;
+    }
+
     try {
+      // Add the username to the review data when submitting
       await api.post('/reviews', {
         areaId,
         diseaseId,
         content: review,
         date: new Date().toISOString(),
+        user: user.username,  // Include username in the review data
       });
       setSuccess(true);
       setReview('');
