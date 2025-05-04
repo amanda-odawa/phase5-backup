@@ -53,7 +53,7 @@ function ReviewForm({ areaId, diseaseId }) {
       {success && <p className="text-sm text-green-600 mt-2">Suggestion submitted successfully!</p>}
       <button
         onClick={handleSubmit}
-        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200"
+        className="mt-4 bg-cyan-600 hover:bg-cyan-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200"
       >
         Submit
       </button>

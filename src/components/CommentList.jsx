@@ -39,7 +39,7 @@ function CommentList({ diseaseId }) {
           className="bg-gray-100 p-4 rounded-lg shadow-sm flex flex-col text-sm"
         >
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+            <div className="w-8 h-8 rounded-full bg-white text-gray-700 flex items-center justify-center font-semibold">
               {comment.user?.charAt(0).toUpperCase() || 'A'}
             </div>
             <div className="text-gray-800 font-medium">
