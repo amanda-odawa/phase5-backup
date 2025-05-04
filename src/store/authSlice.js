@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../utils/api';
 
-const API_URL = '/users'; // Relative to baseURL in api.js
+const API_URL = '/users';
 
-// Async thunk for signup (with email)
+// Async thunk for signup
 export const signup = createAsyncThunk(
   'auth/signup',
   async ({ username, email, password }, { rejectWithValue }) => {
@@ -41,8 +41,8 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
-    isAuthenticated: false,
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    isAuthenticated: JSON.parse(localStorage.getItem('isAuthenticated')) || false,
     loading: false,
     error: null,
   },
@@ -51,25 +51,11 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.error = null;
+      localStorage.removeItem('user');
+      localStorage.removeItem('isAuthenticated');
     },
   },
   extraReducers: (builder) => {
-    // Signup
-    builder
-      .addCase(signup.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(signup.fulfilled, (state, action) => {
-        state.loading = false;
-        // You can optionally store user info here if needed
-      })
-      .addCase(signup.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-
-    // Login
     builder
       .addCase(login.pending, (state) => {
         state.loading = true;
@@ -79,6 +65,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
+        localStorage.setItem('user', JSON.stringify(action.payload));
+        localStorage.setItem('isAuthenticated', true);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { login } from '../store/authSlice';
 import { toast } from 'react-toastify';
 
@@ -9,6 +9,10 @@ function Login() {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get the path the user came from, or default to home
+  const from = location.state?.from?.pathname || '/';
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,11 +20,12 @@ function Login() {
       toast.error('Please fill in all fields');
       return;
     }
+
     dispatch(login({ username, password }))
       .unwrap()
       .then(() => {
         toast.success('Logged in successfully');
-        navigate('/');
+        navigate(from, { replace: true }); // Redirect to the page the user came from
       })
       .catch((error) => {
         toast.error(error.message || 'Login failed');
@@ -29,7 +34,7 @@ function Login() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 pt-0">
-      <div className="text-center mb-10 ">
+      <div className="text-center mb-10">
         <h1 className="text-3xl font-semibold text-center mb-2">Sign in to your account</h1>
         <p className="mt-2 text-sm text-gray-600">
           Or{' '}
