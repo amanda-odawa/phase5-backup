@@ -8,10 +8,8 @@ const EditDisease = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { diseases } = useSelector((state) => state.diseases);
-  const { areas } = useSelector((state) => state.areas);
 
-  const disease = diseases.find((d) => d.id === Number(id));
+  const { disease, loading } = useSelector((state) => state.diseases);
 
   const [form, setForm] = useState({
     name: '',
@@ -22,7 +20,6 @@ const EditDisease = () => {
     prevention: '',
     treatment: '',
     riskFactors: '',
-    areas: [],
     image: '',
   });
 
@@ -31,7 +28,7 @@ const EditDisease = () => {
       dispatch(fetchDiseaseById(id));
     }
   }, [id, dispatch]);
-  
+
   useEffect(() => {
     if (disease) {
       setForm({
@@ -43,7 +40,6 @@ const EditDisease = () => {
         prevention: disease.prevention || '',
         treatment: disease.treatment || '',
         riskFactors: disease.riskFactors || '',
-        areas: disease.areas || [],
         image: disease.image || '',
       });
     }
@@ -52,11 +48,6 @@ const EditDisease = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleMultiSelect = (e) => {
-    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-    setForm((prev) => ({ ...prev, areas: selected }));
   };
 
   const handleImageChange = (e) => {
@@ -71,11 +62,15 @@ const EditDisease = () => {
     try {
       await dispatch(updateDisease({ id, updatedDisease: form })).unwrap();
       toast.success('Disease updated successfully!');
-      navigate('/admin-dashboard'); // Navigate to the admin dashboard after successful update
+      navigate('/admin-dashboard');
     } catch (err) {
       toast.error('Failed to update disease');
     }
   };
+
+  if (loading) {
+    return <p className="text-center mt-10 text-gray-600">Loading disease...</p>;
+  }
 
   if (!disease) {
     return <p className="text-center mt-10 text-gray-600">Disease not found.</p>;
@@ -97,43 +92,52 @@ const EditDisease = () => {
             required
           />
         ))}
-        <select name="category" value={form.category} onChange={handleChange} className="w-full p-3 border rounded-md">
-          <option value="">Select Category</option>
-          <option value="bacterial">Bacterial</option>
-          <option value="viral">Viral</option>
-          <option value="vector-borne">Vector-borne</option>
-          <option value="water-borne">Water-borne</option>
-          <option value="air-borne">Air-borne</option>
-        </select>
-        <select name="prevalence" value={form.prevalence} onChange={handleChange} className="w-full p-3 border rounded-md">
-          <option value="">Select Prevalence</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select>
+
         <select
-          multiple
-          name="areas"
-          value={form.regions}
-          onChange={handleMultiSelect}
-          className="w-full p-3 border rounded-md h-40"
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          className="w-full p-3 border rounded-md"
+          required
         >
-          {areas.map((area) => (
-            <option key={area.id} value={area.name}>{area.name}</option>
-          ))}
+          <option value="">Select Category</option>
+          <option value="Bacterial">Bacterial</option>
+          <option value="Viral">Viral</option>
+          <option value="Vector-borne">Vector-borne</option>
+          <option value="Water-borne">Water-borne</option>
+          <option value="Air-borne">Air-borne</option>
         </select>
+
+        <select
+          name="prevalence"
+          value={form.prevalence}
+          onChange={handleChange}
+          className="w-full p-3 border rounded-md"
+          required
+        >
+          <option value="">Select Prevalence</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
         <div>
           <label className="block text-sm font-medium text-gray-700">Disease Image</label>
           <input
-            type="file"
+            type="url"
             name="image"
-            accept="image/*"
             onChange={handleImageChange}
             className="w-full p-3 border rounded-md"
           />
           {form.image && <img src={form.image} alt="Disease" className="mt-4 w-32 h-32 object-cover" />}
         </div>
-        <button type="submit" className="bg-cyan-600 text-white py-2 px-4 rounded hover:bg-cyan-700">Update Disease</button>
+
+        <button
+          type="submit"
+          className="bg-cyan-600 text-white py-2 px-4 rounded hover:bg-cyan-700"
+        >
+          Update Disease
+        </button>
       </form>
     </div>
   );

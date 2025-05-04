@@ -13,7 +13,6 @@ function AddDisease() {
     prevention: '',
     treatment: '',
     riskFactors: '',
-    affectedAreas: [],
     image: null,
   });
 
@@ -48,11 +47,10 @@ function AddDisease() {
       prevention: diseaseData.prevention,
       treatment: diseaseData.treatment,
       riskFactors: diseaseData.riskFactors,
-      affectedAreas: diseaseData.affectedAreas,
       image: diseaseData.image, // Handle file upload appropriately in the backend
     };
     dispatch(addDisease(newDisease));
-    navigate('/diseases');
+    navigate('/admin-dashboard');
   };
 
   return (
@@ -81,9 +79,11 @@ function AddDisease() {
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
               >
                 <option value="">Select Category</option>
-                <option value="Vector-borne">Vector-borne</option>
                 <option value="Bacterial">Bacterial</option>
                 <option value="Viral">Viral</option>
+                <option value="Vector-borne">Vector-borne</option>
+                <option value="Air-borne">Air-borne</option>
+                <option value="Water-borne">Water-borne</option>
               </select>
             </div>
             <div className="mb-4">
@@ -155,30 +155,9 @@ function AddDisease() {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Affected Regions</label>
-              <select
-                name="affectedRegions"
-                multiple
-                value={diseaseData.affectedRegions}
-                onChange={(e) =>
-                  setDiseaseData({
-                    ...diseaseData,
-                    affectedRegions: Array.from(e.target.selectedOptions, (option) => option.value),
-                  })
-                }
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              >
-                <option value="Africa">Africa</option>
-                <option value="Asia">Asia</option>
-                <option value="Europe">Europe</option>
-                <option value="Americas">Americas</option>
-              </select>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">You may select multiple regions</p>
-            </div>
-            <div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-300 mb-2">Image</label>
               <input
-                type="file"
+                type="url"
                 name="image"
                 onChange={handleFileChange}
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
@@ -186,7 +165,7 @@ function AddDisease() {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#0097b2] text-white px-4 py-2 rounded-md hover:bg-[#0097b2] focus:outline-none focus:ring-2 focus:ring-primary transition-transform duration-300 transform hover:scale-105"
+              className="w-full bg-[#0097b2] text-white px-4 py-2 rounded-md hover:bg-[#0097b2] focus:outline-none focus:ring-2 focus:ring-[#0097b2] transition-transform duration-300 transform hover:scale-105"
             >
               Add
             </button>

@@ -76,6 +76,9 @@ function DiseaseDetails() {
           <p className="text-gray-600 mb-4"><strong>Symptoms:</strong> {disease.symptoms}</p>
           <p className="text-gray-600 mb-4"><strong>Prevention:</strong> {disease.prevention}</p>
           <p className="text-gray-600 mb-4"><strong>Treatment:</strong> {disease.treatment}</p>
+          <p className="text-gray-600 mb-4"><strong>Risk Factors:</strong> {disease.riskFactors}</p>
+          <p className="text-gray-600 mb-4"><strong>Areas Affected:</strong> {disease.areas}</p>
+          <p className="text-gray-600 mb-4"><strong>Total Cases:</strong> {disease.cases}</p>
         </div>
       </div>
 

@@ -6,68 +6,23 @@
       "category": "Vector-borne",
       "prevalence": "Medium",
       "about": "Malaria is a mosquito-borne infectious disease caused by parasitic protozoans.",
-      "symptoms": [
-        "Fever",
-        "Chills",
-        "Sweating",
-        "Fatigue",
-        "Nausea",
-        "Vomiting",
-        "Headache"
-      ],
-      "prevention": [
-        "Use of insecticide-treated nets",
-        "Antimalarial drugs."
-      ],
-      "treatment": [
-        "Antimalarial medications like chloroquine",
-        "Artemisinin-based combination therapies"
-      ],
-      "riskFactors": [
-        "Living in or visiting malaria-endemic areas",
-        "Not using mosquito nets."
-      ],
-      "areas": [
-        "1",
-        "4"
-      ],
-      "cases": 241000000,
+      "symptoms": "Fever, chills, sweating, fatigue, nausea, vomiting, headache",
+      "prevention": "Use of insecticide-treated nets, antimalarial drugs.",
+      "treatment": "Antimalarial medications like chloroquine, artemisinin-based combination therapies",
+      "riskFactors": "Living in or visiting malaria-endemic areas, not using mosquito nets.",
       "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
     },
     {
-      "id": "2",
       "name": "Tuberculosis",
-      "category": "Bacterial",
-      "prevalence": "Low",
+      "category": "viral",
+      "prevalence": "medium",
       "about": "A bacterial infection caused by Mycobacterium tuberculosis, primarily affecting the lungs.",
-      "symptoms": [
-        "Cough with sputum",
-        "Chest pain",
-        "Weight loss",
-        "Night sweats"
-      ],
-      "prevention": [
-        "BCG vaccine, Good ventilation",
-        "Early treatment of active cases"
-      ],
-      "treatment": [
-        "Antimalarial medications like chloroquine",
-        "Artemisinin-based combination therapies"
-      ],
-      "riskFactors": [
-        "HIV infection, Substance use (such as injection drug use)",
-        "Specialized treatment for rheumatoid arthritis or Crohn's disease",
-        "Organ transplants",
-        "Severe kidney disease",
-        "Diabetes"
-      ],
-      "areas": [
-        "1",
-        "2",
-        "5"
-      ],
-      "cases": 2500000,
-      "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
+      "symptoms": "Cough with sputum, Chest pain, Weight loss, Night sweats",
+      "prevention": "BCG vaccine, Good ventilation, Early treatment of active cases",
+      "treatment": "Antimalarial medications like chloroquine, Artemisinin-based combination therapies",
+      "riskFactors": "HIV infection, Substance use (such as injection drug use), Specialized treatment for rheumatoid arthritis or Crohn's disease, Organ transplants, Severe kidney disease, Diabetes",
+      "image": "/src/assets/disease2.jpg",
+      "id": "2"
     },
     {
       "id": "3",
@@ -79,61 +34,60 @@
       "prevention": "Vaccination, wearing masks, social distancing, hand hygiene.",
       "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
       "riskFactors": "Older age, underlying health conditions, weakened immune system.",
-      "areas": [
-        "1",
-        "2",
-        "4",
-        "5",
-        "3",
-        "6",
-        "7"
-      ],
-      "cases": 470000000,
       "image": "https://via.placeholder.com/300x150?text=COVID-19+Image"
     }
   ],
   "areas": [
     {
-      "id": "1",
       "name": "Africa",
       "description": "Africa is known for its rich diversity of cultures, landscapes, and ecosystems. It faces a variety of communicable diseases due to its tropical climate, high population density, and limited access to healthcare in some areas.",
-      "totalCases": 9000000,
-      "population": 845000000,
+      "population": "845000003",
       "latitude": 1.65,
-      "longitude": 10
+      "longitude": 10,
+      "diseaseCases": {
+        "1": 8372490,
+        "2": 3423428,
+        "3": 4322343
+      },
+      "totalCases": 16118261,
+      "id": "1"
     },
     {
       "id": "2",
       "name": "Asia",
       "description": "Asia is the largest continent, home to a variety of climates, from arid deserts to tropical forests. Its large population and varying healthcare infrastructure mean that both urban and rural areas are impacted by a range of diseases.",
-      "totalCases": 2200000,
       "population": 936000000,
       "latitude": 34.0479,
       "longitude": 100.6197
     },
     {
+      "id": "3",
       "name": "Europe",
-      "totalCases": 4500000,
+      "description": "Europe is home to developed healthcare systems, but it still faces challenges such as the spread of diseases in densely populated urban areas and through travel and migration.",
       "population": "747000002",
-      "id": "3"
+      "latitude": 54.526,
+      "longitude": 15.2551
     },
     {
+      "id": "4",
       "name": "North America",
-      "totalCases": 1240000,
+      "description": "North America has relatively high standards of healthcare, but communicable diseases can still spread, especially with travel and large urban centers.",
       "population": "744000001",
-      "id": "4"
+      "latitude": 37.0902,
+      "longitude": -95.7129
     },
     {
+      "id": "5",
       "name": "South America",
-      "totalCases": 9980000,
+      "description": "South America has diverse ecosystems, ranging from the Amazon Rainforest to mountainous regions. Disease transmission is often affected by environmental factors and lack of access to healthcare in rural areas.",
       "population": "932100004",
-      "id": "5"
+      "latitude": -8.7832,
+      "longitude": -55.4915
     },
     {
       "id": "6",
       "name": "Antarctica",
       "description": "Known for its cold and barren environment, Antarctica does not have permanent human settlements, but temporary research stations could see cases of infectious diseases in rare instances.",
-      "totalCases": 5430000,
       "population": 610000000,
       "latitude": -82.8628,
       "longitude": 135
@@ -142,16 +96,23 @@
       "id": "7",
       "name": "Oceania",
       "description": "The smallest continent, also known as Australia, is home to developed healthcare systems, but surrounding island nations in Oceania face unique challenges, including the spread of tropical diseases.",
-      "totalCases": 1200000,
       "population": 540000000,
       "latitude": -25.2744,
       "longitude": 133.7751
     },
     {
-      "id": "fd9f",
-      "name": "tttt",
-      "totalCases": "243",
-      "population": "34t4t"
+      "id": "bc13",
+      "name": "South East Asia",
+      "description": "Communicable diseases like AIDS, tuberculosis, malaria and neglected tropical diseases have been the scourge of millions in South-East Asia, home to a quarter of the world's population.",
+      "population": "699228242",
+      "latitude": "43.6673",
+      "longitude": "64.3434",
+      "diseaseCases": {
+        "1": 290237249,
+        "2": 42343,
+        "3": 42342343
+      },
+      "totalCases": 332621935
     }
   ],
   "users": [
