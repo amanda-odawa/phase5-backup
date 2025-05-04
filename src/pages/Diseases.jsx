@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';
-import { fetchAreas } from '../store/areaSlice'; // Added for fetching areas
+import { fetchAreas } from '../store/areaSlice';
 import DiseaseCard from '../components/DiseaseCard';
 
 function Diseases() {
   const dispatch = useDispatch();
   const { diseases, loading, error } = useSelector((state) => state.diseases);
-  const { areas } = useSelector((state) => state.areas); // Get areas from Redux
+  const { areas } = useSelector((state) => state.areas);
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get('search') || '';
   const [localSearch, setLocalSearch] = useState(searchQuery);
@@ -18,7 +18,7 @@ function Diseases() {
 
   useEffect(() => {
     dispatch(fetchDiseases());
-    dispatch(fetchAreas()); // Ensure areas are fetched
+    dispatch(fetchAreas());
   }, [dispatch]);
 
   useEffect(() => {
@@ -32,10 +32,12 @@ function Diseases() {
 
     const matchesPrevalence = prevalenceFilter ? disease.prevalence === prevalenceFilter : true;
     const matchesCategory = categoryFilter ? disease.category === categoryFilter : true;
-    const matchesArea =
-      areaFilter && Array.isArray(disease.areas)
-        ? disease.areas.includes(areaFilter)
-        : !areaFilter;
+
+    const matchesArea = areaFilter
+      ? areas.some(
+          (area) => area.id === areaFilter && area.diseaseCases?.[disease.id] > 0
+        )
+      : true;
 
     return matchesSearch && matchesPrevalence && matchesCategory && matchesArea;
   });
@@ -61,7 +63,7 @@ function Diseases() {
         </div>
 
         {/* Filters */}
-        <div className="mb-6 flex justify-center gap-4">
+        <div className="mb-6 flex justify-center gap-4 flex-wrap">
           <select
             value={prevalenceFilter}
             onChange={(e) => setPrevalenceFilter(e.target.value)}
@@ -84,8 +86,8 @@ function Diseases() {
             <option value="Air-borne">Air-borne</option>
             <option value="Water-borne">Water-borne</option>
           </select>
-          
-          {/* Area Filter with dynamic options */}
+
+          {/* Area Filter using dynamic logic */}
           <select
             value={areaFilter}
             onChange={(e) => setAreaFilter(e.target.value)}
@@ -93,7 +95,7 @@ function Diseases() {
           >
             <option value="">All Areas</option>
             {areas.map((area) => (
-              <option key={area.id} value={area.name}>
+              <option key={area.id} value={area.id}>
                 {area.name}
               </option>
             ))}
@@ -111,7 +113,7 @@ function Diseases() {
               <DiseaseCard key={disease.id} disease={disease} />
             ))
           ) : (
-            <div className="text-center">No diseases found.</div>
+            <div className="text-center col-span-full">No diseases found.</div>
           )}
         </div>
       </div>

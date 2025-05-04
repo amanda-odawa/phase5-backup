@@ -47,58 +47,88 @@
       "diseaseCases": {
         "1": 8372490,
         "2": 3423428,
-        "3": 4322343
+        "3": 0
       },
-      "totalCases": 16118261,
+      "totalCases": 11795918,
       "id": "1"
     },
     {
-      "id": "2",
       "name": "Asia",
       "description": "Asia is the largest continent, home to a variety of climates, from arid deserts to tropical forests. Its large population and varying healthcare infrastructure mean that both urban and rural areas are impacted by a range of diseases.",
       "population": 936000000,
       "latitude": 34.0479,
-      "longitude": 100.6197
+      "longitude": 100.6197,
+      "diseaseCases": {
+        "1": 0,
+        "2": 0,
+        "3": 123334
+      },
+      "totalCases": 123334,
+      "id": "2"
     },
     {
-      "id": "3",
       "name": "Europe",
       "description": "Europe is home to developed healthcare systems, but it still faces challenges such as the spread of diseases in densely populated urban areas and through travel and migration.",
       "population": "747000002",
       "latitude": 54.526,
-      "longitude": 15.2551
+      "longitude": 15.2551,
+      "diseaseCases": {
+        "2": 65756476
+      },
+      "totalCases": 65756476,
+      "id": "3"
     },
     {
-      "id": "4",
       "name": "North America",
       "description": "North America has relatively high standards of healthcare, but communicable diseases can still spread, especially with travel and large urban centers.",
       "population": "744000001",
       "latitude": 37.0902,
-      "longitude": -95.7129
+      "longitude": -95.7129,
+      "diseaseCases": {
+        "3": 0
+      },
+      "totalCases": 0,
+      "id": "4"
     },
     {
-      "id": "5",
       "name": "South America",
       "description": "South America has diverse ecosystems, ranging from the Amazon Rainforest to mountainous regions. Disease transmission is often affected by environmental factors and lack of access to healthcare in rural areas.",
       "population": "932100004",
       "latitude": -8.7832,
-      "longitude": -55.4915
+      "longitude": -55.4915,
+      "diseaseCases": {
+        "1": 78,
+        "2": 422,
+        "3": 43435
+      },
+      "totalCases": 43935,
+      "id": "5"
     },
     {
-      "id": "6",
       "name": "Antarctica",
       "description": "Known for its cold and barren environment, Antarctica does not have permanent human settlements, but temporary research stations could see cases of infectious diseases in rare instances.",
       "population": 610000000,
       "latitude": -82.8628,
-      "longitude": 135
+      "longitude": 135,
+      "diseaseCases": {
+        "1": 545454
+      },
+      "totalCases": 545454,
+      "id": "6"
     },
     {
-      "id": "7",
       "name": "Oceania",
       "description": "The smallest continent, also known as Australia, is home to developed healthcare systems, but surrounding island nations in Oceania face unique challenges, including the spread of tropical diseases.",
       "population": 540000000,
       "latitude": -25.2744,
-      "longitude": 133.7751
+      "longitude": 133.7751,
+      "diseaseCases": {
+        "1": 454,
+        "2": 5,
+        "3": 0
+      },
+      "totalCases": 459,
+      "id": "7"
     },
     {
       "id": "bc13",

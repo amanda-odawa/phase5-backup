@@ -1,31 +1,15 @@
 import { Link } from 'react-router-dom';
-import disease1 from '@/assets/disease1.jpg';
-import disease2 from '@/assets/disease2.jpg';
-import disease3 from '@/assets/disease3.jpg';
-import disease4 from '@/assets/disease4.jpg';
-
-const diseaseImages = {
-  'disease1': disease1,
-  'disease2': disease2,
-  'disease3': disease3,
-  'disease4': disease4,
-};
 
 function DiseaseCard({ disease }) {
-  const fallbackImage = diseaseImages[`disease${disease.id}`] || 'https://via.placeholder.com/300x150?text=Disease+Image';
-  const imageSrc =
-  diseaseImages[disease.image] ||
-  diseaseImages[`disease${disease.id}`] ||
-  'https://via.placeholder.com/300x150?text=Disease+Image';
-
+  const imageSrc = disease.image || 'https://via.placeholder.com/300x150?text=Disease+Image';
 
   return (
     <div className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-        <img
-          src={imageSrc}
-          alt={disease.name}
+      <img
+        src={imageSrc}
+        alt={disease.name}
         className="w-full h-40 object-cover"
-        />
+      />
       <div className="p-4">
         <h3 className="text-lg font-semibold">{disease.name}</h3>
         <p className="text-gray-600 text-sm mb-3">{disease.about}</p>
