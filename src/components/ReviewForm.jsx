@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import api from '../utils/api';
 
-function ReviewForm({ areaId }) {
+function ReviewForm({ areaId, diseaseId }) {
   const [review, setReview] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async () => {
     if (!review.trim()) {
@@ -12,10 +13,16 @@ function ReviewForm({ areaId }) {
     }
 
     try {
-      await api.post('/reviews', { areaId, content: review, date: new Date().toISOString() });
-      alert('Suggestion submitted successfully!');
+      await api.post('/reviews', {
+        areaId,
+        diseaseId,
+        content: review,
+        date: new Date().toISOString(),
+      });
+      setSuccess(true);
       setReview('');
       setError('');
+      setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
       console.error('Error submitting suggestion:', error);
       setError('Failed to submit suggestion. Please try again.');
@@ -23,20 +30,21 @@ function ReviewForm({ areaId }) {
   };
 
   return (
-    <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">Submit a Suggestion</h3>
+    <div className="bg-white p-6 rounded-2xl shadow-lg">
+      <h3 className="text-xl font-semibold text-gray-800 mb-3">Submit a Suggestion</h3>
       <textarea
         value={review}
         onChange={(e) => setReview(e.target.value)}
         placeholder="How would you like to help eradicate the disease in this area?"
-        className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+        className="w-full min-h-[120px] p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
       />
-      {error && <p className="text-danger mt-2">{error}</p>}
+      {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
+      {success && <p className="text-sm text-green-600 mt-2">Suggestion submitted successfully!</p>}
       <button
         onClick={handleSubmit}
-        className="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition duration-200"
       >
-        Submit Suggestion
+        Submit
       </button>
     </div>
   );

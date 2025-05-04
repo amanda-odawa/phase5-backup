@@ -71,7 +71,7 @@
       "riskFactors": "Unprotected sex, sharing needles, having multiple sexual partners, untreated sexually transmitted infections.",
       "image": "https://lh3.googleusercontent.com/RHg5BMTXzX8vS0wx6f3Fy8oWwpxUtlIXOv2-dB7OMK4oLAJF7msRfXePVdNxGjKGAwb4gQf_ZHEzeIH4mIHboYej4ItqEd-Nlw=s725",
       "id": "6"
-    }    
+    }
   ],
   "areas": [
     {
@@ -251,6 +251,27 @@
       "areaId": "2",
       "content": "please share more on affected areas",
       "date": "2025-05-04T11:22:45.387Z"
+    },
+    {
+      "id": "8673",
+      "areaId": null,
+      "diseaseId": "2",
+      "content": "testing",
+      "date": "2025-05-04T21:56:30.606Z"
+    },
+    {
+      "id": "66cc",
+      "areaId": null,
+      "diseaseId": "2",
+      "content": "weqdwf",
+      "date": "2025-05-04T21:56:37.071Z"
+    },
+    {
+      "id": "0abc",
+      "areaId": null,
+      "diseaseId": "3",
+      "content": "hjeroijfg",
+      "date": "2025-05-04T22:09:43.819Z"
     }
   ]
 }

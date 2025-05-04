@@ -62,7 +62,7 @@ function Home() {
       </section>
 
       {/* Featured Illnesses */}
-      <section className="py-16 bg-gray-50 text-center px-4 sm:px-8">
+      <section className="py-16 bg-gray-50 px-4 sm:px-8">
         <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2">
           Featured Communicable Diseases
         </h2>
