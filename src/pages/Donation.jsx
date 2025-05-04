@@ -3,14 +3,14 @@ import api from '../utils/api';
 import { toast } from 'react-toastify';
 
 const presetAmounts = [10, 25, 50];
-const regions = [
-  'All regions', 'Africa', 'Asia', 'Australia', 'Europe', 'North America', 'South America', 'Oceania'
+const areas = [
+  'All areas', 'Africa', 'Asia', 'Australia', 'Europe', 'North America', 'South America', 'Oceania'
 ];
 
 function Donation() {
   const [amount, setAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('All regions');
+  const [selectedArea, setSelectedArea] = useState('All areas');
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -44,13 +44,13 @@ function Donation() {
     try {
       await api.post('/donations', {
         amount: parseFloat(customAmount || amount),
-        region: selectedRegion,
+        area: selectedArea,
         date: new Date().toISOString()
       });
       toast.success('Donation submitted successfully!');
       setAmount('');
       setCustomAmount('');
-      setSelectedRegion('All regions');
+      setSelectedArea('All areas');
       setCardName('');
       setCardNumber('');
       setExpiry('');
@@ -104,14 +104,14 @@ function Donation() {
         </div>
 
         <div className="mb-6">
-          <label className="block text-gray-800 mb-2 font-medium">Select Region</label>
+          <label className="block text-gray-800 mb-2 font-medium">Select Area</label>
           <select
-            value={selectedRegion}
-            onChange={(e) => setSelectedRegion(e.target.value)}
+            value={selectedArea}
+            onChange={(e) => setSelectedArea(e.target.value)}
             className="w-full px-4 py-2 border border-gray-400 rounded-md"
           >
-            {regions.map((region) => (
-              <option key={region} value={region}>{region}</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>{area}</option>
             ))}
           </select>
         </div>

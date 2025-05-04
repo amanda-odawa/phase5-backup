@@ -22,7 +22,7 @@ const EditDisease = () => {
     prevention: '',
     treatment: '',
     riskFactors: '',
-    regions: [],
+    areas: [],
     image: '',
   });
 
@@ -43,7 +43,7 @@ const EditDisease = () => {
         prevention: disease.prevention || '',
         treatment: disease.treatment || '',
         riskFactors: disease.riskFactors || '',
-        regions: disease.regions || [],
+        areas: disease.areas || [],
         image: disease.image || '',
       });
     }
@@ -56,7 +56,7 @@ const EditDisease = () => {
 
   const handleMultiSelect = (e) => {
     const selected = Array.from(e.target.selectedOptions, (option) => option.value);
-    setForm((prev) => ({ ...prev, regions: selected }));
+    setForm((prev) => ({ ...prev, areas: selected }));
   };
 
   const handleImageChange = (e) => {
@@ -113,8 +113,8 @@ const EditDisease = () => {
         </select>
         <select
           multiple
-          name="regions"
-          value={form.regions}
+          name="areas"
+          value={form.areas}
           onChange={handleMultiSelect}
           className="w-full p-3 border rounded-md h-40"
         >

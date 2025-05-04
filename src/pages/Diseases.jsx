@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';
+import DiseaseCard from '../components/DiseaseCard';
 
 function Diseases() {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ function Diseases() {
   const [localSearch, setLocalSearch] = useState(searchQuery);
   const [prevalenceFilter, setPrevalenceFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
-  const [regionFilter, setRegionFilter] = useState('');
+  const [areaFilter, setAreaFilter] = useState('');
 
   useEffect(() => {
     dispatch(fetchDiseases());
@@ -28,12 +29,12 @@ function Diseases() {
 
     const matchesPrevalence = prevalenceFilter ? disease.prevalence === prevalenceFilter : true;
     const matchesCategory = categoryFilter ? disease.category === categoryFilter : true;
-    const matchesRegion =
-      regionFilter && Array.isArray(disease.regions)
-        ? disease.regions.includes(regionFilter)
-        : !regionFilter;
+    const matchesArea =
+      areaFilter && Array.isArray(disease.areas)
+        ? disease.areas.includes(areaFilter)
+        : !areaFilter;
 
-    return matchesSearch && matchesPrevalence && matchesCategory && matchesRegion;
+    return matchesSearch && matchesPrevalence && matchesCategory && matchesArea;
   });
 
   return (
@@ -82,11 +83,11 @@ function Diseases() {
             <option value="Bacterial">Bacterial</option>
           </select>
           <select
-            value={regionFilter}
-            onChange={(e) => setRegionFilter(e.target.value)}
+            value={areaFilter}
+            onChange={(e) => setAreaFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white"
           >
-            <option value="">Region</option>
+            <option value="">Area</option>
             <option value="Africa">Africa</option>
             <option value="Asia">Asia</option>
             <option value="Europe">Europe</option>
@@ -106,64 +107,11 @@ function Diseases() {
 
         {/* Disease Cards */}
         {!loading && !error && filteredDiseases.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredDiseases.map((disease) => (
-              <div
-                key={disease.id}
-                className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-              >
-                <img
-                  src={disease.image || 'https://via.placeholder.com/300x150?text=Disease+Image'}
-                  alt={disease.name}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h2 className="text-lg font-semibold">{disease.name}</h2>
-                  <p className="text-gray-600 text-sm mb-3">{disease.about}</p>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        disease.category === 'Vector-borne'
-                          ? 'bg-blue-100 text-blue-800'
-                          : disease.category === 'Bacterial'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-purple-100 text-purple-800'
-                      }`}
-                    >
-                      {disease.category}
-                    </span>
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        disease.prevalence === 'High'
-                          ? 'bg-red-100 text-red-800'
-                          : disease.prevalence === 'Medium'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-green-100 text-green-800'
-                      }`}
-                    >
-                      {disease.prevalence}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-1 mb-3">
-                    {disease.regions?.map((region) => (
-                      <span
-                        key={region}
-                        className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full"
-                      >
-                        {region}
-                      </span>
-                    ))}
-                  </div>
-                  <Link
-                    to={`/diseases/${disease.id}`}
-                    className="text-[#0097b2] font-medium hover:underline"
-                  >
-                    Learn more &rarr;
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+         {filteredDiseases.map((disease) => (
+           <DiseaseCard key={disease.id} disease={disease} />
+         ))}
+       </div>       
         )}
       </div>
     </div>

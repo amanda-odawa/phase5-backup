@@ -76,7 +76,7 @@ function AdminDashboard() {
       <div className="flex space-x-4 mb-6">
         <button onClick={() => setActiveTab('Users')} className={`p-2 ${activeTab === 'Users' ? 'border-b-2 border-blue-500' : ''}`}>Users</button>
         <button onClick={() => setActiveTab('Diseases')} className={`p-2 ${activeTab === 'Diseases' ? 'border-b-2 border-blue-500' : ''}`}>Diseases</button>
-        <button onClick={() => setActiveTab('Regions')} className={`p-2 ${activeTab === 'Regions' ? 'border-b-2 border-blue-500' : ''}`}>Regions</button>
+        <button onClick={() => setActiveTab('Areas')} className={`p-2 ${activeTab === 'Areas' ? 'border-b-2 border-blue-500' : ''}`}>Areas</button>
       </div>
       <input
         type="text"
@@ -174,9 +174,9 @@ function AdminDashboard() {
               </div>
             </div>
           )}
-          {activeTab === 'Regions' && (
+          {activeTab === 'Areas' && (
             <div>
-              <button onClick={() => navigate('/add-area')} className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors">+ Add Region</button>
+              <button onClick={() => navigate('/add-area')} className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors">+ Add Area</button>
               <div className="bg-white p-8 rounded-lg shadow-md card">
                 <table className="w-full border-collapse">
                   <thead>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -22,7 +21,7 @@ function Areas() {
   const { diseases, status: diseaseStatus, error: diseaseError } = useSelector((state) => state.diseases);
   const [searchTerm, setSearchTerm] = useState('');
   const [diseaseFilter, setDiseaseFilter] = useState('');
-  const [regionFilter, setRegionFilter] = useState('');
+  const [areaFilter, setAreaFilter] = useState('');
   const [prevalenceFilter, setPrevalenceFilter] = useState('');
 
   useEffect(() => {
@@ -35,14 +34,14 @@ function Areas() {
       area.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          area.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDisease = diseaseFilter ? area.diseases.includes(diseaseFilter) : true;
-    const matchesRegion = regionFilter ? area.name === regionFilter : true;
+    const matchesArea = areaFilter ? area.name === areaFilter : true;
     const matchesPrevalence = prevalenceFilter
       ? area.diseases.some((diseaseName) => {
           const disease = diseases.find((d) => d.name === diseaseName);
           return disease?.prevalence === prevalenceFilter;
         })
       : true;
-    return matchesSearch && matchesDisease && matchesRegion && matchesPrevalence;
+    return matchesSearch && matchesDisease && matchesArea && matchesPrevalence;
   });
 
   const stats = filteredAreas.length
@@ -62,7 +61,7 @@ function Areas() {
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-6">Affected Areas</h1>
         <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
-          Explore the global distribution of communicable diseases and their impact on different regions.
+          Explore the global distribution of communicable diseases and their impact on different areas.
         </p>
 
         {/* Filters */}
@@ -79,20 +78,24 @@ function Areas() {
               onChange={(e) => setDiseaseFilter(e.target.value)}
             className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
             >
-              <option value="">Filter by Disease</option>
+              <option value="">All Diseases</option>
               <option value="Malaria">Malaria</option>
               <option value="Tuberculosis">Tuberculosis</option>
-              <option value="HIV/AIDS">HIV/AIDS</option>
+              <option value="COVID-19">COVID-19</option>
             </select>
             <select
-              value={regionFilter}
-              onChange={(e) => setRegionFilter(e.target.value)}
+              value={areaFilter}
+              onChange={(e) => setAreaFilter(e.target.value)}
             className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
             >
-              <option value="">Filter by Region</option>
-              <option value="Sub-Saharan Africa">Sub-Saharan Africa</option>
-              <option value="South Asia">South Asia</option>
-              <option value="Eastern Europe">Eastern Europe</option>
+              <option value="">All Areas</option>
+              <option value="Africa">Africa</option>
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="North America">North America</option>
+              <option value="South America">South America</option>
+              <option value="Antarctica">Antarctica</option>
+              <option value="Oceania">Oceania</option>
             </select>
             <select
               value={prevalenceFilter}
@@ -141,7 +144,7 @@ function Areas() {
       {filteredAreas.length > 0 && (
         <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-            {regionFilter || 'Global'} Statistics
+            {areaFilter || 'Global'} Statistics
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
@@ -182,7 +185,7 @@ function Areas() {
             );
           })}
           <p className="text-gray-600 dark:text-gray-300 mt-4">
-            {regionFilter || 'The world'} faces significant challenges with communicable diseases, particularly {stats.diseases.join(', ')}.
+            {areaFilter || 'The world'} faces significant challenges with communicable diseases, particularly {stats.diseases.join(', ')}.
           </p>
         </div>
       )}

@@ -9,7 +9,7 @@ import Home from './pages/Home';
 import Diseases from './pages/Diseases';
 import DiseaseDetails from './pages/DiseaseDetails';
 import Areas from './pages/Areas';
-import AreaDetails from './pages/AreaDetails'; // ✅ Add this line if missing
+import AreaDetails from './pages/AreaDetails'; 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './pages/AdminDashboard';

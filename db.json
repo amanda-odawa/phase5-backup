@@ -7,18 +7,66 @@
       "prevalence": "Medium",
       "about": "Malaria is a mosquito-borne infectious disease caused by parasitic protozoans.",
       "symptoms": [
-        "Fever, chills, sweating, fatigue, nausea, vomiting, headache."
+        "Fever",
+        "Chills",
+        "Sweating",
+        "Fatigue",
+        "Nausea",
+        "Vomiting",
+        "Headache"
       ],
-      "prevention": "Use of insecticide-treated nets, antimalarial drugs.",
-      "treatment": "Antimalarial medications like chloroquine, artemisinin-based combination therapies.",
+      "prevention": [
+        "Use of insecticide-treated nets",
+        "Antimalarial drugs."
+      ],
+      "treatment": [
+        "Antimalarial medications like chloroquine",
+        "Artemisinin-based combination therapies"
+      ],
       "riskFactors": [
-        "Living in or visiting malaria-endemic areas, not using mosquito nets."
+        "Living in or visiting malaria-endemic areas",
+        "Not using mosquito nets."
       ],
-      "regions": [
+      "areas": [
+        "Africa",
+        "North America"
+      ],
+      "cases": 241000000,
+      "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
+    },
+    {
+      "id": "2",
+      "name": "Tuberculosis",
+      "category": "Bacterial",
+      "prevalence": "Low",
+      "about": "A bacterial infection caused by Mycobacterium tuberculosis, primarily affecting the lungs.",
+      "symptoms": [
+        "Cough with sputum",
+        "Chest pain",
+        "Weight loss",
+        "Night sweats"
+      ],
+      "prevention": [
+        "BCG vaccine, Good ventilation",
+        "Early treatment of active cases"
+      ],
+      "treatment": [
+        "Antimalarial medications like chloroquine",
+        "Artemisinin-based combination therapies"
+      ],
+      "riskFactors": [
+        "HIV infection, Substance use (such as injection drug use)",
+        "Specialized treatment for rheumatoid arthritis or Crohn's disease",
+        "Organ transplants",
+        "Severe kidney disease",
+        "Diabetes"
+      ],
+      "areas": [
         "Africa",
         "Asia",
         "South America"
       ],
+      "cases": 2500000,
       "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
     },
     {
@@ -31,18 +79,119 @@
       "prevention": "Vaccination, wearing masks, social distancing, hand hygiene.",
       "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
       "riskFactors": "Older age, underlying health conditions, weakened immune system.",
-      "regions": [
-        "Global"
+      "areas": [
+        "Africa",
+        "Asia",
+        "North America",
+        "South America",
+        "Europe",
+        "Antarctica",
+        "Oceania"
       ],
+      "cases": 470000000,
       "image": "https://via.placeholder.com/300x150?text=COVID-19+Image"
     }
   ],
   "areas": [
     {
+      "id": "1",
+      "name": "Africa",
+      "totalCases": 9000000,
+      "population": "845000000"
+    },
+    {
+      "id": "2",
+      "name": "Asia",
+      "totalCases": 2200000,
+      "population": "936000000"
+    },
+    {
+      "id": "3",
       "name": "Europe",
-      "totalCases": 1000000,
-      "population": "800000000",
-      "id": "3"
+      "totalCases": 4500000,
+      "population": "747000000"
+    },
+    {
+      "id": "4",
+      "name": "North America",
+      "totalCases": 1240000,
+      "population": "744000000"
+    },
+    {
+      "id": "5",
+      "name": "South America",
+      "totalCases": 9980000,
+      "population": "932100000"
+    },
+    {
+      "id": "6",
+      "name": "Antarctica",
+      "totalCases": 5430000,
+      "population": "610000000"
+    },
+    {
+      "id": "7",
+      "name": "Oceania",
+      "totalCases": 1200000,
+      "population": "540000000"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@admin.com",
+      "password": "admin",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "user1",
+      "email": "user1@gmail.com",
+      "password": "user1",
+      "role": "admin"
+    },
+    {
+      "id": "3",
+      "username": "johndoe",
+      "email": "johndoe@gmail.com",
+      "password": "johndoe",
+      "role": "user"
+    },
+    {
+      "id": "4",
+      "username": "janedoe",
+      "email": "janedoe@gmail.com",
+      "password": "janedoe",
+      "role": "user"
+    },
+    {
+      "id": "5",
+      "username": "amanda",
+      "email": "amanda@gmail.com",
+      "password": "amanda",
+      "role": "user"
+    },
+    {
+      "id": "c4c1",
+      "username": "test",
+      "email": "test@gmail.com",
+      "password": "test",
+      "role": "user"
+    }
+  ],
+  "donations": [
+    {
+      "id": "58d6",
+      "amount": 10,
+      "area": "Africa",
+      "date": "2025-05-03T15:20:19.576Z"
+    },
+    {
+      "id": "2de3",
+      "amount": 10,
+      "area": "South America",
+      "date": "2025-05-03T15:21:04.112Z"
     }
   ],
   "reviews": [
@@ -51,65 +200,12 @@
       "areaId": null,
       "content": "owidf,[,qwe",
       "date": "2025-05-04T00:03:39.750Z"
-    }
-  ],
-  "donations": [
-    {
-      "id": "58d6",
-      "amount": 10,
-      "region": "Africa",
-      "date": "2025-05-03T15:20:19.576Z"
     },
     {
-      "id": "2de3",
-      "amount": 10,
-      "region": "South America",
-      "date": "2025-05-03T15:21:04.112Z"
-    }
-  ],
-  "users": [
-    {
-      "id": "1",
-      "username": "admin",
-      "email": "admin@admin.com",
-      "password": "admin123",
-      "role": "admin"
-    },
-    {
-      "id": "2",
-      "username": "user1",
-      "email": "user1@gmail.com",
-      "password": "user123",
-      "role": "admin"
-    },
-    {
-      "id": "5543",
-      "username": "JohnDoe",
-      "email": "johndoe@gmail.com",
-      "password": "12345678",
-      "role": "user"
-    },
-    {
-      "id": "ff3e",
-      "username": "JohnKeen",
-      "email": "johnkeen@gmail.com",
-      "password": "123456789",
-      "role": "user"
-    },
-    {
-      "role": "admin",
-      "id": "b4ec"
-    },
-    {
-      "id": "9ef6",
-      "username": "amandaodawa2",
-      "email": "odawaamanda@gmail.com",
-      "password": "456456",
-      "role": "user"
-    },
-    {
-      "role": "admin",
-      "id": "40aa"
+      "id": "5fb1",
+      "areaId": null,
+      "content": "please share more on affected areas",
+      "date": "2025-05-04T11:22:45.387Z"
     }
   ]
 }

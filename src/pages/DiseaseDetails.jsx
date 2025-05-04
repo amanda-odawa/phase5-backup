@@ -66,7 +66,7 @@ function DiseaseDetails() {
       <div className="flex flex-col md:flex-row gap-6 bg-white p-8 rounded-lg shadow-md">
         <div className="md:w-1/2">
           <img
-            src={diseaseImages[`disease${id}`] || diseaseImages['disease1']}
+            src={disease.image}
             alt={disease.name}
             className="w-full max-w-md mx-auto h-64 object-cover rounded-lg mb-6"
           />
