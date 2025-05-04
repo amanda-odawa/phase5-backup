@@ -3,79 +3,56 @@
     {
       "id": "1",
       "name": "Malaria",
-      "description": "A mosquito-borne infectious disease caused by Plasmodium parasites.",
-      "symptoms": "Fever, chills, headache, nausea, and fatigue.",
-      "prevention": "Use mosquito nets, insect repellent, and take antimalarial drugs.",
-      "treatment": "Antimalarial medications like chloroquine or artemisinin-based combination therapies.",
-      "image": "disease1.jpg",
       "category": "Vector-borne",
-      "prevalence": "High",
-      "regions": [
-        "Africa"
+      "prevalence": "Medium",
+      "about": "Malaria is a mosquito-borne infectious disease caused by parasitic protozoans.",
+      "symptoms": [
+        "Fever, chills, sweating, fatigue, nausea, vomiting, headache."
       ],
-      "cases": 241000000
-    },
-    {
-      "id": "2",
-      "name": "Tuberculosis",
-      "description": "A bacterial infection caused by Mycobacterium tuberculosis, primarily affecting the lungs.",
-      "symptoms": "Cough with sputum, chest pain, weight loss, and night sweats.",
-      "prevention": "BCG vaccine, good ventilation, and early treatment of active cases.",
-      "treatment": "A 6-9 month course of antibiotics like isoniazid and rifampicin.",
-      "image": "disease2.jpg",
-      "category": "Bacterial",
-      "prevalence": "Low",
-      "regions": [
-        "Asia"
+      "prevention": "Use of insecticide-treated nets, antimalarial drugs.",
+      "treatment": "Antimalarial medications like chloroquine, artemisinin-based combination therapies.",
+      "riskFactors": [
+        "Living in or visiting malaria-endemic areas, not using mosquito nets."
       ],
-      "cases": 2500000
+      "regions": [
+        "Africa",
+        "Asia",
+        "South America"
+      ],
+      "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
     },
     {
       "id": "3",
-      "name": "HIV/AIDS",
-      "description": "A viral infection that attacks the immune system, caused by the Human Immunodeficiency Virus.",
-      "symptoms": "Fever, weight loss, fatigue, and opportunistic infections.",
-      "prevention": "Safe sex practices, needle exchange programs, and pre-exposure prophylaxis (PrEP).",
-      "treatment": "Antiretroviral therapy (ART) to manage the virus.",
-      "image": "disease3.jpg",
+      "name": "COVID-19",
       "category": "Viral",
-      "prevalence": "Medium",
+      "prevalence": "High",
+      "about": "COVID-19 is a respiratory illness caused by the SARS-CoV-2 virus.",
+      "symptoms": "Fever, cough, shortness of breath, fatigue, loss of taste or smell.",
+      "prevention": "Vaccination, wearing masks, social distancing, hand hygiene.",
+      "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
+      "riskFactors": "Older age, underlying health conditions, weakened immune system.",
       "regions": [
-        "Europe",
-        "Africa"
+        "Global"
       ],
-      "cases": 25700000
+      "image": "https://via.placeholder.com/300x150?text=COVID-19+Image"
     }
   ],
   "areas": [
     {
-      "id": "2",
-      "name": "Asia",
-      "diseases": [
-        "Tuberculosis"
-      ],
-      "description": "Tuberculosis is widespread due to dense populations and poor sanitation.",
-      "latitude": 20.5937,
-      "longitude": 78.9629,
-      "image": "area2.jpg",
-      "totalCases": 2500000,
-      "population": 1800000000
-    },
-    {
-      "id": "3",
       "name": "Europe",
-      "diseases": [
-        "HIV/AIDS"
-      ],
-      "description": "Rising cases of HIV/AIDS due to limited awareness and stigma.",
-      "latitude": 54.526,
-      "longitude": 15.2551,
-      "image": "area3.jpg",
       "totalCases": 1000000,
-      "population": 300000000
+      "population": "800000000",
+      "id": "3"
     }
   ],
-  "reviews": [],
+  "reviews": [
+    {
+      "id": "8356",
+      "areaId": null,
+      "content": "owidf,[,qwe",
+      "date": "2025-05-04T00:03:39.750Z"
+    }
+  ],
   "donations": [
     {
       "id": "58d6",
@@ -103,7 +80,7 @@
       "username": "user1",
       "email": "user1@gmail.com",
       "password": "user123",
-      "role": "user"
+      "role": "admin"
     },
     {
       "id": "5543",
@@ -120,11 +97,8 @@
       "role": "user"
     },
     {
-      "id": "b4ec",
-      "username": "amandaodawa",
-      "email": "amanda.odawa@student.moringaschool.com",
-      "password": "3P#nYy#Y1r#^c$uV",
-      "role": "user"
+      "role": "admin",
+      "id": "b4ec"
     },
     {
       "id": "9ef6",

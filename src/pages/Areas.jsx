@@ -106,76 +106,87 @@ function Areas() {
             </select>
           </div>
 
-        {/* Map */}
-        <MapContainer
-          center={[0, 0]}
-          zoom={2}
-          style={{ height: '400px', width: '100%' }}
-          className="rounded-lg shadow-md mb-8"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          />
-          {filteredAreas.map((area) => (
-            <Marker key={area.id} position={[area.latitude, area.longitude]}>
-              <Popup>
-                <strong>{area.name}</strong>
-                <p>{area.description}</p>
-                <p><strong>Diseases:</strong> {area.diseases.join(', ')}</p>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
+      {/* Map */}
+      <MapContainer
+        center={[0, 0]}
+        zoom={2}
+        style={{ height: '500px', width: '100%' }}
+        className="rounded-lg shadow-md mb-6"
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {filteredAreas.map((area) => (
+          <Marker key={area.id} position={[area.latitude, area.longitude]}>
+            <Popup>
+              <strong>{area.name}</strong>
+              <p>{area.description}</p>
+              <p><strong>Diseases:</strong> {area.diseases.join(', ')}</p>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
 
-        {/* Statistics */}
-        {filteredAreas.length > 0 && (
-          <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md mb-10">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-              {regionFilter || 'Global'} Statistics
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div>
-                <p className="text-2xl font-bold">{stats.totalCases.toLocaleString()}</p>
-                <p className="text-gray-600 dark:text-gray-300">Total Cases</p>
-        </div>
-              <div>
-                <p className="text-2xl font-bold">{stats.population.toLocaleString()}</p>
-                <p className="text-gray-600 dark:text-gray-300">Population</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{stats.diseases.length}</p>
-                <p className="text-gray-600 dark:text-gray-300">Diseases</p>
-              </div>
+      {/* Legend */}
+      <div className="mb-6 bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">Legend</h2>
+        <p className="text-gray-600 dark:text-gray-300">
+          <span className="inline-block w-4 h-4 bg-blue-500 rounded-full mr-2"></span>
+          Markers indicate areas affected by communicable diseases.
+        </p>
+      </div>
+
+      {/* Statistics */}
+      {filteredAreas.length > 0 && (
+        <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+            {regionFilter || 'Global'} Statistics
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.totalCases.toLocaleString()}</p>
+              <p className="text-gray-600 dark:text-gray-300">Total Cases</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.population.toLocaleString()}</p>
+              <p className="text-gray-600 dark:text-gray-300">Population</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">{stats.diseases.length}</p>
+              <p className="text-gray-600 dark:text-gray-300">Diseases</p>
             </div>
           </div>
-        )}
-
-        {/* Area Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {filteredAreas.map((area) => (
-              <div
-                key={area.id}
-                className="bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105"
-              >
-                <img
-                  src={imageMap[area.image] || 'https://via.placeholder.com/300x150?text=Area+Image'}
-                  alt={area.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h2 className="text-xl font-semibold mb-2">{area.name}</h2>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">{area.description}</p>
-                  <Link
-                    to={`/areas/${area.id}`}
-                  className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          {stats.diseases.map((diseaseName) => {
+            const disease = diseases.find((d) => d.name === diseaseName);
+            return (
+              <div key={diseaseName} className="flex justify-between items-center mb-2">
+                <span className="text-gray-800 dark:text-gray-100">{diseaseName}</span>
+                <div className="flex items-center">
+                  <span className="text-gray-600 dark:text-gray-300 mr-2">
+                    {disease?.cases?.toLocaleString() || 0} cases
+                  </span>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm ${
+                      disease?.prevalence === 'High'
+                        ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                        : disease?.prevalence === 'Medium'
+                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                        : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                    }`}
                   >
-                    View Details
-                  </Link>
+                    {disease?.prevalence || 'Unknown'}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+          <p className="text-gray-600 dark:text-gray-300 mt-4">
+            {regionFilter || 'The world'} faces significant challenges with communicable diseases, particularly {stats.diseases.join(', ')}.
+          </p>
+        </div>
+      )}
+
       </div>
     </div>
   );

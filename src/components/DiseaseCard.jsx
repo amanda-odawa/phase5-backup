@@ -12,29 +12,61 @@ const diseaseImages = {
 };
 
 function DiseaseCard({ disease }) {
-  const imageSrc = diseaseImages[`disease${disease.id}`] || diseaseImages['disease1']; // Fallback to disease1 if image not found
+  const fallbackImage = diseaseImages[`disease${disease.id}`] || 'https://via.placeholder.com/300x150?text=Disease+Image';
+  const imageSrc = disease.image || fallbackImage;
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-      {imageSrc ? (
+    <div className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         <img
           src={imageSrc}
           alt={disease.name}
-          className="w-full h-48 object-cover"
+        className="w-full h-40 object-cover"
         />
-      ) : (
-        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-500">Image Placeholder</span>
-        </div>
-      )}
       <div className="p-4">
-        <h3 className="text-xl font-bold text-gray-800">{disease.name}</h3>
-        <p className="text-gray-600 mt-2">{disease.description}</p>
+        <h3 className="text-lg font-semibold">{disease.name}</h3>
+        <p className="text-gray-600 text-sm mb-3">{disease.about}</p>
+
+        <div className="flex flex-wrap gap-2 mb-3">
+          <span
+            className={`px-2 py-1 text-xs rounded-full ${
+              disease.category === 'Vector-borne'
+                ? 'bg-blue-100 text-blue-800'
+                : disease.category === 'Bacterial'
+                ? 'bg-green-100 text-green-800'
+                : 'bg-purple-100 text-purple-800'
+            }`}
+          >
+            {disease.category}
+          </span>
+          <span
+            className={`px-2 py-1 text-xs rounded-full ${
+              disease.prevalence === 'High'
+                ? 'bg-red-100 text-red-800'
+                : disease.prevalence === 'Medium'
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-green-100 text-green-800'
+            }`}
+          >
+            {disease.prevalence}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-1 mb-3">
+          {disease.regions?.map((region) => (
+            <span
+              key={region}
+              className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full"
+            >
+              {region}
+            </span>
+          ))}
+        </div>
+
         <Link
           to={`/diseases/${disease.id}`}
-          className="mt-4 inline-block bg-primary text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="text-[#0097b2] font-medium hover:underline"
         >
-          View Details
+          Learn more &rarr;
         </Link>
       </div>
     </div>

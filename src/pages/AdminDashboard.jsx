@@ -54,21 +54,21 @@ function AdminDashboard() {
 
   const filteredDiseases = diseases.filter(
     (disease) =>
-      disease.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      disease.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (disease.name && disease.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (disease.description && disease.description.toLowerCase().includes(searchQuery.toLowerCase()))
   );
-
+  
   const filteredAreas = areas.filter(
     (area) =>
-      area.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      area.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (area.name && area.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (area.description && area.description.toLowerCase().includes(searchQuery.toLowerCase()))
   );
-
+  
   const filteredUsers = users.filter(
     (user) =>
-      user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );  
+      (user.username && user.username.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -95,14 +95,19 @@ function AdminDashboard() {
         <>
           {activeTab === 'Users' && (
             <div>
-              <button onClick={() => navigate('/signup')} className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors">+ Add User</button>
+              <button
+                onClick={() => navigate('/signup')}
+                className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors"
+              >
+                + Add User
+              </button>
               <div className="bg-white p-8 rounded-lg shadow-md card">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-gray-200">
                       <th className="p-3 text-left">Username</th>
                       <th className="p-3 text-left">Email</th>
-                      <th className="p-3">Role</th>
+                      <th className="p-3 text-left">Role</th> 
                     </tr>
                   </thead>
                   <tbody>
@@ -148,7 +153,7 @@ function AdminDashboard() {
                         <td className="p-3">{disease.prevalence}</td>
                         <td className="p-3">
                           <button
-                            onClick={() => navigate('/edit-disease/:id')}
+                            onClick={() => navigate(`/edit-disease/${disease.id}`)}
                             className="btn-primary text-blue-500 pr-3 py-1 rounded mr-2"
                             aria-label={`Edit ${disease.name}`}
                           >
@@ -190,7 +195,7 @@ function AdminDashboard() {
                         <td className="p-3">{area.population}</td>
                         <td className="p-3">
                           <button
-                            onClick={() => navigate('/edit-area')}
+                            onClick={() => navigate(`/edit-area/${area.id}`)}
                             className="btn-primary text-blue-500 pr-3 py-1 rounded mr-2"
                             aria-label={`Edit ${area.name}`}
                           >

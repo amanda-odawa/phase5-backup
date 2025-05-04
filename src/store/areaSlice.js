@@ -50,8 +50,8 @@ export const deleteArea = createAsyncThunk('areas/deleteArea', async (id, { reje
 const areaSlice = createSlice({
   name: 'areas',
   initialState: {
-    areas: [],
-    area: null,
+    areas: [], // List of all areas
+    area: null, // Single area being edited
     loading: false,
     error: null,
   },
@@ -71,14 +71,14 @@ const areaSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // Fetch Area by ID
+      // Fetch Area by ID (for editing)
       .addCase(fetchAreaById.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchAreaById.fulfilled, (state, action) => {
         state.loading = false;
-        state.area = action.payload;
+        state.area = action.payload; // Save the area data for editing
       })
       .addCase(fetchAreaById.rejected, (state, action) => {
         state.loading = false;

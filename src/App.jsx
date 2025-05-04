@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { fetchDiseases } from './store/diseaseSlice';
 import { fetchAreas } from './store/areaSlice';
 import Navbar from './components/Navbar';
@@ -10,13 +9,10 @@ import Home from './pages/Home';
 import Diseases from './pages/Diseases';
 import DiseaseDetails from './pages/DiseaseDetails';
 import Areas from './pages/Areas';
-import AreaDetails from './pages/AreaDetails';
+import AreaDetails from './pages/AreaDetails'; // ✅ Add this line if missing
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './pages/AdminDashboard';
-// import ManageUsers from './pages/ManageUsers';
-// import ManageDiseases from './pages/ManageDiseases';
-// import ManageAreas from './pages/ManageAreas';
 import Donation from './pages/Donation';
 import AddDisease from './pages/AddDisease';
 import EditDisease from './pages/EditDisease';
@@ -56,55 +52,32 @@ function App() {
           <Route path="/admin-dashboard" element={
             <ProtectedRoute roleRequired="admin">
               <AdminDashboard />
-            </ProtectedRoute>}
-          />
-          {/* <Route
-            path="/manage-users" element={
-              <ProtectedRoute roleRequired="admin">
-                <ManageUsers />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/manage-diseases" element={
-              <ProtectedRoute roleRequired="admin">
-                <ManageDiseases />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/manage-areas" element={
-              <ProtectedRoute roleRequired="admin">
-                <ManageAreas />
-              </ProtectedRoute>
-            }
-          /> */}
-          <Route
-            path="/add-disease" element={
-              <ProtectedRoute roleRequired="admin">
-                <AddDisease />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/edit-disease/:id" element={
-              <ProtectedRoute roleRequired="admin">
-                <EditDisease />
-              </ProtectedRoute>
-            }
-          />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/add-disease" element={
+            <ProtectedRoute roleRequired="admin">
+              <AddDisease />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/edit-disease/:id" element={
+            <ProtectedRoute roleRequired="admin">
+              <EditDisease />
+            </ProtectedRoute>
+          } />
+
           <Route path="/add-area" element={
             <ProtectedRoute roleRequired="admin">
               <AddArea />
             </ProtectedRoute>
-            } 
-          />
+          } />
+
           <Route path="/edit-area/:id" element={
             <ProtectedRoute roleRequired="admin">
               <EditArea />
             </ProtectedRoute>
-            } 
-          />
+          } />
 
           <Route path="*" element={<div className="container mx-auto px-4 py-12 text-center text-gray-600 dark:text-gray-400">404 - Page Not Found</div>} />
         </Routes>

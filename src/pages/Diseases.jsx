@@ -24,10 +24,15 @@ function Diseases() {
   const filteredDiseases = diseases.filter((disease) => {
     const matchesSearch =
       disease.name.toLowerCase().includes(localSearch.toLowerCase()) ||
-      disease.description.toLowerCase().includes(localSearch.toLowerCase());
+      (disease.about || '').toLowerCase().includes(localSearch.toLowerCase());
+
     const matchesPrevalence = prevalenceFilter ? disease.prevalence === prevalenceFilter : true;
     const matchesCategory = categoryFilter ? disease.category === categoryFilter : true;
-    const matchesRegion = regionFilter ? disease.regions.includes(regionFilter) : true;
+    const matchesRegion =
+      regionFilter && Array.isArray(disease.regions)
+        ? disease.regions.includes(regionFilter)
+        : !regionFilter;
+
     return matchesSearch && matchesPrevalence && matchesCategory && matchesRegion;
   });
 
@@ -44,7 +49,7 @@ function Diseases() {
         <div className="mb-6 flex justify-center">
           <input
             type="text"
-            placeholder="Search diseases...."
+            placeholder="Search diseases..."
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
             className="w-full md:w-1/2 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#9e9e9e] bg-white"
@@ -53,7 +58,7 @@ function Diseases() {
 
         {/* Filters */}
         <div className="flex flex-wrap justify-center gap-4 mb-10">
-          <p>Filter by: </p>
+          <p>Filter by:</p>
           <select
             value={prevalenceFilter}
             onChange={(e) => setPrevalenceFilter(e.target.value)}
@@ -114,7 +119,7 @@ function Diseases() {
                 />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{disease.name}</h2>
-                  <p className="text-gray-600 text-sm mb-3">{disease.description}</p>
+                  <p className="text-gray-600 text-sm mb-3">{disease.about}</p>
                   <div className="flex flex-wrap gap-2 mb-3">
                     <span
                       className={`px-2 py-1 text-xs rounded-full ${
@@ -138,6 +143,16 @@ function Diseases() {
                     >
                       {disease.prevalence}
                     </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {disease.regions?.map((region) => (
+                      <span
+                        key={region}
+                        className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full"
+                      >
+                        {region}
+                      </span>
+                    ))}
                   </div>
                   <Link
                     to={`/diseases/${disease.id}`}

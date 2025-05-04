@@ -63,7 +63,7 @@ function AddArea() {
             </div>
             <button
               type="submit"
-              className="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary transition-transform duration-300 transform hover:scale-105"
+              className="w-full bg-[#0097b2] text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-[#0097b2] transition-transform duration-300 transform hover:scale-105"
             >
               Add
             </button>

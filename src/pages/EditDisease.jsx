@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { fetchDiseaseById, updateDisease } from '../store/diseaseSlice';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateDisease, fetchDiseaseById } from '../store/diseaseSlice';
+import { toast } from 'react-toastify';
 
-function EditDisease() {
+const EditDisease = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
-  const { disease, loading, error } = useSelector((state) => state.diseases);
+  const dispatch = useDispatch();
+  const { diseases } = useSelector((state) => state.diseases);
+  const { areas } = useSelector((state) => state.areas);
 
-  const [diseaseData, setDiseaseData] = useState({
+  const disease = diseases.find((d) => d.id === Number(id));
+
+  const [form, setForm] = useState({
     name: '',
     category: '',
     prevalence: '',
@@ -19,225 +22,121 @@ function EditDisease() {
     prevention: '',
     treatment: '',
     riskFactors: '',
-    affectedRegions: [],
-    image: null,
+    regions: [],
+    image: '',
   });
 
-  // Check if user is logged in and is an admin
-  if (!user || user.role !== 'admin') {
-    navigate('/login');
-    return null;
-  }
-
-  // Fetch disease data
   useEffect(() => {
-    dispatch(fetchDiseaseById(id));
-  }, [dispatch, id]);
-
-  // Populate form with fetched data
+    if (id) {
+      dispatch(fetchDiseaseById(id));
+    }
+  }, [id, dispatch]);
+  
   useEffect(() => {
     if (disease) {
-      setDiseaseData({
+      setForm({
         name: disease.name || '',
         category: disease.category || '',
         prevalence: disease.prevalence || '',
-        about: disease.description || '',
+        about: disease.about || '',
         symptoms: disease.symptoms || '',
         prevention: disease.prevention || '',
         treatment: disease.treatment || '',
         riskFactors: disease.riskFactors || '',
-        affectedRegions: disease.affectedRegions || [],
-        image: disease.image || null,
+        regions: disease.regions || [],
+        image: disease.image || '',
       });
     }
   }, [disease]);
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setDiseaseData({ ...diseaseData, [name]: value });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    setDiseaseData({ ...diseaseData, image: e.target.files[0] });
+  const handleMultiSelect = (e) => {
+    const selected = Array.from(e.target.selectedOptions, (option) => option.value);
+    setForm((prev) => ({ ...prev, regions: selected }));
   };
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setForm((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Prepare updated data for the backend
-    const updatedDiseaseData = {
-      name: diseaseData.name,
-      category: diseaseData.category,
-      prevalence: diseaseData.prevalence,
-      description: diseaseData.about,
-      symptoms: diseaseData.symptoms,
-      prevention: diseaseData.prevention,
-      treatment: diseaseData.treatment,
-      riskFactors: diseaseData.riskFactors,
-      affectedRegions: diseaseData.affectedRegions,
-      image: diseaseData.image, // Handle file upload appropriately in the backend
-    };
-    dispatch(updateDisease({ id, updatedDisease: updatedDiseaseData }));
-    navigate('/diseases');
+    try {
+      await dispatch(updateDisease({ id, updatedDisease: form })).unwrap();
+      toast.success('Disease updated successfully!');
+      navigate('/admin-dashboard'); // Navigate to the admin dashboard after successful update
+    } catch (err) {
+      toast.error('Failed to update disease');
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
-        <svg className="animate-spin h-8 w-8 text-primary" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z" />
-        </svg>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center text-danger">{error}</div>;
+  if (!disease) {
+    return <p className="text-center mt-10 text-gray-600">Disease not found.</p>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16 transition-colors duration-300">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-12">Edit Disease</h1>
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-700 shadow-lg rounded-lg p-8">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={diseaseData.name}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Category</label>
-              <select
-                name="category"
-                value={diseaseData.category}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              >
-                <option value="">Select Category</option>
-                <option value="Vector-borne">Vector-borne</option>
-                <option value="Bacterial">Bacterial</option>
-                <option value="Viral">Viral</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Prevalence</label>
-              <select
-                name="prevalence"
-                value={diseaseData.prevalence}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              >
-                <option value="">Select Prevalence</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">About</label>
-              <textarea
-                name="about"
-                value={diseaseData.about}
-                onChange={handleInputChange}
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-                rows="4"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Symptom(s)</label>
-              <input
-                type="text"
-                name="symptoms"
-                value={diseaseData.symptoms}
-                onChange={handleInputChange}
-                placeholder="Separate different symptoms with a coma (,)"
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Prevention method(s)</label>
-              <input
-                type="text"
-                name="prevention"
-                value={diseaseData.prevention}
-                onChange={handleInputChange}
-                placeholder="Separate different prevention methods with a coma (,)"
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Treatment(s)</label>
-              <input
-                type="text"
-                name="treatment"
-                value={diseaseData.treatment}
-                onChange={handleInputChange}
-                placeholder="Separate different treatments with a coma (,)"
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Risk factor(s)</label>
-              <input
-                type="text"
-                name="riskFactors"
-                value={diseaseData.riskFactors}
-                onChange={handleInputChange}
-                placeholder="Separate different risk factors with a coma (,)"
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Affected Regions</label>
-              <select
-                name="affectedRegions"
-                multiple
-                value={diseaseData.affectedRegions}
-                onChange={(e) =>
-                  setDiseaseData({
-                    ...diseaseData,
-                    affectedRegions: Array.from(e.target.selectedOptions, (option) => option.value),
-                  })
-                }
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              >
-                <option value="Africa">Africa</option>
-                <option value="Asia">Asia</option>
-                <option value="Europe">Europe</option>
-                <option value="Americas">Americas</option>
-              </select>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">You may select multiple regions</p>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Image</label>
-              <input
-                type="file"
-                name="image"
-                onChange={handleFileChange}
-                className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
-              />
-              {diseaseData.image && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{diseaseData.image.name || diseaseData.image}</p>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary transition-transform duration-300 transform hover:scale-105"
-            >
-              Save Changes
-            </button>
-          </form>
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md mt-10">
+      <h2 className="text-2xl font-bold mb-6">Edit Disease</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {['name', 'about', 'symptoms', 'prevention', 'treatment', 'riskFactors'].map((field) => (
+          <input
+            key={field}
+            type="text"
+            name={field}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+            value={form[field]}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-md"
+            required
+          />
+        ))}
+        <select name="category" value={form.category} onChange={handleChange} className="w-full p-3 border rounded-md">
+          <option value="">Select Category</option>
+          <option value="bacterial">Bacterial</option>
+          <option value="viral">Viral</option>
+          <option value="vector-borne">Vector-borne</option>
+          <option value="water-borne">Water-borne</option>
+          <option value="air-borne">Air-borne</option>
+        </select>
+        <select name="prevalence" value={form.prevalence} onChange={handleChange} className="w-full p-3 border rounded-md">
+          <option value="">Select Prevalence</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select
+          multiple
+          name="regions"
+          value={form.regions}
+          onChange={handleMultiSelect}
+          className="w-full p-3 border rounded-md h-40"
+        >
+          {areas.map((area) => (
+            <option key={area.id} value={area.name}>{area.name}</option>
+          ))}
+        </select>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Disease Image</label>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full p-3 border rounded-md"
+          />
+          {form.image && <img src={form.image} alt="Disease" className="mt-4 w-32 h-32 object-cover" />}
         </div>
-      </div>
+        <button type="submit" className="bg-cyan-600 text-white py-2 px-4 rounded hover:bg-cyan-700">Update Disease</button>
+      </form>
     </div>
   );
-}
+};
 
 export default EditDisease;

@@ -52,7 +52,7 @@ function EditArea() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center items-center">
-        <svg className="animate-spin h-8 w-8 text-primary" viewBox="0 0 24 24">
+        <svg className="animate-spin h-8 w-8 text-[#0097b2]" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z" />
         </svg>
@@ -103,7 +103,7 @@ function EditArea() {
             </div>
             <button
               type="submit"
-              className="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-primary transition-transform duration-300 transform hover:scale-105"
+              className="w-full bg-[#0097b2] text-white px-4 py-2 rounded-md hover:bg-[#0097b2] focus:outline-none focus:ring-2 focus:ring-[#0097b2] transition-transform duration-300 transform hover:scale-105"
             >
               Save Changes
             </button>

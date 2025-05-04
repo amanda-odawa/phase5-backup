@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchDiseases } from '../store/diseaseSlice';
-import Donation from '../pages/Donation';
 import ReviewForm from '../components/ReviewForm';
 
 // Import images
@@ -73,16 +72,11 @@ function DiseaseDetails() {
           />
         </div>
         <div className="md:w-1/2">
-          <p className="text-gray-600 mb-4"><strong>Description:</strong> {disease.description}</p>
+          <p className="text-gray-600 mb-4"><strong>Description:</strong> {disease.about}</p>
           <p className="text-gray-600 mb-4"><strong>Symptoms:</strong> {disease.symptoms}</p>
           <p className="text-gray-600 mb-4"><strong>Prevention:</strong> {disease.prevention}</p>
           <p className="text-gray-600 mb-4"><strong>Treatment:</strong> {disease.treatment}</p>
         </div>
-      </div>
-
-      <div className="mt-10">
-        <h2 className="text-2xl font-semibold mb-4">Support the Cause</h2>
-        <Donation areaId={null} diseaseId={id} />
       </div>
 
       <div className="mt-10">

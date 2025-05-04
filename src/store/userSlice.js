@@ -11,14 +11,26 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async (_, { rejec
   }
 });
 
-export const updateUser = createAsyncThunk('users/updateUser', async ({ id, updatedUser }, { rejectWithValue }) => {
+// userSlice.jsx
+
+export const updateUser = createAsyncThunk('users/updateUser', async ({ id, updatedUser }, { getState, rejectWithValue }) => {
   try {
-    const response = await api.put(`/users/${id}`, updatedUser);
-    return response.data;
+    const users = getState().users.users; // Get the current list of users from the state
+    const currentUser = users.find((user) => user.id === id); // Find the user to be updated
+
+    if (currentUser) {
+      // Merge current user data with the updated role
+      const updatedUserData = { ...currentUser, ...updatedUser }; // Retain all other fields
+      const response = await api.put(`/users/${id}`, updatedUserData);
+      return response.data;
+    } else {
+      return rejectWithValue('User not found');
+    }
   } catch (error) {
     return rejectWithValue(error.response?.data || error.message || 'Failed to update user');
   }
 });
+
 
 export const deleteUser = createAsyncThunk('users/deleteUser', async (id, { rejectWithValue }) => {
   try {
