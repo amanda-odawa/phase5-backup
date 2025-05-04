@@ -4,6 +4,7 @@ import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 function Areas() {
   const dispatch = useDispatch();
@@ -11,14 +12,37 @@ function Areas() {
   const { diseases, status: diseaseStatus, error: diseaseError } = useSelector((state) => state.diseases);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
   const [diseaseFilter, setDiseaseFilter] = useState('');
   const [prevalenceFilter, setPrevalenceFilter] = useState('');
   const [selectedArea, setSelectedArea] = useState(null);
+  const [highlightedMarker, setHighlightedMarker] = useState(null); // Added state for highlighted marker
 
   useEffect(() => {
     if (areaStatus === 'idle') dispatch(fetchAreas());
     if (diseaseStatus === 'idle') dispatch(fetchDiseases());
   }, [dispatch, areaStatus, diseaseStatus]);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (value.length > 0) {
+      setSuggestions(
+        areas.filter((area) =>
+          area.name.toLowerCase().includes(value.toLowerCase())
+        )
+      );
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (area) => {
+    setSearchTerm(area.name);
+    setSuggestions([]);
+    setSelectedArea(area);
+    setHighlightedMarker(area.id); // Highlight the selected area on the map
+  };
 
   const filteredAreas = areas.filter((area) => {
     const matchesSearch =
@@ -57,6 +81,22 @@ function Areas() {
     return num.toLocaleString();
   };
 
+  const handleMarkerClick = (area) => {
+    setSelectedArea(area);
+    setHighlightedMarker(area.id);
+    window.scrollTo({
+      top: document.getElementById('statistics-section').offsetTop,
+      behavior: 'smooth',
+    });
+  };
+
+  const getMarkerIcon = (areaId) => {
+    return L.divIcon({
+      className: 'leaflet-div-icon',
+      html: `<div class="w-4 h-4 rounded-full ${areaId === highlightedMarker ? 'bg-red-500' : 'bg-blue-500'}"></div>`,
+    });
+  };
+
   if (areaStatus === 'loading' || diseaseStatus === 'loading') {
     return (
       <div className="text-center mt-12 text-gray-600 dark:text-gray-400">
@@ -73,7 +113,7 @@ function Areas() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-24 pb-16">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mb-6">Affected Areas</h1>
         <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
@@ -81,15 +121,31 @@ function Areas() {
         </p>
 
         {/* Filters */}
-        <div className="mb-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
+        <div className="mb-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md relative">
           <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4">
-            <input
-              type="text"
-              placeholder="Search areas..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:w-1/3 px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-            />
+            <div className="relative w-full md:w-1/3">
+              <input
+                type="text"
+                placeholder="Search areas..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="w-full px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
+              />
+              {suggestions.length > 0 && (
+                <ul className="absolute z-10 w-full bg-white dark:bg-gray-800 border dark:border-gray-600 rounded shadow">
+                  {suggestions.map((area) => (
+                    <li
+                      key={area.id}
+                      onClick={() => handleSuggestionClick(area)}
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      {area.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
             <select
               value={diseaseFilter}
               onChange={(e) => setDiseaseFilter(e.target.value)}
@@ -100,6 +156,7 @@ function Areas() {
                 <option key={d.id} value={d.name}>{d.name}</option>
               ))}
             </select>
+
             <select
               value={prevalenceFilter}
               onChange={(e) => setPrevalenceFilter(e.target.value)}
@@ -110,12 +167,14 @@ function Areas() {
               <option value="Medium">Medium</option>
               <option value="Low">Low</option>
             </select>
+
             <button
               onClick={() => {
                 setSearchTerm('');
                 setDiseaseFilter('');
                 setPrevalenceFilter('');
                 setSelectedArea(null);
+                setSuggestions([]);
               }}
               className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded dark:bg-gray-700 dark:hover:bg-gray-600"
             >
@@ -136,7 +195,12 @@ function Areas() {
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           />
           {filteredAreas.map((area) => (
-            <Marker key={area.id} position={[area.latitude, area.longitude]}>
+            <Marker
+              key={area.id}
+              position={[area.latitude, area.longitude]}
+              // icon={getMarkerIcon(area.id)} // Custom icon based on selection
+              eventHandlers={{ click: () => handleMarkerClick(area) }}
+            >
               <Popup>
                 <div className="text-sm">
                   <strong>{area.name}</strong>
@@ -145,7 +209,7 @@ function Areas() {
                   <p><strong>Reported Cases:</strong> {area.totalCases.toLocaleString()}</p>
                   <p><strong>Diseases:</strong> {diseases.filter(d => d.areas?.includes(area.id)).map(d => d.name).join(', ')}</p>
                   <button
-                    onClick={() => setSelectedArea(area)}
+                    onClick={() => handleMarkerClick(area)}
                     className="mt-2 text-blue-600 underline"
                   >
                     View Statistics
@@ -157,7 +221,7 @@ function Areas() {
         </MapContainer>
 
         {/* Statistics */}
-        <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
+        <div id="statistics-section" className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold">
               {selectedArea ? `${selectedArea.name} Statistics` : 'Global Statistics'}
@@ -179,12 +243,12 @@ function Areas() {
               <p className="text-gray-600 dark:text-gray-300">Population</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">{stats.totalDiseaseCases.toLocaleString()}</p>
-              <p className="text-gray-600 dark:text-gray-300">Disease Cases</p>
+              <p className="text-2xl font-bold">{stats.diseases.length}</p>
+              <p className="text-gray-600 dark:text-gray-300">Number of Diseases</p>
             </div>
           </div>
 
-          {[...stats.details]
+          {stats.details
             .sort((a, b) => (b.cases || 0) - (a.cases || 0))
             .map((disease) => (
               <div key={disease.name} className="flex justify-between items-center mb-2">
@@ -207,7 +271,6 @@ function Areas() {
                 </div>
               </div>
             ))}
-
           <p className="text-gray-600 dark:text-gray-300 mt-4">
             {selectedArea?.name || 'The world'} is facing challenges from diseases such as {stats.diseases.join(', ')}.
           </p>

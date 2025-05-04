@@ -4,15 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAreas } from '../store/areaSlice';
 import ReviewForm from '../components/ReviewForm';
 import Donation from '../pages/Donation';
-import area1 from '../assets/area1.jpg';
-import area2 from '../assets/area2.jpg';
-import area3 from '../assets/area3.jpg';
-
-const areaImages = {
-  'area1.jpg': area1,
-  'area2.jpg': area2,
-  'area3.jpg': area3,
-};
 
 function AreaDetails() {
   const { id } = useParams();
