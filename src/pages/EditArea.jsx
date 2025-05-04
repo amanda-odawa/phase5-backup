@@ -46,7 +46,7 @@ function EditArea() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateArea({ id, updatedArea: areaData }));
-    navigate('/areas');
+    navigate('/admin-dashboard');
   };
 
   if (loading) {

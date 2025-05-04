@@ -155,15 +155,15 @@ function AddDisease() {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-300 mb-2">Affected Areas</label>
+              <label className="block text-gray-700 dark:text-gray-300 mb-2">Affected Regions</label>
               <select
-                name="affectedAreas"
+                name="affectedRegions"
                 multiple
-                value={diseaseData.affectedAreas}
+                value={diseaseData.affectedRegions}
                 onChange={(e) =>
                   setDiseaseData({
                     ...diseaseData,
-                    affectedAreas: Array.from(e.target.selectedOptions, (option) => option.value),
+                    affectedRegions: Array.from(e.target.selectedOptions, (option) => option.value),
                   })
                 }
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
@@ -173,7 +173,7 @@ function AddDisease() {
                 <option value="Europe">Europe</option>
                 <option value="Americas">Americas</option>
               </select>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">You may select multiple areas</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">You may select multiple regions</p>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-300 mb-2">Image</label>

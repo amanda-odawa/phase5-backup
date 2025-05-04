@@ -28,8 +28,8 @@
         "Not using mosquito nets."
       ],
       "areas": [
-        "1", 
-        "4"  
+        "1",
+        "4"
       ],
       "cases": 241000000,
       "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
@@ -62,9 +62,9 @@
         "Diabetes"
       ],
       "areas": [
-        "1", 
-        "2", 
-        "5"  
+        "1",
+        "2",
+        "5"
       ],
       "cases": 2500000,
       "image": "https://via.placeholder.com/300x150?text=Malaria+Image"
@@ -80,13 +80,13 @@
       "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
       "riskFactors": "Older age, underlying health conditions, weakened immune system.",
       "areas": [
-        "1", 
-        "2", 
-        "4", 
-        "5", 
-        "3", 
-        "6", 
-        "7"  
+        "1",
+        "2",
+        "4",
+        "5",
+        "3",
+        "6",
+        "7"
       ],
       "cases": 470000000,
       "image": "https://via.placeholder.com/300x150?text=COVID-19+Image"
@@ -99,8 +99,8 @@
       "description": "Africa is known for its rich diversity of cultures, landscapes, and ecosystems. It faces a variety of communicable diseases due to its tropical climate, high population density, and limited access to healthcare in some areas.",
       "totalCases": 9000000,
       "population": 845000000,
-      "latitude": 1.6500,
-      "longitude": 10.0000
+      "latitude": 1.65,
+      "longitude": 10
     },
     {
       "id": "2",
@@ -112,31 +112,22 @@
       "longitude": 100.6197
     },
     {
-      "id": "3",
       "name": "Europe",
-      "description": "Europe is home to developed healthcare systems, but it still faces challenges such as the spread of diseases in densely populated urban areas and through travel and migration.",
       "totalCases": 4500000,
-      "population": 747000000,
-      "latitude": 54.5260,
-      "longitude": 15.2551
+      "population": "747000002",
+      "id": "3"
     },
     {
-      "id": "4",
       "name": "North America",
-      "description": "North America has relatively high standards of healthcare, but communicable diseases can still spread, especially with travel and large urban centers.",
       "totalCases": 1240000,
-      "population": 744000000,
-      "latitude": 37.0902,
-      "longitude": -95.7129
+      "population": "744000001",
+      "id": "4"
     },
     {
-      "id": "5",
       "name": "South America",
-      "description": "South America has diverse ecosystems, ranging from the Amazon Rainforest to mountainous regions. Disease transmission is often affected by environmental factors and lack of access to healthcare in rural areas.",
       "totalCases": 9980000,
-      "population": 932100000,
-      "latitude": -8.7832,
-      "longitude": -55.4915
+      "population": "932100004",
+      "id": "5"
     },
     {
       "id": "6",
@@ -145,7 +136,7 @@
       "totalCases": 5430000,
       "population": 610000000,
       "latitude": -82.8628,
-      "longitude": 135.0000
+      "longitude": 135
     },
     {
       "id": "7",
@@ -155,6 +146,12 @@
       "population": 540000000,
       "latitude": -25.2744,
       "longitude": 133.7751
+    },
+    {
+      "id": "fd9f",
+      "name": "tttt",
+      "totalCases": "243",
+      "population": "34t4t"
     }
   ],
   "users": [
@@ -191,7 +188,7 @@
       "username": "amanda",
       "email": "amanda@gmail.com",
       "password": "amanda",
-      "role": "user"
+      "role": "admin"
     },
     {
       "id": "c4c1",

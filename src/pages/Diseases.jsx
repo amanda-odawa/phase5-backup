@@ -53,19 +53,18 @@ function Diseases() {
             placeholder="Search diseases..."
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
-            className="w-full md:w-1/2 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#9e9e9e] bg-white"
+            className="w-full md:w-1/3 px-4 py-3 border rounded-md bg-gray-50"
           />
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
-          <p>Filter by:</p>
+        <div className="mb-6 flex justify-center gap-4">
           <select
             value={prevalenceFilter}
             onChange={(e) => setPrevalenceFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white"
+            className="px-4 py-3 border rounded-md bg-white"
           >
-            <option value="">Prevalence</option>
+            <option value="">All Prevalence</option>
             <option value="High">High</option>
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
@@ -73,46 +72,35 @@ function Diseases() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white"
+            className="px-4 py-3 border rounded-md bg-white"
           >
-            <option value="">Category</option>
-            <option value="Vector-borne">Vector-borne</option>
-            <option value="Water-borne">Water-borne</option>
-            <option value="Air-borne">Air-borne</option>
-            <option value="Viral">Viral</option>
-            <option value="Bacterial">Bacterial</option>
+            <option value="">All Categories</option>
+            {/* Add dynamic categories based on your data */}
           </select>
           <select
             value={areaFilter}
             onChange={(e) => setAreaFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white"
+            className="px-4 py-3 border rounded-md bg-white"
           >
-            <option value="">Area</option>
-            <option value="Africa">Africa</option>
-            <option value="Asia">Asia</option>
-            <option value="Europe">Europe</option>
-            <option value="North America">North America</option>
-            <option value="South America">South America</option>
-            <option value="Australia">Australia</option>
-            <option value="Antarctica">Antarctica</option>
+            <option value="">All Areas</option>
+            {/* Add dynamic areas based on your data */}
           </select>
         </div>
 
-        {/* Loading/Errors */}
-        {loading && <p className="text-center">Loading...</p>}
-        {error && <p className="text-center text-red-500">{error}</p>}
-        {!loading && !error && filteredDiseases.length === 0 && (
-          <p className="text-center text-gray-600">No diseases found.</p>
-        )}
-
         {/* Disease Cards */}
-        {!loading && !error && filteredDiseases.length > 0 && (
-         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-         {filteredDiseases.map((disease) => (
-           <DiseaseCard key={disease.id} disease={disease} />
-         ))}
-       </div>       
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {loading ? (
+            <div className="text-center">Loading...</div>
+          ) : error ? (
+            <div className="text-center text-red-600">{error}</div>
+          ) : filteredDiseases.length > 0 ? (
+            filteredDiseases.map((disease) => (
+              <DiseaseCard key={disease.id} disease={disease} />
+            ))
+          ) : (
+            <div className="text-center">No diseases found.</div>
+          )}
+          </div>
       </div>
     </div>
   );

@@ -114,7 +114,7 @@ const EditDisease = () => {
         <select
           multiple
           name="areas"
-          value={form.areas}
+          value={form.regions}
           onChange={handleMultiSelect}
           className="w-full p-3 border rounded-md h-40"
         >

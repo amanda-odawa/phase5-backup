@@ -21,7 +21,7 @@ function AddArea() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addArea(areaData));
-    navigate('/areas');
+    navigate('/admin-dashboard');
   };
 
   return (

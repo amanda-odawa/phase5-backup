@@ -13,7 +13,11 @@ const diseaseImages = {
 
 function DiseaseCard({ disease }) {
   const fallbackImage = diseaseImages[`disease${disease.id}`] || 'https://via.placeholder.com/300x150?text=Disease+Image';
-  const imageSrc = disease.image || fallbackImage;
+  const imageSrc =
+  diseaseImages[disease.image] ||
+  diseaseImages[`disease${disease.id}`] ||
+  'https://via.placeholder.com/300x150?text=Disease+Image';
+
 
   return (
     <div className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
