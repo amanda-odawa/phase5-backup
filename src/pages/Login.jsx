@@ -33,10 +33,10 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 pt-0">
+    <div className="min-h-screen flex flex-col items-center bg-white px-4 py-12">
       <div className="text-center mb-10">
         <h1 className="text-3xl font-semibold text-center mb-2">Sign in to your account</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 max-w-2xl mx-auto text-center text-gray-600">
           Or{' '}
           <Link to="/signup" className="text-blue-600 hover:underline">
             create a new account

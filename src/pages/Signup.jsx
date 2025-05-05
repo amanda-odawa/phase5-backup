@@ -38,7 +38,7 @@ function Signup() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12 pt-0">
       <div className="text-center mb-10">
         <h1 className="text-3xl font-semibold text-center mb-2">Create your account</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-gray-600">
           Already have an account?{' '}
           <Link to="/login" className="text-blue-600 hover:underline">
             Sign in

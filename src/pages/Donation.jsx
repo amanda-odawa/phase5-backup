@@ -1,15 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
 
 const presetAmounts = [10, 25, 50];
-const areas = [
-  'All areas', 'Africa', 'Asia', 'Australia', 'Europe', 'North America', 'South America', 'Oceania'
-];
 
 function Donation() {
   const [amount, setAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
+  const [areas, setAreas] = useState([]);
   const [selectedArea, setSelectedArea] = useState('All areas');
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
@@ -17,6 +15,21 @@ function Donation() {
   const [cvv, setCvv] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const response = await api.get('/areas'); // Make sure your backend returns an array of areas
+        const areaNames = response.data.map(area => area.name);
+        setAreas(['All areas', ...areaNames]);
+      } catch (error) {
+        console.error('Error fetching areas:', error);
+        toast.error('Failed to load areas');
+      }
+    };
+
+    fetchAreas();
+  }, []);
 
   const handleAmountSelect = (value) => {
     setAmount(value.toString());
@@ -67,8 +80,8 @@ function Donation() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white px-4 py-12">
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-semibold mb-2">Make a Donation</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <h1 className="text-3xl font-semibold text-center mb-2">Make a Donation</h1>
+        <p className="mt-2 max-w-2xl mx-auto text-center text-gray-600">
           Your support helps us combat communicable diseases worldwide
         </p>
       </div>
@@ -111,7 +124,9 @@ function Donation() {
             className="w-full px-4 py-2 border border-gray-400 rounded-md"
           >
             {areas.map((area) => (
-              <option key={area} value={area}>{area}</option>
+              <option key={area} value={area}>
+                {area}
+              </option>
             ))}
           </select>
         </div>

@@ -21,7 +21,10 @@ function Areas() {
 
   return (
     <div className=" min-h-screen bg-white text-gray-900 py-16 px-4 sm:px-8">
-      <h1 className="text-3xl font-semibold text-center mb-8">Affected Areas</h1>
+      <h1 className="text-3xl font-semibold text-center mb-2">Affected Areas</h1>
+      <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        Explore the global distribution of communicable diseases and their impact on different regions.
+      </p>
 
       {/* Map */}
       <div className="h-[400px] mb-10 rounded-lg overflow-hidden shadow-md border">
