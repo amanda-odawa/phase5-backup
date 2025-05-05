@@ -15,6 +15,11 @@ function Navbar() {
     navigate('/login');
   };
 
+  const handleLinkClick = () => {
+    // Close the menu when a link is clicked
+    setIsOpen(false);
+  };
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -32,12 +37,17 @@ function Navbar() {
             className="text-black focus:outline-none"
             aria-label="Toggle menu"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-6 h-6 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16m-7 6h7'}
+                d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16m-7 6h7'}   
               />
             </svg>
           </button>
@@ -51,39 +61,37 @@ function Navbar() {
         >
           <ul className="flex flex-col md:flex-row md:items-center md:space-x-8 px-4 md:px-0 py-2 md:py-0 md:ml-auto">
             <li>
-              <Link to="/" className="block py-2 text-black hover:font-bold">
+              <Link to="/" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/diseases" className="block py-2 text-black hover:font-bold">
+              <Link to="/diseases" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
                 Diseases
               </Link>
             </li>
             <li>
-              <Link to="/areas" className="block py-2 text-black hover:font-bold">
+              <Link to="/areas" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
                 Affected Areas
               </Link>
             </li>
             <li>
-              <Link to="/donation" className="block py-2 text-black hover:font-bold">
+              <Link to="/donation" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
                 Donate
               </Link>
             </li>
             {isAuthenticated ? (
               <>
                 {user.role === 'admin' && (
-                  <>
-                    <li>
-                      <Link to="/admin-dashboard" className="block py-2 text-black hover:font-bold">
-                        Control Panel
-                      </Link>
-                    </li>
-                  </>
+                  <li>
+                    <Link to="/admin-dashboard" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
+                      Control Panel
+                    </Link>
+                  </li>
                 )}
                 <li>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => { handleLogout(); handleLinkClick(); }}
                     className="block py-2 text-red-600 hover:font-bold"
                   >
                     Logout
@@ -91,13 +99,11 @@ function Navbar() {
                 </li>
               </>
             ) : (
-              <>
-                <li>
-                  <Link to="/login" className="block py-2 text-black hover:font-bold">
-                    Login
-                  </Link>
-                </li>
-              </>
+              <li>
+                <Link to="/login" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
+                  Login
+                </Link>
+              </li>
             )}
           </ul>
         </nav>
