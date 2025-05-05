@@ -25,7 +25,15 @@ function Diseases() {
     setLocalSearch(searchQuery);
   }, [searchQuery]);
 
-  const filteredDiseases = diseases.filter((disease) => {
+  // Add area names to each disease based on which areas have case counts
+  const diseasesWithAreas = diseases.map((disease) => {
+    const diseaseAreas = areas
+      .filter((area) => area.diseaseCases?.[disease.id])
+      .map((area) => area.name);
+    return { ...disease, areas: diseaseAreas };
+  });
+
+  const filteredDiseases = diseasesWithAreas.filter((disease) => {
     const matchesSearch =
       disease.name.toLowerCase().includes(localSearch.toLowerCase()) ||
       (disease.about || '').toLowerCase().includes(localSearch.toLowerCase());
@@ -34,8 +42,8 @@ function Diseases() {
     const matchesCategory = categoryFilter ? disease.category === categoryFilter : true;
 
     const matchesArea = areaFilter
-      ? areas.some(
-          (area) => area.id === areaFilter && area.diseaseCases?.[disease.id] > 0
+      ? disease.areas.includes(
+          areas.find((area) => area.id === areaFilter)?.name || ''
         )
       : true;
 
@@ -86,7 +94,6 @@ function Diseases() {
           <option value="Water-borne">Water-borne</option>
         </select>
 
-        {/* Area Filter using dynamic logic */}
         <select
           value={areaFilter}
           onChange={(e) => setAreaFilter(e.target.value)}

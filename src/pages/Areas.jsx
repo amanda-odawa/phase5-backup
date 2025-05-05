@@ -4,278 +4,95 @@ import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 
 function Areas() {
   const dispatch = useDispatch();
-  const { areas, status: areaStatus, error: areaError } = useSelector((state) => state.areas);
-  const { diseases, status: diseaseStatus, error: diseaseError } = useSelector((state) => state.diseases);
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
-  const [diseaseFilter, setDiseaseFilter] = useState('');
-  const [prevalenceFilter, setPrevalenceFilter] = useState('');
+  const { areas } = useSelector((state) => state.areas);
+  const { diseases } = useSelector((state) => state.diseases);
   const [selectedArea, setSelectedArea] = useState(null);
-  const [highlightedMarker, setHighlightedMarker] = useState(null); // Added state for highlighted marker
 
   useEffect(() => {
-    if (areaStatus === 'idle') dispatch(fetchAreas());
-    if (diseaseStatus === 'idle') dispatch(fetchDiseases());
-  }, [dispatch, areaStatus, diseaseStatus]);
+    dispatch(fetchAreas());
+    dispatch(fetchDiseases());
+  }, [dispatch]);
 
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    if (value.length > 0) {
-      setSuggestions(
-        areas.filter((area) =>
-          area.name.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    } else {
-      setSuggestions([]);
-    }
-  };
-
-  const handleSuggestionClick = (area) => {
-    setSearchTerm(area.name);
-    setSuggestions([]);
-    setSelectedArea(area);
-    setHighlightedMarker(area.id); // Highlight the selected area on the map
-  };
-
-  const filteredAreas = areas.filter((area) => {
-    const matchesSearch =
-      area.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (area.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
-
-    const matchesDisease = diseaseFilter
-      ? diseases.some((d) => d.name === diseaseFilter && d.areas?.includes(area.id))
-      : true;
-
-    const matchesPrevalence = prevalenceFilter
-      ? diseases.some((d) => d.prevalence === prevalenceFilter && d.areas?.includes(area.id))
-      : true;
-
-    return matchesSearch && matchesDisease && matchesPrevalence;
-  });
-
-  const currentAreas = selectedArea ? [selectedArea] : filteredAreas;
-
-  const stats = currentAreas.reduce(
-    (acc, area) => {
-      const areaDiseases = diseases.filter((d) => d.areas?.includes(area.id));
-      acc.totalCases += area.totalCases || 0;
-      acc.population += area.population || 0;
-      acc.totalDiseaseCases += areaDiseases.reduce((sum, d) => sum + (d.cases || 0), 0);
-      acc.diseases = [...new Set([...acc.diseases, ...areaDiseases.map((d) => d.name)])];
-      acc.details = [...acc.details, ...areaDiseases];
-      return acc;
-    },
-    { totalCases: 0, population: 0, diseases: [], totalDiseaseCases: 0, details: [] }
-  );
-
-  const formatPopulation = (num) => {
-    if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(2) + 'B';
-    if (num >= 1_000_000) return (num / 1_000_000).toFixed(2) + 'M';
-    return num.toLocaleString();
-  };
-
-  const handleMarkerClick = (area) => {
-    setSelectedArea(area);
-    setHighlightedMarker(area.id);
-    window.scrollTo({
-      top: document.getElementById('statistics-section').offsetTop,
-      behavior: 'smooth',
-    });
-  };
-
-  const getMarkerIcon = (areaId) => {
-    return L.divIcon({
-      className: 'leaflet-div-icon',
-      html: `<div class="w-4 h-4 rounded-full ${areaId === highlightedMarker ? 'bg-red-500' : 'bg-blue-500'}"></div>`,
-    });
-  };
-
-  if (areaStatus === 'loading' || diseaseStatus === 'loading') {
-    return (
-      <div className="text-center mt-12 text-gray-600 dark:text-gray-400">
-        <svg className="animate-spin h-8 w-8 text-primary mx-auto" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z" />
-        </svg>
-      </div>
-    );
-  }
-
-  if (areaStatus === 'failed' || diseaseStatus === 'failed') {
-    return <div className="text-center mt-12 text-red-600">Error: {areaError || diseaseError}</div>;
-  }
+  const getTotalCases = (area) =>
+    Object.values(area.diseaseCases || {}).reduce((acc, count) => acc + count, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-24 pb-16">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-6">Affected Areas</h1>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
-          Explore the global distribution of communicable diseases and their impact.
-        </p>
+    <div className=" min-h-screen bg-white text-gray-900 py-16 px-4 sm:px-8">
+      <h1 className="text-3xl font-semibold text-center mb-8">Affected Areas</h1>
 
-        {/* Filters */}
-        <div className="mb-8 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md relative">
-          <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4">
-            <div className="relative w-full md:w-1/3">
-              <input
-                type="text"
-                placeholder="Search areas..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-full px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-              />
-              {suggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white dark:bg-gray-800 border dark:border-gray-600 rounded shadow">
-                  {suggestions.map((area) => (
-                    <li
-                      key={area.id}
-                      onClick={() => handleSuggestionClick(area)}
-                      className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      {area.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <select
-              value={diseaseFilter}
-              onChange={(e) => setDiseaseFilter(e.target.value)}
-              className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-            >
-              <option value="">All Diseases</option>
-              {diseases.map((d) => (
-                <option key={d.id} value={d.name}>{d.name}</option>
-              ))}
-            </select>
-
-            <select
-              value={prevalenceFilter}
-              onChange={(e) => setPrevalenceFilter(e.target.value)}
-              className="px-4 py-3 border rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-            >
-              <option value="">Filter by Prevalence</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setDiseaseFilter('');
-                setPrevalenceFilter('');
-                setSelectedArea(null);
-                setSuggestions([]);
-              }}
-              className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded dark:bg-gray-700 dark:hover:bg-gray-600"
-            >
-              Clear Filters
-            </button>
-          </div>
-        </div>
-
-        {/* Map */}
-        <MapContainer
-          center={[0, 0]}
-          zoom={2}
-          style={{ height: '500px', width: '100%' }}
-          className="rounded-lg shadow-md mb-6 z-0"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          />
-          {filteredAreas.map((area) => (
-            <Marker
-              key={area.id}
-              position={[area.latitude, area.longitude]}
-              // icon={getMarkerIcon(area.id)} // Custom icon based on selection
-              eventHandlers={{ click: () => handleMarkerClick(area) }}
-            >
+      {/* Map */}
+      <div className="h-[400px] mb-10 rounded-lg overflow-hidden shadow-md border">
+        <MapContainer center={[0, 0]} zoom={2} scrollWheelZoom={true} style={{ height: '500px', width: '100%' }} className="rounded-lg shadow-md mb-6 z-0">
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+          {areas.map((area) => (
+            <Marker key={area.id} position={[area.latitude, area.longitude]} eventHandlers={{ click: () => setSelectedArea(area) }}>
               <Popup>
-                <div className="text-sm">
-                  <strong>{area.name}</strong>
-                  <p>{area.description}</p>
-                  <p><strong>Population:</strong> {formatPopulation(area.population)}</p>
-                  <p><strong>Reported Cases:</strong> {area.totalCases.toLocaleString()}</p>
-                  <p><strong>Diseases:</strong> {diseases.filter(d => d.areas?.includes(area.id)).map(d => d.name).join(', ')}</p>
-                  <button
-                    onClick={() => handleMarkerClick(area)}
-                    className="mt-2 text-blue-600 underline"
-                  >
-                    View Statistics
-                  </button>
+                <div className="text-sm leading-snug space-y-1 text-left">
+                  <div className="text-base font-bold text-center">{area.name}</div>
+                  <div>{area.description || 'No description available.'}</div>
                 </div>
               </Popup>
             </Marker>
           ))}
         </MapContainer>
+      </div>
 
-        {/* Statistics */}
-        <div id="statistics-section" className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">
-              {selectedArea ? `${selectedArea.name} Statistics` : 'Global Statistics'}
-            </h2>
-            {selectedArea && (
-              <button onClick={() => setSelectedArea(null)} className="text-sm text-blue-500 underline">
-                Clear selection
-              </button>
-            )}
-          </div>
-
+      {/* Stats */}
+      {selectedArea ? (
+        <div className="bg-gray-100 rounded-lg p-4 mb-8 shadow-md">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">{selectedArea.name}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div>
-              <p className="text-2xl font-bold">{stats.totalCases.toLocaleString()}</p>
-              <p className="text-gray-600 dark:text-gray-300">Reported Cases</p>
+              <p className="text-2xl font-bold text-gray-800">{getTotalCases(selectedArea).toLocaleString()}</p>
+              <p className="text-gray-600">Total Cases</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">{formatPopulation(stats.population)}</p>
-              <p className="text-gray-600 dark:text-gray-300">Population</p>
+              <p className="text-2xl font-bold text-gray-800">{(selectedArea.population / 1000000).toFixed(2)} million</p>
+              <p className="text-gray-600">Population</p>
             </div>
             <div>
-              <p className="text-2xl font-bold">{stats.diseases.length}</p>
-              <p className="text-gray-600 dark:text-gray-300">Number of Diseases</p>
+              <p className="text-2xl font-bold text-gray-800">{Object.keys(selectedArea.diseaseCases || {}).length}</p>
+              <p className="text-gray-600">Diseases</p>
             </div>
           </div>
-
-          {stats.details
-            .sort((a, b) => (b.cases || 0) - (a.cases || 0))
-            .map((disease) => (
-              <div key={disease.name} className="flex justify-between items-center mb-2">
-                <span>{disease.name}</span>
-                <div className="flex items-center">
-                  <span className="text-gray-600 dark:text-gray-300 mr-2">
-                    {disease.cases?.toLocaleString() || 0} cases
-                  </span>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      disease.prevalence === 'High'
-                        ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                        : disease.prevalence === 'Medium'
-                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                        : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                    }`}
-                  >
-                    {disease.prevalence || 'Unknown'}
-                  </span>
-                </div>
-              </div>
-            ))}
-          <p className="text-gray-600 dark:text-gray-300 mt-4">
-            {selectedArea?.name || 'The world'} is facing challenges from diseases such as {stats.diseases.join(', ')}.
-          </p>
+          <ul className="list-disc list-inside space-y-1 mb-4">
+            {Object.entries(selectedArea.diseaseCases || {}).map(([diseaseId, cases]) => {
+              const disease = diseases.find((d) => d.id === diseaseId);
+              if (!disease) return null;
+              return (
+                disease && (
+                  <div key={diseaseId} className="flex justify-between items-center mb-2">
+                    <span className="text-gray-800">{disease.name}</span>
+                    <div className="flex items-center">       
+                      <span className="text-gray-600 dark:text-gray-300 mr-2"> 
+                        {cases.toLocaleString()} cases 
+                      </span>
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        disease.prevalence === 'High' 
+                          ?  'bg-red-100 text-red-800'
+                          :  disease.prevalence === 'Medium'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-green-100 text-green-800'
+                        }`}
+                      >
+                      {disease.prevalence}
+                      </span>
+                    </div>
+                  </div>
+                )
+              );
+            })}
+          </ul> 
         </div>
-      </div>
+      ) : (
+        <p className="text-center text-gray-600 italic">Click on a marker to view area details</p>
+      )}
     </div>
   );
 }

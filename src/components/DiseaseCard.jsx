@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 
 function DiseaseCard({ disease }) {
   const imageSrc = disease.image || 'https://via.placeholder.com/300x150?text=Disease+Image';
+  const areas = disease.areas || [];
+  const shownAreas = areas.slice(0, 3);
+  const remainingCount = areas.length - shownAreas.length;
 
   return (
     <div className="bg-white border rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
@@ -43,15 +46,21 @@ function DiseaseCard({ disease }) {
           </span>
         </div>
 
+        {/* Areas (max 3, then show "+N more") */}
         <div className="flex flex-wrap gap-1 mb-3">
-          {disease.regions?.map((region) => (
+          {shownAreas.map((area) => (
             <span
-              key={region}
+              key={area}
               className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full"
             >
-              {region}
+              {area}
             </span>
           ))}
+          {remainingCount > 0 && (
+            <span className="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full">
+              +{remainingCount} more
+            </span>
+          )}
         </div>
 
         <Link

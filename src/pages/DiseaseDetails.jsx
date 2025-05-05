@@ -134,12 +134,12 @@ function DiseaseDetails() {
                 return (
                   <li key={idx} className="flex justify-between items-center text-gray-700">
                     <span className="flex items-center gap-1">📍 {area}</span>
-                    <span className="text-sm">{cases ? `${cases} cases` : 'No data'}</span>
+                    <span className="text-sm">{cases ? `${cases.toLocaleString()} cases` : 'No data'}</span>
                   </li>
                 );
               })}
             </ul>
-            <p className="text-sm text-gray-600 mt-3">Total reported cases: <strong>{totalCases}</strong></p>
+            <p className="text-sm text-gray-600 mt-3">Total reported cases: <strong>{totalCases.toLocaleString()}</strong></p>
           </div>
         </div>
       </div>
