@@ -123,9 +123,12 @@
       "latitude": 37.0902,
       "longitude": -95.7129,
       "diseaseCases": {
-        "3": 10
+        "1": 54,
+        "3": 100,
+        "4": 6098,
+        "6": 345
       },
-      "totalCases": 0,
+      "totalCases": 6597,
       "id": "4"
     },
     {
@@ -174,28 +177,13 @@
       "latitude": "43.6673",
       "longitude": "64.3434",
       "diseaseCases": {
-        "1": 290237249,
+        "1": 2902,
         "2": 42343,
         "3": 423343,
         "6": 10
       },
-      "totalCases": 332621945,
+      "totalCases": 468598,
       "id": "bc13"
-    },
-    {
-      "id": "991f",
-      "name": "kenya",
-      "description": "fvdsgergfr",
-      "population": "40000000",
-      "latitude": "-1.286389",
-      "longitude": "36.817223",
-      "diseaseCases": {
-        "1": 194,
-        "2": 678,
-        "3": 435,
-        "6": 3453
-      },
-      "totalCases": 4760
     }
   ],
   "users": [
