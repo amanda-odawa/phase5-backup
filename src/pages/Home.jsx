@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';
 import { fetchAreas } from '../store/areaSlice';
-import covidImage from '../assets/covid.jpeg';
+import covidImage from '../assets/covid.png';
 import DiseaseCard from '../components/DiseaseCard';
 
 function Home() {

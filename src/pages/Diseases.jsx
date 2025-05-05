@@ -65,19 +65,15 @@ function Diseases() {
         prevention methods, and our efforts to combat them.
       </p>
 
-      {/* Search Input */}
-      <div className="mb-6 flex justify-center">
-        <input
+      {/* Filters */}
+      <div className="flex flex-wrap gap-4 mb-6 justify-center">
+      <input
           type="text"
           placeholder="Search diseases..."
           value={localSearch}
           onChange={(e) => setLocalSearch(e.target.value)}
-          className="w-full md:w-1/3 px-4 py-3 border rounded-md bg-gray-50"
+          className="border border-gray-300 rounded px-3 py-2 w-48"
         />
-      </div>
-
-      {/* Filters */}
-      <div className="mb-6 flex justify-center gap-4 flex-wrap">
         <select
           value={prevalenceFilter}
           onChange={(e) => setPrevalenceFilter(e.target.value)}
