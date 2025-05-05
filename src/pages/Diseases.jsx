@@ -25,6 +25,13 @@ function Diseases() {
     setLocalSearch(searchQuery);
   }, [searchQuery]);
 
+  const handleReset = () => {
+    setLocalSearch('');
+    setPrevalenceFilter('');
+    setCategoryFilter('');
+    setAreaFilter('');
+  };
+
   // Add area names to each disease based on which areas have case counts
   const diseasesWithAreas = diseases.map((disease) => {
     const diseaseAreas = areas
@@ -106,6 +113,12 @@ function Diseases() {
             </option>
           ))}
         </select>
+        <button
+          onClick={handleReset}
+          className="bg-gray-100 border border-gray-300 rounded px-4 py-2 hover:bg-gray-200"
+        >
+          Reset Filters
+        </button>
       </div>
 
       {/* Disease Cards */}
