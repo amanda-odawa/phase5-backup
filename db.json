@@ -261,6 +261,20 @@
       "content": "testing",
       "date": "2025-05-06T06:40:03.768Z",
       "user": "test"
+    },
+    {
+      "id": "e98f",
+      "diseaseId": "3",
+      "content": "sd",
+      "date": "2025-05-06T09:49:18.043Z",
+      "username": "test"
+    },
+    {
+      "id": "1701",
+      "diseaseId": "3",
+      "content": "covid was tough",
+      "date": "2025-05-06T09:50:53.258Z",
+      "username": "test"
     }
   ]
 }

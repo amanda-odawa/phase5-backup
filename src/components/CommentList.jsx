@@ -43,7 +43,7 @@ function CommentList({ diseaseId }) {
               {comment.user?.charAt(0).toUpperCase() || 'A'}
             </div>
             <div className="text-gray-800 font-medium">
-              {comment.user || 'Anonymous'}
+              {comment.username || 'Anonymous'}
             </div>
           </div>
           <p className="text-gray-700">{comment.content}</p>

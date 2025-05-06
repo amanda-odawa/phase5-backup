@@ -1,26 +1,72 @@
-import { useState } from 'react';
-import axios from 'axios'
+import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { signup } from '../store/authSlice';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [touched, setTouched] = useState(false);
+  const [usernameExists, setUsernameExists] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // Password validation rules
+  const passwordRules = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  };
+  const allValid = Object.values(passwordRules).every(Boolean);
+
+  // Email validation regex
+  const emailValid = email.includes('@') && email.includes('.');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!username || !email || !password || !confirmPassword) {
       toast.error('Please fill in all fields');
       return;
     }
+
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
+      return;
+    }
+
+    if (!allValid) {
+      toast.error('Password does not meet requirements');
+      return;
+    }
+
+    if (!emailValid) {
+      toast.error('Email must contain "@" and "."');
+      return;
+    }
+
+    // Check if the username already exists
+    try {
+      const response = await axios.get(`/api/users/username/${username}`);
+      if (response.data.exists) {
+        setUsernameExists(true);
+        toast.error('Username is already taken');
+        return;
+      } else {
+        setUsernameExists(false);
+      }
+    } catch (error) {
+      toast.error('Error checking username availability');
       return;
     }
 
@@ -33,6 +79,26 @@ function Signup() {
       .catch((error) => {
         toast.error(error.message || 'Signup failed');
       });
+  };
+
+  const focusOnFirstUnmetField = () => {
+    if (!username) {
+      document.getElementById('username').focus();
+    } else if (!emailValid) {
+      document.getElementById('email').focus();
+    } else if (!passwordRules.length) {
+      passwordRef.current.focus();
+    } else if (!passwordRules.uppercase) {
+      passwordRef.current.focus();
+    } else if (!passwordRules.lowercase) {
+      passwordRef.current.focus();
+    } else if (!passwordRules.number) {
+      passwordRef.current.focus();
+    } else if (!passwordRules.special) {
+      passwordRef.current.focus();
+    } else if (password !== confirmPassword) {
+      confirmPasswordRef.current.focus();
+    }
   };
 
   return (
@@ -61,6 +127,9 @@ function Signup() {
               className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your username"
             />
+            {usernameExists && (
+              <p className="mt-2 text-sm text-red-600">Username is already taken</p>
+            )}
           </div>
           <div className="mb-6">
             <label htmlFor="email" className="block text-gray-800 mb-2 font-medium">
@@ -74,36 +143,81 @@ function Signup() {
               className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your email"
             />
+            {email && !emailValid && (
+              <p className="mt-2 text-sm text-red-600">Email must contain "@" and "."</p>
+            )}
           </div>
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-800 mb-2 font-medium">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Enter your password"
-            />
+            <div className="relative">
+              <input
+                ref={passwordRef}
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onBlur={() => setTouched(true)}
+                className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-3 right-3 text-gray-600"
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+            {touched && (
+              <ul className="mt-3 text-sm text-left space-y-1">
+                {/* Only show the unmet criteria in red */}
+                {!passwordRules.length && (
+                  <li className="text-red-600">• At least 8 characters</li>
+                )}
+                {!passwordRules.uppercase && (
+                  <li className="text-red-600">• At least one uppercase letter</li>
+                )}
+                {!passwordRules.lowercase && (
+                  <li className="text-red-600">• At least one lowercase letter</li>
+                )}
+                {!passwordRules.number && (
+                  <li className="text-red-600">• At least one number</li>
+                )}
+                {!passwordRules.special && (
+                  <li className="text-red-600">• At least one special character</li>
+                )}
+              </ul>
+            )}
           </div>
           <div className="mb-6">
             <label htmlFor="confirmPassword" className="block text-gray-800 mb-2 font-medium">
               Confirm Password
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Re-enter your password"
-            />
+            <div className="relative">
+              <input
+                ref={confirmPasswordRef}
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Re-enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute top-3 right-3 text-gray-600"
+              >
+                {showConfirmPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </div>
           <button
             type="submit"
-            className="w-full bg-cyan-600 text-white py-3 rounded-md shadow-md hover:bg-cyan-700 transition-colors"
+            onClick={focusOnFirstUnmetField}
+            className="w-full py-3 rounded-md shadow-md bg-cyan-600 text-white hover:bg-cyan-700"
           >
             Sign up
           </button>
