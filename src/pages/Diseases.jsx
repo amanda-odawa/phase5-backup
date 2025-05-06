@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { fetchDiseases } from '../store/diseaseSlice';

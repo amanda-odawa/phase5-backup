@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { addArea } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice'; 
