@@ -1,16 +1,7 @@
 import { Link } from 'react-router-dom';
-import area1 from '@/assets/area1.jpg';
-import area2 from '@/assets/area2.jpg';
-import area3 from '@/assets/area3.jpg';
-
-const areaImages = {
-  'area1': area1,
-  'area2': area2,
-  'area3': area3,
-};
 
 function AreaCard({ area }) {
-  const imageSrc = areaImages[`area${area.id}`] || areaImages['area1']; // Fallback to area1 if image not found
+  const imageSrc = areaImages[`area${area.id}`] || areaImages['area1']; 
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">

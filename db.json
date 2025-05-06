@@ -75,22 +75,6 @@
   ],
   "areas": [
     {
-      "name": "Africa",
-      "description": "Africa is known for its rich diversity of cultures, landscapes, and ecosystems. It faces a variety of communicable diseases due to its tropical climate, high population density, and limited access to healthcare in some areas.",
-      "population": "845000003",
-      "latitude": 1.65,
-      "longitude": 10,
-      "diseaseCases": {
-        "1": 83724,
-        "2": 34234,
-        "3": 10,
-        "4": 0,
-        "6": 10
-      },
-      "totalCases": 117978,
-      "id": "1"
-    },
-    {
       "name": "Asia",
       "description": "Asia is the largest continent, home to a variety of climates, from arid deserts to tropical forests. Its large population and varying healthcare infrastructure mean that both urban and rural areas are impacted by a range of diseases.",
       "population": 936000000,
@@ -107,7 +91,7 @@
     {
       "name": "Europe",
       "description": "Europe is home to developed healthcare systems, but it still faces challenges such as the spread of diseases in densely populated urban areas and through travel and migration.",
-      "population": "747000002",
+      "population": 747000002,
       "latitude": 54.526,
       "longitude": 15.2551,
       "diseaseCases": {
@@ -119,7 +103,7 @@
     {
       "name": "North America",
       "description": "North America has relatively high standards of healthcare, but communicable diseases can still spread, especially with travel and large urban centers.",
-      "population": "744000001",
+      "population": 744000001,
       "latitude": 37.0902,
       "longitude": -95.7129,
       "diseaseCases": {
@@ -134,7 +118,7 @@
     {
       "name": "South America",
       "description": "South America has diverse ecosystems, ranging from the Amazon Rainforest to mountainous regions. Disease transmission is often affected by environmental factors and lack of access to healthcare in rural areas.",
-      "population": "932100004",
+      "population": 932100004,
       "latitude": -8.7832,
       "longitude": -55.4915,
       "diseaseCases": {
@@ -152,9 +136,9 @@
       "latitude": -82.8628,
       "longitude": 135,
       "diseaseCases": {
-        "1": 545454
+        "1": 5
       },
-      "totalCases": 545454,
+      "totalCases": 5,
       "id": "6"
     },
     {
@@ -173,7 +157,7 @@
     {
       "name": "South East Asia",
       "description": "Communicable diseases like AIDS, tuberculosis, malaria and neglected tropical diseases have been the scourge of millions in South-East Asia, home to a quarter of the world's population.",
-      "population": "699228242",
+      "population": 699228242,
       "latitude": "43.6673",
       "longitude": "64.3434",
       "diseaseCases": {
@@ -223,56 +207,60 @@
       "role": "admin"
     },
     {
-      "id": "c4c1",
+      "id": "6",
       "username": "test",
       "email": "test@gmail.com",
       "password": "test",
       "role": "user"
-    },
-    {
-      "id": "3cde",
-      "username": "hgwqd",
-      "email": "ds@iyi.yu",
-      "password": "123",
-      "role": "admin"
     }
   ],
   "donations": [
     {
-      "id": "58d6",
+      "id": "1",
       "amount": 10,
       "area": "Africa",
       "date": "2025-05-03T15:20:19.576Z"
     },
     {
-      "id": "2de3",
+      "id": "2",
       "amount": 10,
       "area": "South America",
       "date": "2025-05-03T15:21:04.112Z"
     },
     {
-      "id": "a2b3",
+      "id": "3",
       "amount": 10,
       "area": "North America",
       "date": "2025-05-05T13:29:13.468Z"
+    },
+    {
+      "id": "4",
+      "amount": 29,
+      "area": "Africa",
+      "date": "2025-05-06T06:41:07.356Z"
     }
   ],
   "reviews": [
     {
-      "id": "1243",
-      "areaId": null,
-      "diseaseId": "2",
-      "content": "testing review witrh name",
+      "id": "1",
+      "diseaseId": "1",
+      "content": "testing review with name",
       "date": "2025-05-05T11:38:36.595Z",
       "user": "admin"
     },
     {
-      "id": "8ee0",
-      "areaId": null,
+      "id": "2",
       "diseaseId": "2",
-      "content": "ytgweufd",
+      "content": "testing review with name",
       "date": "2025-05-05T13:28:19.891Z",
       "user": "admin"
+    },
+    {
+      "id": "3",
+      "diseaseId": "1",
+      "content": "testing",
+      "date": "2025-05-06T06:40:03.768Z",
+      "user": "test"
     }
   ]
 }

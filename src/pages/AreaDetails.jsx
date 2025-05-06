@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import axios from 'axios'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAreas } from '../store/areaSlice';

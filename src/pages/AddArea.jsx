@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import { addArea } from '../store/areaSlice';
-import { fetchDiseases } from '../store/diseaseSlice'; // Optional depending on your setup
+import { fetchDiseases } from '../store/diseaseSlice'; 
 
 function AddArea() {
   const dispatch = useDispatch();
@@ -40,9 +41,17 @@ function AddArea() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addArea(areaData));
+    const formattedAreaData = {
+      ...areaData,
+      population: parseInt(areaData.population, 10), 
+      latitude: parseFloat(areaData.latitude), 
+      longitude: parseFloat(areaData.longitude), 
+    };
+  
+    dispatch(addArea(formattedAreaData));
     navigate('/admin-dashboard');
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-16">

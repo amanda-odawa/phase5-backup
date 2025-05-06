@@ -25,10 +25,9 @@ function ReviewForm({ areaId, diseaseId }) {
       // Add the username to the review data when submitting
       await api.post('/reviews', {
         areaId,
-        diseaseId,
         content: review,
         date: new Date().toISOString(),
-        user: user.username,  // Include username in the review data
+        username: user.username,  // Include username in the review data
       });
       setSuccess(true);
       setReview('');

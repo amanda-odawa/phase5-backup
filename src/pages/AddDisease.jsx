@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addDisease } from '../store/diseaseSlice';
@@ -47,7 +48,7 @@ function AddDisease() {
       prevention: diseaseData.prevention,
       treatment: diseaseData.treatment,
       riskFactors: diseaseData.riskFactors,
-      image: diseaseData.image, // Handle file upload appropriately in the backend
+      image: diseaseData.image, 
     };
     dispatch(addDisease(newDisease));
     navigate('/admin-dashboard');

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchAreaById, updateArea } from '../store/areaSlice';
@@ -51,8 +52,17 @@ function EditArea() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setAreaData({ ...areaData, [name]: value });
+    let parsedValue = value;
+  
+    if (['population'].includes(name)) {
+      parsedValue = parseInt(value, 10); 
+    } else if (['latitude', 'longitude'].includes(name)) {
+      parsedValue = parseFloat(value); 
+    }
+  
+    setAreaData({ ...areaData, [name]: isNaN(parsedValue) ? '' : parsedValue });
   };
+  
 
   const handleDiseaseCaseChange = (diseaseId, value) => {
     const updatedCases = {
