@@ -53,7 +53,7 @@ const EditDisease = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setForm((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
+      setForm((prev) => ({ ...prev, image: e.target.value }));
     }
   };
 

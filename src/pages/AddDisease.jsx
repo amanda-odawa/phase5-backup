@@ -13,7 +13,7 @@ function AddDisease() {
     prevention: '',
     treatment: '',
     riskFactors: '',
-    image: null,
+    image: '',
   });
 
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ function AddDisease() {
   };
 
   const handleFileChange = (e) => {
-    setDiseaseData({ ...diseaseData, image: e.target.files[0] });
+    setDiseaseData({ ...diseaseData, image: e.target.value });
   };
 
   const handleSubmit = (e) => {
@@ -77,6 +77,7 @@ function AddDisease() {
                 value={diseaseData.category}
                 onChange={handleInputChange}
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
               >
                 <option value="">Select Category</option>
                 <option value="Bacterial">Bacterial</option>
@@ -93,6 +94,7 @@ function AddDisease() {
                 value={diseaseData.prevalence}
                 onChange={handleInputChange}
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
               >
                 <option value="">Select Prevalence</option>
                 <option value="High">High</option>
@@ -108,6 +110,7 @@ function AddDisease() {
                 onChange={handleInputChange}
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
                 rows="4"
+                required
               />
             </div>
             <div className="mb-4">
@@ -119,6 +122,7 @@ function AddDisease() {
                 onChange={handleInputChange}
                 placeholder="Separate different symptoms with a coma (,)"
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
               />
             </div>
             <div className="mb-4">
@@ -130,6 +134,7 @@ function AddDisease() {
                 onChange={handleInputChange}
                 placeholder="Separate different prevention methods with a coma (,)"
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
               />
             </div>
             <div className="mb-4">
@@ -141,6 +146,7 @@ function AddDisease() {
                 onChange={handleInputChange}
                 placeholder="Separate different treatments with a coma (,)"
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
               />
             </div>
             <div className="mb-4">
@@ -152,6 +158,7 @@ function AddDisease() {
                 onChange={handleInputChange}
                 placeholder="Separate different risk factors with a coma (,)"
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                required
               />
             </div>
             <div className="mb-4">

@@ -136,9 +136,10 @@
       "latitude": -82.8628,
       "longitude": 135,
       "diseaseCases": {
-        "1": 5
+        "1": 5,
+        "5": 543545
       },
-      "totalCases": 5,
+      "totalCases": 543550,
       "id": "6"
     },
     {
@@ -211,6 +212,13 @@
       "username": "test",
       "email": "test@gmail.com",
       "password": "test",
+      "role": "user"
+    },
+    {
+      "id": "22be",
+      "username": "tyhtryh",
+      "email": "ds@iyi.yu",
+      "password": "q^mgXc@e3rMS1aFN",
       "role": "user"
     }
   ],
