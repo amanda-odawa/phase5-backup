@@ -179,7 +179,7 @@ function Areas() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      {areas.map((area) => (
+      {filteredAreas.map((area) => (
         <Marker
           key={area.id}
           position={[area.latitude, area.longitude]}
