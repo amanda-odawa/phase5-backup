@@ -158,8 +158,8 @@
       "name": "South East Asia",
       "description": "Communicable diseases like AIDS, tuberculosis, malaria and neglected tropical diseases have been the scourge of millions in South-East Asia, home to a quarter of the world's population.",
       "population": 699228242,
-      "latitude": "43.6673",
-      "longitude": "64.3434",
+      "latitude": 43.6673,
+      "longitude": 64.3434,
       "diseaseCases": {
         "1": 2902,
         "2": 42343,
