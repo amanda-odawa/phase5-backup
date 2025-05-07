@@ -31,6 +31,7 @@ const EditDisease = () => {
 
   useEffect(() => {
     if (disease) {
+      console.log('Fetched disease:', disease);
       setForm({
         name: disease.name || '',
         category: disease.category || '',
@@ -51,12 +52,9 @@ const EditDisease = () => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setForm((prev) => ({ ...prev, image: e.target.value }));
-    }
+    setForm((prev) => ({ ...prev, image: e.target.value }));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -187,7 +185,7 @@ const EditDisease = () => {
             <div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-300 mb-2">Image</label>
               <input
-                type="url"
+                type="text"
                 name="image"
                 value={form.image}
                 onChange={handleImageChange}

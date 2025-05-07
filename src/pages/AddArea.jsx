@@ -5,11 +5,6 @@ import { addArea } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice'; 
 
 function AddArea() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const diseases = useSelector((state) => state.diseases.diseases || []);
-
   const [areaData, setAreaData] = useState({
     name: '',
     description: '',
@@ -20,6 +15,11 @@ function AddArea() {
     totalCases: 0, // Will be calculated dynamically
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const diseases = useSelector((state) => state.diseases.diseases || []);
+
+  
   useEffect(() => {
     dispatch(fetchDiseases()); // Fetch diseases on load
   }, [dispatch]);

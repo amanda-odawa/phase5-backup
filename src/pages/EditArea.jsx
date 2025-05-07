@@ -51,16 +51,23 @@ function EditArea() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+  
     let parsedValue = value;
   
-    if (['population'].includes(name)) {
-      parsedValue = parseInt(value, 10); 
+    if (name === 'population') {
+      parsedValue = parseInt(value, 10);
+      parsedValue = isNaN(parsedValue) ? '' : parsedValue;
     } else if (['latitude', 'longitude'].includes(name)) {
-      parsedValue = parseFloat(value); 
+      parsedValue = parseFloat(value);
+      parsedValue = isNaN(parsedValue) ? '' : parsedValue;
     }
   
-    setAreaData({ ...areaData, [name]: isNaN(parsedValue) ? '' : parsedValue });
+    setAreaData((prev) => ({
+      ...prev,
+      [name]: parsedValue
+    }));
   };
+  
   
 
   const handleDiseaseCaseChange = (diseaseId, value) => {
