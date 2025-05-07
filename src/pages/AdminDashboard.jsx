@@ -191,7 +191,7 @@ function AdminDashboard() {
                     {filteredAreas.map((area) => (
                       <tr key={area.id} className="border-b">
                         <td className="p-3">{area.name}</td>
-                        <td className="p-3">{area.total_cases}</td>
+                        <td className="p-3">{area.totalCases}</td>
                         <td className="p-3">{area.population}</td>
                         <td className="p-3">
                           <button

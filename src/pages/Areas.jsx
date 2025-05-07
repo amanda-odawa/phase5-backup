@@ -53,7 +53,7 @@ function Areas() {
     Object.values(area.diseaseCases || {}).reduce((acc, count) => acc + count, 0);
 
   const globalStats = () => {
-    const total_cases = areas.reduce(
+    const totalCases = areas.reduce(
       (sum, area) => sum + getTotalCases(area),
       0
     );
@@ -74,7 +74,7 @@ function Areas() {
       }
     });
 
-    return { total_cases, totalPopulation, diseaseCount: diseaseIds.size, allDiseaseCases };
+    return { totalCases, totalPopulation, diseaseCount: diseaseIds.size, allDiseaseCases };
   };
 
   const handleReset = () => {
@@ -107,7 +107,7 @@ function Areas() {
   const stats = selectedArea
     ? {
         title: selectedArea.name,
-        total_cases: getTotalCases(selectedArea),
+        totalCases: getTotalCases(selectedArea),
         population: selectedArea.population,
         diseaseCases: selectedArea.diseaseCases || {},
       }
@@ -203,7 +203,7 @@ function Areas() {
       <h2 className="text-xl font-semibold mb-4 text-gray-800">{stats.title}</h2>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div>
-          <p className="text-2xl font-bold text-gray-800">{formatNumber(stats.total_cases)}</p>
+          <p className="text-2xl font-bold text-gray-800">{formatNumber(stats.totalCases)}</p>
           <p className="text-gray-600">Total Cases</p>
         </div>
         <div>

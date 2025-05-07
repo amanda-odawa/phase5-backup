@@ -16,7 +16,7 @@ function DiseaseDetails() {
 
   const [disease, setDisease] = useState(null);
   const [affectedAreas, setAffectedAreas] = useState([]);
-  const [total_cases, setTotalCases] = useState(0);
+  const [totalCases, setTotalCases] = useState(0);
 
   useEffect(() => {
     if (diseaseStatus === 'idle') dispatch(fetchDiseases());
@@ -139,7 +139,7 @@ function DiseaseDetails() {
                 );
               })}
             </ul>
-            <p className="text-sm text-gray-600 mt-3">Total reported cases: <strong>{total_cases.toLocaleString()}</strong></p>
+            <p className="text-sm text-gray-600 mt-3">Total reported cases: <strong>{totalCases.toLocaleString()}</strong></p>
           </div>
         </div>
       </div>
