@@ -8,7 +8,7 @@
       "symptoms": "Fever, chills, sweating, fatigue, nausea, vomiting, headache",
       "prevention": "Use of insecticide-treated nets, antimalarial drugs.",
       "treatment": "Antimalarial medications like chloroquine, artemisinin-based combination therapies",
-      "riskFactors": "Living in or visiting malaria-endemic areas, not using mosquito nets.",
+      "risk_factors": "Living in or visiting malaria-endemic areas, not using mosquito nets.",
       "image": "https://scitechdaily.com/images/Zika-Malaria-Mosquito-Virus-Concept.jpg",
       "id": "1"
     },
@@ -20,7 +20,7 @@
       "symptoms": "Cough with sputum, Chest pain, Weight loss, Night sweats",
       "prevention": "BCG vaccine, Good ventilation, Early treatment of active cases",
       "treatment": "Antimalarial medications like chloroquine, Artemisinin-based combination therapies",
-      "riskFactors": "HIV infection, Substance use (such as injection drug use), Specialized treatment for rheumatoid arthritis or Crohn's disease, Organ transplants, Severe kidney disease, Diabetes",
+      "risk_factors": "HIV infection, Substance use (such as injection drug use), Specialized treatment for rheumatoid arthritis or Crohn's disease, Organ transplants, Severe kidney disease, Diabetes",
       "image": "https://www.zenhospital.in/wp-content/uploads/2022/03/Tuberculosis-3.jpg",
       "id": "2"
     },
@@ -33,7 +33,7 @@
       "symptoms": "Fever, cough, shortness of breath, fatigue, loss of taste or smell.",
       "prevention": "Vaccination, wearing masks, social distancing, hand hygiene.",
       "treatment": "Supportive care, antivirals (e.g., Remdesivir), oxygen therapy.",
-      "riskFactors": "Older age, underlying health conditions, weakened immune system.",
+      "risk_factors": "Older age, underlying health conditions, weakened immune system.",
       "image": "https://media.defense.gov/2020/Mar/09/2003062075/1200/1200/0/200309-D-HN545-003.JPG"
     },
     {
@@ -44,7 +44,7 @@
       "symptoms": "High fever, severe headache, pain behind the eyes, joint and muscle pain, rash, nausea, vomiting.",
       "prevention": "Avoiding mosquito bites, using insect repellents, wearing protective clothing, and eliminating mosquito breeding sites.",
       "treatment": "Supportive care, hydration, pain relievers (avoid aspirin), and in severe cases, hospitalization.",
-      "riskFactors": "Living in or traveling to areas with mosquitoes, previous dengue infection.",
+      "risk_factors": "Living in or traveling to areas with mosquitoes, previous dengue infection.",
       "image": "https://publish.eastleighvoice.co.ke/mugera_lock/uploads/2024/08/Pg21-Dengue-fever.jpeg",
       "id": "4"
     },
@@ -56,7 +56,7 @@
       "symptoms": "Severe watery diarrhea, vomiting, dehydration, muscle cramps.",
       "prevention": "Access to clean water, proper sanitation, good hygiene practices, and oral cholera vaccines.",
       "treatment": "Rehydration therapy, antibiotics (in severe cases).",
-      "riskFactors": "Poor sanitation, lack of access to clean drinking water, inadequate handwashing.",
+      "risk_factors": "Poor sanitation, lack of access to clean drinking water, inadequate handwashing.",
       "image": "https://d2jx2rerrg6sh3.cloudfront.net/images/news/ImageForNews_791522_17273510771869253.jpg",
       "id": "5"
     },
@@ -68,7 +68,7 @@
       "symptoms": "Initial flu-like symptoms, weight loss, night sweats, swollen lymph nodes, recurrent infections.",
       "prevention": "Use of condoms, HIV testing, antiretroviral therapy (ART), needle exchange programs.",
       "treatment": "Antiretroviral therapy (ART), which can help control the virus and prevent progression to AIDS.",
-      "riskFactors": "Unprotected sex, sharing needles, having multiple sexual partners, untreated sexually transmitted infections.",
+      "risk_factors": "Unprotected sex, sharing needles, having multiple sexual partners, untreated sexually transmitted infections.",
       "image": "https://lh3.googleusercontent.com/RHg5BMTXzX8vS0wx6f3Fy8oWwpxUtlIXOv2-dB7OMK4oLAJF7msRfXePVdNxGjKGAwb4gQf_ZHEzeIH4mIHboYej4ItqEd-Nlw=s725",
       "id": "6"
     }
@@ -87,7 +87,7 @@
         "4": 0,
         "6": 10
       },
-      "totalCases": 117978,
+      "total_cases": 117978,
       "id": "1"
     },
     {
@@ -101,7 +101,7 @@
         "2": 0,
         "3": 123334
       },
-      "totalCases": 123334,
+      "total_cases": 123334,
       "id": "2"
     },
     {
@@ -113,7 +113,7 @@
       "diseaseCases": {
         "2": 65756476
       },
-      "totalCases": 65756476,
+      "total_cases": 65756476,
       "id": "3"
     },
     {
@@ -128,7 +128,7 @@
         "4": 6098,
         "6": 345
       },
-      "totalCases": 6597,
+      "total_cases": 6597,
       "id": "4"
     },
     {
@@ -142,7 +142,7 @@
         "2": 422,
         "3": 43435
       },
-      "totalCases": 43935,
+      "total_cases": 43935,
       "id": "5"
     },
     {
@@ -155,7 +155,7 @@
         "1": 5,
         "5": 543545
       },
-      "totalCases": 543550,
+      "total_cases": 543550,
       "id": "6"
     },
     {
@@ -168,7 +168,7 @@
         "1": 454,
         "2": 5
       },
-      "totalCases": 459,
+      "total_cases": 459,
       "id": "7"
     },
     {
@@ -183,7 +183,7 @@
         "3": 423343,
         "6": 10
       },
-      "totalCases": 468598,
+      "total_cases": 468598,
       "id": "bc13"
     }
   ],

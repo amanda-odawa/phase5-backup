@@ -17,7 +17,7 @@ function AddArea() {
     latitude: '',
     longitude: '',
     diseaseCases: {}, // { diseaseId: cases }
-    totalCases: 0, // Will be calculated dynamically
+    total_cases: 0, // Will be calculated dynamically
   });
 
   useEffect(() => {
@@ -34,8 +34,8 @@ function AddArea() {
       ...areaData.diseaseCases,
       [diseaseId]: Number(value),
     };
-    const totalCases = Object.values(updatedCases).reduce((sum, val) => sum + (val || 0), 0);
-    setAreaData({ ...areaData, diseaseCases: updatedCases, totalCases });
+    const total_cases = Object.values(updatedCases).reduce((sum, val) => sum + (val || 0), 0);
+    setAreaData({ ...areaData, diseaseCases: updatedCases, total_cases });
   };
 
   const handleSubmit = (e) => {
@@ -147,8 +147,8 @@ function AddArea() {
               <label className="block mb-2 text-sm font-medium">Total Cases</label>
               <input
                 type="number"
-                name="totalCases"
-                value={areaData.totalCases}
+                name="total_cases"
+                value={areaData.total_cases}
                 readOnly
                 className="w-full p-2 bg-gray-200 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
               />

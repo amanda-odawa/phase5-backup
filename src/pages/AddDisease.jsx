@@ -12,7 +12,7 @@ function AddDisease() {
     symptoms: '',
     prevention: '',
     treatment: '',
-    riskFactors: '',
+    risk_factors: '',
     image: '',
   });
 
@@ -46,7 +46,7 @@ function AddDisease() {
       symptoms: diseaseData.symptoms,
       prevention: diseaseData.prevention,
       treatment: diseaseData.treatment,
-      riskFactors: diseaseData.riskFactors,
+      risk_factors: diseaseData.risk_factors,
       image: diseaseData.image, 
     };
     dispatch(addDisease(newDisease));
@@ -153,8 +153,8 @@ function AddDisease() {
               <label className="block text-gray-700 dark:text-gray-300 mb-2">Risk factor(s)</label>
               <input
                 type="text"
-                name="riskFactors"
-                value={diseaseData.riskFactors}
+                name="risk_factors"
+                value={diseaseData.risk_factors}
                 onChange={handleInputChange}
                 placeholder="Separate different risk factors with a coma (,)"
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"

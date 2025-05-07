@@ -19,7 +19,7 @@ function EditArea() {
     latitude: '',
     longitude: '',
     diseaseCases: {},
-    totalCases: 0,
+    total_cases: 0,
   });
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function EditArea() {
         latitude: area.latitude || '',
         longitude: area.longitude || '',
         diseaseCases: cases,
-        totalCases: total,
+        total_cases: total,
       });
     }
   }, [area]);
@@ -68,8 +68,8 @@ function EditArea() {
       ...areaData.diseaseCases,
       [diseaseId]: Number(value),
     };
-    const totalCases = Object.values(updatedCases).reduce((sum, val) => sum + (val || 0), 0);
-    setAreaData({ ...areaData, diseaseCases: updatedCases, totalCases });
+    const total_cases = Object.values(updatedCases).reduce((sum, val) => sum + (val || 0), 0);
+    setAreaData({ ...areaData, diseaseCases: updatedCases, total_cases });
   };
 
   const handleSubmit = (e) => {
@@ -179,8 +179,8 @@ function EditArea() {
               <label className="block mb-2 text-sm font-medium">Total Cases</label>
               <input
                 type="number"
-                name="totalCases"
-                value={areaData.totalCases}
+                name="total_cases"
+                value={areaData.total_cases}
                 readOnly
                 className="w-full p-2 bg-gray-200 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
               />

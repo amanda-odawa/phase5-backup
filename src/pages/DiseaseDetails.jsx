@@ -16,7 +16,7 @@ function DiseaseDetails() {
 
   const [disease, setDisease] = useState(null);
   const [affectedAreas, setAffectedAreas] = useState([]);
-  const [totalCases, setTotalCases] = useState(0);
+  const [total_cases, setTotalCases] = useState(0);
 
   useEffect(() => {
     if (diseaseStatus === 'idle') dispatch(fetchDiseases());
@@ -118,7 +118,7 @@ function DiseaseDetails() {
           <div className="bg-gray-100 p-4 rounded-lg">
             <h4 className="text-lg font-bold text-gray-800 mb-2">Risk Factors</h4>
             <ul className="list-disc list-inside text-gray-700">
-              {disease.riskFactors?.split(',').map((factor, idx) => (
+              {disease.risk_factors?.split(',').map((factor, idx) => (
                 <li key={idx}>{factor.trim()}</li>
               ))}
             </ul>
@@ -139,7 +139,7 @@ function DiseaseDetails() {
                 );
               })}
             </ul>
-            <p className="text-sm text-gray-600 mt-3">Total reported cases: <strong>{totalCases.toLocaleString()}</strong></p>
+            <p className="text-sm text-gray-600 mt-3">Total reported cases: <strong>{total_cases.toLocaleString()}</strong></p>
           </div>
         </div>
       </div>

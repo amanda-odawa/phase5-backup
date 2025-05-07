@@ -19,7 +19,7 @@ const EditDisease = () => {
     symptoms: '',
     prevention: '',
     treatment: '',
-    riskFactors: '',
+    risk_factors: '',
     image: '',
   });
 
@@ -39,7 +39,7 @@ const EditDisease = () => {
         symptoms: disease.symptoms || '',
         prevention: disease.prevention || '',
         treatment: disease.treatment || '',
-        riskFactors: disease.riskFactors || '',
+        risk_factors: disease.risk_factors || '',
         image: disease.image || '',
       });
     }
@@ -176,8 +176,8 @@ const EditDisease = () => {
               <label className="block text-gray-700 dark:text-gray-300 mb-2">Risk factor(s)</label>
               <input
                 type="text"
-                name="riskFactors"
-                value={form.riskFactors}
+                name="risk_factors"
+                value={form.risk_factors}
                 onChange={handleChange}
                 className="w-full p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
                 placeholder="Separate different risk factors with a coma (,) "
