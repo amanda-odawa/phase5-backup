@@ -24,7 +24,7 @@ function DiseaseDetails() {
   }, [dispatch, diseaseStatus, areaStatus]);
 
   useEffect(() => {
-    const foundDisease = diseases.find((d) => d.id === id);
+    const foundDisease = diseases.find((d) => String(d.id) === id); //changed to string
     if (foundDisease) {
       setDisease(foundDisease);
     } else if (diseaseStatus === 'succeeded' && !foundDisease) {
