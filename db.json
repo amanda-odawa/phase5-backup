@@ -75,6 +75,22 @@
   ],
   "areas": [
     {
+      "name": "Africa",
+      "description": "Africa is known for its rich diversity of cultures, landscapes, and ecosystems. It faces a variety of communicable diseases due to its tropical climate, high population density, and limited access to healthcare in some areas.",
+      "population": "845000003",
+      "latitude": 1.65,
+      "longitude": 10,
+      "diseaseCases": {
+        "1": 83724,
+        "2": 34234,
+        "3": 10,
+        "4": 0,
+        "6": 10
+      },
+      "totalCases": 117978,
+      "id": "1"
+    },
+    {
       "name": "Asia",
       "description": "Asia is the largest continent, home to a variety of climates, from arid deserts to tropical forests. Its large population and varying healthcare infrastructure mean that both urban and rural areas are impacted by a range of diseases.",
       "population": 936000000,
