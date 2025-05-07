@@ -96,7 +96,7 @@ function AdminDashboard() {
           {activeTab === 'Users' && (
             <div>
               <button
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate('/register')}
                 className="btn-primary bg-cyan-600 text-white p-2 mb-4 rounded-md shadow-md hover:bg-cyan-700 transition-colors"
               >
                 + Add User

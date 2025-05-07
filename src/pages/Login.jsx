@@ -39,7 +39,7 @@ function Login() {
         <h1 className="text-3xl font-semibold text-center mb-2">Sign in to your account</h1>
         <p className="mt-2 max-w-2xl mx-auto text-center text-gray-600">
           Or{' '}
-          <Link to="/signup" className="text-blue-600 hover:underline">
+          <Link to="/register" className="text-blue-600 hover:underline">
             create a new account
           </Link>
         </p>

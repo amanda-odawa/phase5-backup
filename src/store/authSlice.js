@@ -3,9 +3,9 @@ import api from '../utils/api';
 
 const API_URL = '/users';
 
-// Async thunk for signup
-export const signup = createAsyncThunk(
-  'auth/signup',
+// Async thunk for Register
+export const register = createAsyncThunk(
+  'auth/register',
   async ({ username, email, password }, { rejectWithValue }) => {
     try {
       const response = await api.get(`${API_URL}?username=${username}`);
@@ -17,7 +17,7 @@ export const signup = createAsyncThunk(
       const postResponse = await api.post(API_URL, newUser);
       return postResponse.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message || 'Signup failed');
+      return rejectWithValue(error.response?.data || error.message || 'Register failed');
     }
   }
 );

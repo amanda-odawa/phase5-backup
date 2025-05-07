@@ -1,11 +1,11 @@
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { signup } from '../store/authSlice';
+import { register } from '../store/authSlice';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-function Signup() {
+function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,14 +70,14 @@ function Signup() {
       return;
     }
 
-    dispatch(signup({ username, email, password }))
+    dispatch(register({ username, email, password }))
       .unwrap()
       .then(() => {
         toast.success('Signed up successfully');
         navigate('/login');
       })
       .catch((error) => {
-        toast.error(error.message || 'Signup failed');
+        toast.error(error.message || 'Register failed');
       });
   };
 
@@ -227,4 +227,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Register;

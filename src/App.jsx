@@ -11,7 +11,7 @@ import DiseaseDetails from './pages/DiseaseDetails';
 import Areas from './pages/Areas';
 import AreaDetails from './pages/AreaDetails'; 
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import Donation from './pages/Donation';
 import AddDisease from './pages/AddDisease';
@@ -47,7 +47,7 @@ function App() {
           <Route path="/areas" element={<Areas />} />
           <Route path="/areas/:id" element={<AreaDetails />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/register" element={<Register />} />
 
           <Route path="/admin-dashboard" element={
             <ProtectedRoute roleRequired="admin">

@@ -220,6 +220,34 @@
       "email": "ds@iyi.yu",
       "password": "q^mgXc@e3rMS1aFN",
       "role": "user"
+    },
+    {
+      "id": "41d1",
+      "username": "jklllil",
+      "email": "asdj@usha.cc",
+      "password": "0cinFe2nor@",
+      "role": "user"
+    },
+    {
+      "id": "15d6",
+      "username": "hsdgfi",
+      "email": "udshof@hjh.hj",
+      "password": "0cinFe2nor@",
+      "role": "user"
+    },
+    {
+      "id": "c977",
+      "username": "tgnshd",
+      "email": "dsjk@sds.jj",
+      "password": "0cinFe2nor@",
+      "role": "user"
+    },
+    {
+      "id": "f085",
+      "username": "hgjf",
+      "email": "htg@t.yg",
+      "password": "0cinFe2nor@",
+      "role": "user"
     }
   ],
   "donations": [
@@ -282,6 +310,20 @@
       "diseaseId": "3",
       "content": "covid was tough",
       "date": "2025-05-06T09:50:53.258Z",
+      "username": "test"
+    },
+    {
+      "id": "eb52",
+      "diseaseId": "1",
+      "content": "qweq",
+      "date": "2025-05-07T05:42:17.992Z",
+      "username": "test"
+    },
+    {
+      "id": "f3a9",
+      "diseaseId": "2",
+      "content": "hilafsh",
+      "date": "2025-05-07T05:55:15.628Z",
       "username": "test"
     }
   ]
