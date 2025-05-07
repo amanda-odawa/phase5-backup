@@ -29,8 +29,8 @@ function Login() {
         navigate(from, { replace: true }); // Redirect to the page the user came from
       })
       .catch((error) => {
-        toast.error(error.message || 'Login failed');
-      });
+        toast.error(typeof error === 'string' ? error : 'Login failed');
+      });      
   };
 
   return (

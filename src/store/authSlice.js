@@ -22,21 +22,21 @@ export const register = createAsyncThunk(
   }
 );
 
-// Async thunk for login
+// Async thunk for login changed
 export const login = createAsyncThunk(
   'auth/login',
   async ({ username, password }, { rejectWithValue }) => {
     try {
-      const response = await api.get(`${API_URL}?username=${username}&password=${password}`);
-      if (response.data.length === 0) {
-        return rejectWithValue('Invalid username or password');
-      }
-      return response.data[0];
+      const response = await api.post('/login', { username, password });
+
+      // Assume the API returns the user object and a token
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message || 'Login failed');
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
   }
 );
+
 
 const authSlice = createSlice({
   name: 'auth',
