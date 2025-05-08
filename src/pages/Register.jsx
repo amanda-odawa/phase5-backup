@@ -58,7 +58,7 @@ function Register() {
         navigate('/login');
       })
       .catch((error) => {
-        toast.error(error.message || 'Register failed');
+        toast.error(error.message || 'Username already exists');
       });
   };
 
