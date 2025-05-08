@@ -1,23 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../utils/api';
 
-const API_URL = '/users';
-
 // Async thunk for Register
 export const register = createAsyncThunk(
   'auth/register',
   async ({ username, email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.get(`${API_URL}?username=${username}`);
-      if (response.data.length > 0) {
-        return rejectWithValue('Username already exists');
-      }
+      const response = await api.post('/register', {
+        username,
+        email,
+        password,
+      });
 
-      const newUser = { username, email, password, role: 'user' };
-      const postResponse = await api.post(API_URL, newUser);
-      return postResponse.data;
+      return response.data; // Assuming the backend returns the created user
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message || 'Register failed');
+      return rejectWithValue(
+        error.response?.data?.message || 'Register failed'
+      );
     }
   }
 );

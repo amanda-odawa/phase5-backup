@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../store/authSlice';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -11,7 +10,6 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [touched, setTouched] = useState(false);
-  const [usernameExists, setUsernameExists] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const passwordRef = useRef(null);
@@ -19,7 +17,6 @@ function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Password validation rules
   const passwordRules = {
     length: password.length >= 8,
     uppercase: /[A-Z]/.test(password),
@@ -28,8 +25,6 @@ function Register() {
     special: /[^A-Za-z0-9]/.test(password),
   };
   const allValid = Object.values(passwordRules).every(Boolean);
-
-  // Email validation regex
   const emailValid = email.includes('@') && email.includes('.');
 
   const handleSubmit = async (e) => {
@@ -55,21 +50,7 @@ function Register() {
       return;
     }
 
-    // Check if the username already exists
-    try {
-      const response = await axios.get(`/api/users/username/${username}`);
-      if (response.data.exists) {
-        setUsernameExists(true);
-        toast.error('Username is already taken');
-        return;
-      } else {
-        setUsernameExists(false);
-      }
-    } catch (error) {
-      toast.error('Error checking username availability');
-      return;
-    }
-
+    // Register using the API
     dispatch(register({ username, email, password }))
       .unwrap()
       .then(() => {
@@ -127,10 +108,8 @@ function Register() {
               className="w-full border border-gray-400 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your username"
             />
-            {usernameExists && (
-              <p className="mt-2 text-sm text-red-600">Username is already taken</p>
-            )}
           </div>
+
           <div className="mb-6">
             <label htmlFor="email" className="block text-gray-800 mb-2 font-medium">
               Email Address
@@ -147,6 +126,7 @@ function Register() {
               <p className="mt-2 text-sm text-red-600">Email must contain "@" and "."</p>
             )}
           </div>
+
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-800 mb-2 font-medium">
               Password
@@ -172,25 +152,15 @@ function Register() {
             </div>
             {touched && (
               <ul className="mt-3 text-sm text-left space-y-1">
-                {/* Only show the unmet criteria in red */}
-                {!passwordRules.length && (
-                  <li className="text-red-600">• At least 8 characters</li>
-                )}
-                {!passwordRules.uppercase && (
-                  <li className="text-red-600">• At least one uppercase letter</li>
-                )}
-                {!passwordRules.lowercase && (
-                  <li className="text-red-600">• At least one lowercase letter</li>
-                )}
-                {!passwordRules.number && (
-                  <li className="text-red-600">• At least one number</li>
-                )}
-                {!passwordRules.special && (
-                  <li className="text-red-600">• At least one special character</li>
-                )}
+                {!passwordRules.length && <li className="text-red-600">• At least 8 characters</li>}
+                {!passwordRules.uppercase && <li className="text-red-600">• At least one uppercase letter</li>}
+                {!passwordRules.lowercase && <li className="text-red-600">• At least one lowercase letter</li>}
+                {!passwordRules.number && <li className="text-red-600">• At least one number</li>}
+                {!passwordRules.special && <li className="text-red-600">• At least one special character</li>}
               </ul>
             )}
           </div>
+
           <div className="mb-6">
             <label htmlFor="confirmPassword" className="block text-gray-800 mb-2 font-medium">
               Confirm Password
@@ -214,6 +184,7 @@ function Register() {
               </button>
             </div>
           </div>
+
           <button
             type="submit"
             onClick={focusOnFirstUnmetField}
