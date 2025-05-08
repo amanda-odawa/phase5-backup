@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
+import { fetchDiseaseCases } from '../store/diseaseCaseSlice';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -39,6 +40,7 @@ function Areas() {
   const dispatch = useDispatch();
   const { areas } = useSelector((state) => state.areas);
   const { diseases } = useSelector((state) => state.diseases);
+  const { cases: diseaseCases } = useSelector((state) => state.diseaseCases);
   const [selectedArea, setSelectedArea] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDisease, setSelectedDisease] = useState('');
@@ -47,7 +49,19 @@ function Areas() {
   useEffect(() => {
     dispatch(fetchAreas());
     dispatch(fetchDiseases());
+    dispatch(fetchDiseaseCases());
   }, [dispatch]);
+
+  //new
+  const areasWithCases = areas.map(area => {
+    const areaCases = diseaseCases.filter(dc => dc.area_id === area.id);
+    const diseaseCaseMap = {};
+    areaCases.forEach(dc => {
+      if (!diseaseCaseMap[dc.disease_id]) diseaseCaseMap[dc.disease_id] = 0;
+      diseaseCaseMap[dc.disease_id] += dc.case_count;
+    });
+    return { ...area, diseaseCases: diseaseCaseMap };
+  });
 
   const getTotalCases = (area) =>
     Object.values(area.diseaseCases || {}).reduce((acc, count) => acc + count, 0);
@@ -84,7 +98,7 @@ function Areas() {
     setSelectedArea(null);
   };
 
-  const filteredAreas = areas.filter((area) => {
+  const filteredAreas = areasWithCases.filter((area) => {
     const matchesSearch = area.name.toLowerCase().includes(searchTerm.toLowerCase());
 
     let matchesDisease = true;
