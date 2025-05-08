@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAreas } from '../store/areaSlice';
 import { fetchDiseases } from '../store/diseaseSlice';
-import { fetchDiseaseCases } from '../store/diseaseCaseSlice';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -40,7 +39,6 @@ function Areas() {
   const dispatch = useDispatch();
   const { areas } = useSelector((state) => state.areas);
   const { diseases } = useSelector((state) => state.diseases);
-  const { cases: diseaseCases } = useSelector((state) => state.diseaseCases);
   const [selectedArea, setSelectedArea] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDisease, setSelectedDisease] = useState('');
@@ -49,19 +47,7 @@ function Areas() {
   useEffect(() => {
     dispatch(fetchAreas());
     dispatch(fetchDiseases());
-    dispatch(fetchDiseaseCases());
   }, [dispatch]);
-
-  //new
-  const areasWithCases = areas.map(area => {
-    const areaCases = diseaseCases.filter(dc => dc.area_id === area.id);
-    const diseaseCaseMap = {};
-    areaCases.forEach(dc => {
-      if (!diseaseCaseMap[dc.disease_id]) diseaseCaseMap[dc.disease_id] = 0;
-      diseaseCaseMap[dc.disease_id] += dc.case_count;
-    });
-    return { ...area, diseaseCases: diseaseCaseMap };
-  });
 
   const getTotalCases = (area) =>
     Object.values(area.diseaseCases || {}).reduce((acc, count) => acc + count, 0);
@@ -98,7 +84,7 @@ function Areas() {
     setSelectedArea(null);
   };
 
-  const filteredAreas = areasWithCases.filter((area) => {
+  const filteredAreas = areas.filter((area) => {
     const matchesSearch = area.name.toLowerCase().includes(searchTerm.toLowerCase());
 
     let matchesDisease = true;
@@ -109,7 +95,7 @@ function Areas() {
     let matchesPrevalence = true;
     if (selectedPrevalence) {
       const matchingDiseaseIds = Object.keys(area.diseaseCases || {}).filter((id) => {
-        const disease = diseases.find((d) => d.id === id);
+        const disease = diseases.find((d) => String(d.id) === String(id));
         return disease?.prevalence === selectedPrevalence;
       });
       matchesPrevalence = matchingDiseaseIds.length > 0;
@@ -181,7 +167,7 @@ function Areas() {
       {/* Layout */}
       <div className="flex flex-col lg:flex-row gap-6">
   {/* Map */}
-  <div className="lg:w-2/3 h-[400px] lg:h-[500px] rounded-lg overflow-hidden shadow-md border">
+  <div className="lg:w-2/3 h-[500px] lg:h-[600px] rounded-lg overflow-hidden shadow-md border">
     <MapContainer
       center={[0, 0]}
       zoom={2}
@@ -232,7 +218,7 @@ function Areas() {
 
       <ul className="list-disc list-inside space-y-1 mb-4">
         {Object.entries(stats.diseaseCases).map(([diseaseId, cases]) => {
-          const disease = diseases.find((d) => d.id === diseaseId);
+          const disease = diseases.find((d) => String(d.id) === String(diseaseId));
           if (!disease) return null;
           return (
             <div key={diseaseId} className="flex justify-between items-center mb-2">
