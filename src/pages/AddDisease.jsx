@@ -42,7 +42,7 @@ function AddDisease() {
       name: diseaseData.name,
       category: diseaseData.category,
       prevalence: diseaseData.prevalence,
-      description: diseaseData.about,
+      about: diseaseData.about,
       symptoms: diseaseData.symptoms,
       prevention: diseaseData.prevention,
       treatment: diseaseData.treatment,
