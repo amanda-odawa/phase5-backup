@@ -44,7 +44,7 @@ function Home() {
               Join our mission to eradicate preventable diseases and improve global health outcomes through education, research, and community action. Through collaboration with healthcare providers, volunteers, and supporters like you, we're creating lasting impact in vulnerable communities around the world.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link to="/donation" className="bg-white text-[#0097b2] hover:bg-gray-100 font-medium py-3 px-6 rounded-md">
+                <Link to="/donations" className="bg-white text-[#0097b2] hover:bg-gray-100 font-medium py-3 px-6 rounded-md">
                   Donate Now
                 </Link>
                 <Link to="/diseases" className="border border-white text-white hover:bg-white hover:text-[#0097b2] font-medium py-3 px-6 rounded-md">
