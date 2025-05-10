@@ -18,6 +18,7 @@ import AddDisease from './pages/AddDisease';
 import EditDisease from './pages/EditDisease';
 import AddArea from './pages/AddArea';
 import EditArea from './pages/EditArea';
+import Comment from './pages/Comment';
 import { Navigate } from 'react-router-dom';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/areas/:id" element={<AreaDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/comment" element={<Comment />} />
 
           <Route path="/admin-dashboard" element={
             <ProtectedRoute roleRequired="admin">

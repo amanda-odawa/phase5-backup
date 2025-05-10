@@ -76,6 +76,11 @@ function Navbar() {
               </Link>
             </li>
             <li>
+              <Link to="/comment" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
+                Forum
+              </Link>
+            </li>
+            <li>
               <Link to="/donations" onClick={handleLinkClick} className="block py-2 text-black hover:font-bold">
                 Donate
               </Link>
