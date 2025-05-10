@@ -23,13 +23,16 @@ function CommentList({ comments, loading }) {
             {/* User info and comment */}
             <div className="flex-1">
               <div className="flex justify-between items-center mb-1">
-                <h4 className="text-gray-800 font-medium text-sm">
-                  {comment.user || 'Anonymous'}
-                </h4>
-                <span className="text-xs text-gray-400">
-                  {new Date(comment.date).toLocaleString()}
-                </span>
-              </div>
+              <h4 className="text-gray-800 font-medium text-sm">
+  {comment.user || 'Anonymous'} on <span className="text-cyan-600 italic">{comment.diseaseName || 'a disease'}</span> says:
+</h4>
+
+              <span className="text-xs text-gray-400">
+                {new Date(comment.date).toLocaleString()}
+              </span>
+            </div>
+
+              {/* Comment content */}
               <p className="text-gray-700 text-sm whitespace-pre-wrap">
                 {comment.content}
               </p>

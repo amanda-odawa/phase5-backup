@@ -28,6 +28,22 @@ function Comment() {
         const res = await api.get('/reviews');
         const rawComments = res.data.reverse() || [];
 
+        // Get unique disease IDs
+        const diseaseIds = [...new Set(rawComments.map((c) => c.disease_id))];
+
+        // Fetch disease names for each unique disease_id
+        const diseaseMap = {};
+        await Promise.all(
+          diseaseIds.map(async (id) => {
+            try {
+              const diseaseRes = await api.get(`/diseases/${id}`);
+              diseaseMap[id] = diseaseRes.data?.name || `Disease #${id}`;
+            } catch (err) {
+              diseaseMap[id] = 'Unknown Disease';
+            }
+          })
+        );
+
         // Get unique user IDs
         const userIds = [...new Set(rawComments.map((c) => c.user_id))];
 
@@ -44,10 +60,11 @@ function Comment() {
           })
         );
 
-        // Enrich comments with usernames and consistent date field
+        // Enrich comments with usernames, disease names, and consistent date field
         const enrichedComments = rawComments.map((c) => ({
           ...c,
           user: userMap[c.user_id],
+          diseaseName: diseaseMap[c.disease_id],  // Add the disease name
           date: c.updated_at,
         }));
 

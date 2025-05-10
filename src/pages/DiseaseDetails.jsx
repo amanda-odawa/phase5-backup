@@ -14,7 +14,7 @@ function DiseaseDetails() {
 
   const { diseases, status: diseaseStatus, error } = useSelector((state) => state.diseases);
   const { areas, status: areaStatus } = useSelector((state) => state.areas);
-  const { isAuthenticated } = useSelector((state) => state.auth);
+ 
 
   const [disease, setDisease] = useState(null);
   const [affectedAreas, setAffectedAreas] = useState([]);
@@ -219,16 +219,25 @@ function DiseaseDetails() {
         </div>
       </div>
 
-      {/* Comments Section */}
-      <div className="border-t border-gray-200 mt-10 pt-8 pb-12 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-xl font-semibold mb-4">Comments</h2>
-          {commentsLoading ? (
-            <p className="text-gray-600">Loading comments...</p>
-          ) : (
-            <CommentList comments={comments} />
-          )}
-        </div>
+      <div
+        className="mt-12 px-6 py-8 text-center shadow-sm"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(249,250,251,0.8), rgba(249,250,251,1))',
+          border: '1px solid rgba(200, 200, 200, 0.5)',
+        }}
+      >
+        <h3 className="text-lg font-medium text-gray-800 mb-2">
+          Have suggestions, experiences, or questions about this condition?
+        </h3>
+        <p className="text-gray-600 mb-4">
+          Join others in our community forum to discuss or share suggestions.
+        </p>
+        <button
+          onClick={() => navigate('/comment')}
+          className="bg-cyan-600 text-white font-semibold px-5 py-2 rounded-md hover:bg-cyan-700 transition"
+        >
+          Visit the Discussion Forum
+        </button>
       </div>
     </div>
   );
