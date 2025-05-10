@@ -8,28 +8,37 @@ function CommentList({ comments, loading }) {
   }
 
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-6 space-y-6">
       {comments.map((comment, index) => (
         <div
           key={index}
-          className="bg-gray-100 p-4 rounded-lg shadow-sm flex flex-col text-sm"
+          className="bg-gray-50 border border-gray-200 p-5 rounded-lg shadow-sm"
         >
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-full bg-white text-gray-700 flex items-center justify-center font-semibold">
+          <div className="flex items-start gap-3 mb-2">
+            {/* Avatar */}
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-cyan-100 text-cyan-800 flex items-center justify-center font-semibold text-sm">
               {comment.user?.charAt(0).toUpperCase() || 'A'}
             </div>
-            <div className="text-gray-800 font-medium">
-              {comment.user || 'Anonymous'}
+
+            {/* User info and comment */}
+            <div className="flex-1">
+              <div className="flex justify-between items-center mb-1">
+                <h4 className="text-gray-800 font-medium text-sm">
+                  {comment.user || 'Anonymous'}
+                </h4>
+                <span className="text-xs text-gray-400">
+                  {new Date(comment.date).toLocaleString()}
+                </span>
+              </div>
+              <p className="text-gray-700 text-sm whitespace-pre-wrap">
+                {comment.content}
+              </p>
             </div>
           </div>
-          <p className="text-gray-700">{comment.content}</p>
-          <span className="text-gray-400 text-xs mt-2 self-end">
-            {new Date(comment.date).toLocaleString()}
-          </span>
         </div>
       ))}
     </div>
   );
 }
 
-export default CommentList;
+export default CommentList;

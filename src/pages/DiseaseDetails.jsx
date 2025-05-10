@@ -3,24 +3,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDiseases } from "../store/diseaseSlice";
 import { fetchAreas } from "../store/areaSlice";
-import CommentSection from "../components/CommentSection"; // Fixed path
+import api from '../utils/api'; // Ensure this is the API for fetching comments
+import { toast } from 'react-toastify';
+import CommentList from '../components/CommentList'; // Assuming this component is used for displaying comments
 
 function DiseaseDetails() {
-  const { id } = useParams(); // diseaseId
+  const { id } = useParams(); // diseaseId from URL params
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {
-    diseases,
-    status: diseaseStatus,
-    error,
-  } = useSelector((state) => state.diseases);
+  const { diseases, status: diseaseStatus, error } = useSelector((state) => state.diseases);
   const { areas, status: areaStatus } = useSelector((state) => state.areas);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   const [disease, setDisease] = useState(null);
   const [affectedAreas, setAffectedAreas] = useState([]);
   const [totalCases, setTotalCases] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
 
   useEffect(() => {
     if (diseaseStatus === "idle") dispatch(fetchDiseases());
@@ -28,11 +28,11 @@ function DiseaseDetails() {
   }, [dispatch, diseaseStatus, areaStatus]);
 
   useEffect(() => {
-    const foundDisease = diseases.find((d) => String(d.id) === id); //changed to string
+    const foundDisease = diseases.find((d) => String(d.id) === id); // Make sure diseaseId matches
     if (foundDisease) {
       setDisease(foundDisease);
     } else if (diseaseStatus === "succeeded" && !foundDisease) {
-      navigate("/diseases");
+      navigate("/diseases"); // Redirect if no disease found
     }
   }, [diseases, id, navigate, diseaseStatus]);
 
@@ -54,7 +54,51 @@ function DiseaseDetails() {
     }
   }, [areas, disease, id]);
 
-  const primaryAreaId = affectedAreas.length > 0 ? affectedAreas[0].id : null; //  Get areaId
+  useEffect(() => {
+    // Fetch comments for this specific disease
+    const fetchComments = async () => {
+      try {
+        const res = await api.get(`/reviews?disease_id=${id}`);
+        const rawComments = res.data.reverse() || [];
+
+        // Get unique user IDs for enrichment
+        const userIds = [...new Set(rawComments.map((c) => c.user_id))];
+
+        // Fetch usernames for each unique user_id
+        const userMap = {};
+        await Promise.all(
+          userIds.map(async (userId) => {
+            try {
+              const userRes = await api.get(`/users/${userId}`);
+              userMap[userId] = userRes.data?.username || `User #${userId}`;
+            } catch (err) {
+              userMap[userId] = 'Anonymous';
+            }
+          })
+        );
+
+        // Enrich comments with usernames and consistent date field
+        const enrichedComments = rawComments.map((c) => ({
+          ...c,
+          user: userMap[c.user_id],
+          date: c.updated_at,
+        }));
+
+        setComments(enrichedComments); // Store the enriched comments
+      } catch (err) {
+        console.error('Failed to fetch comments:', err);
+        toast.error('Failed to load comments');
+      } finally {
+        setCommentsLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchComments(); // Fetch comments for the current disease only
+    }
+  }, [id]);
+
+  const primaryAreaId = affectedAreas.length > 0 ? affectedAreas[0].id : null; // Get areaId
 
   if (diseaseStatus === "loading" || areaStatus === "loading") {
     return <div className="text-center mt-12 text-gray-600">Loading...</div>;
@@ -140,7 +184,7 @@ function DiseaseDetails() {
               Risk Factors
             </h4>
             <ul className="list-disc list-inside text-gray-700">
-              {disease.riskFactors?.split(",").map((factor, idx) => (
+              {disease.risk_factors?.split(",").map((factor, idx) => (
                 <li key={idx}>{factor.trim()}</li>
               ))}
             </ul>
@@ -179,11 +223,15 @@ function DiseaseDetails() {
       <div className="border-t border-gray-200 mt-10 pt-8 pb-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-xl font-semibold mb-4">Comments</h2>
-          <CommentSection areaId={primaryAreaId} diseaseId={id} />
+          {commentsLoading ? (
+            <p className="text-gray-600">Loading comments...</p>
+          ) : (
+            <CommentList comments={comments} />
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default DiseaseDetails;
+export default DiseaseDetails;
