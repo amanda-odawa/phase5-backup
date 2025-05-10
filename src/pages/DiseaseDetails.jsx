@@ -311,7 +311,7 @@ function DiseaseDetails() {
               Risk Factors
             </h4>
             <ul className="list-disc list-inside text-gray-700">
-              {disease.riskFactors?.split(",").map((factor, idx) => (
+              {disease.risk_factors?.split(",").map((factor, idx) => (
                 <li key={idx}>{factor.trim()}</li>
               ))}
             </ul>
