@@ -1,14 +1,12 @@
 import { useState } from 'react';
 
-function CommentList({ comments, loading }) {
+function CommentList({ comments, loading, onReply }) {
   const [localSearch, setLocalSearch] = useState('');
 
-  // Handle search query change
   const handleSearchChange = (e) => {
     setLocalSearch(e.target.value);
   };
 
-  // Filter comments based on search query
   const filteredComments = comments.filter((comment) => {
     const matchesSearch =
       comment.content.toLowerCase().includes(localSearch.toLowerCase()) ||
@@ -17,12 +15,29 @@ function CommentList({ comments, loading }) {
     return matchesSearch;
   });
 
+  const formatMentions = (content) => {
+    return content.split(/(@\w+):?/g).map((part, i) => {
+      if (part.startsWith('@')) {
+        return (
+          <span key={i} className="text-cyan-700 font-semibold">
+            {part}
+          </span>
+        );
+      }
+      return <span key={i}>{part}</span>;
+    });
+  };
+
   if (loading) {
     return <p className="text-gray-500 mt-4">Loading comments...</p>;
   }
 
   if (filteredComments.length === 0) {
-    return <p className="text-gray-500 mt-4">No comments found. Be the first to share your thoughts!</p>;
+    return (
+      <p className="text-gray-500 mt-4">
+        No comments found. Be the first to share your thoughts!
+      </p>
+    );
   }
 
   return (
@@ -33,15 +48,15 @@ function CommentList({ comments, loading }) {
       </p>
 
       {/* Search Bar */}
-<div className="flex justify-center mb-6">
-  <input
-    type="text"
-    placeholder="Search keywords eg: malaria, africa, infection..."
-    value={localSearch}
-    onChange={handleSearchChange}
-    className="border border-gray-300 rounded px-4 py-2 w-full max-w-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-600"
-  />
-</div>
+      <div className="flex justify-center mb-6">
+        <input
+          type="text"
+          placeholder="Search keywords eg: malaria, africa, infection..."
+          value={localSearch}
+          onChange={handleSearchChange}
+          className="border border-gray-300 rounded px-4 py-2 w-full max-w-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-600"
+        />
+      </div>
 
       {/* Comment Cards */}
       <div className="mt-6 space-y-6">
@@ -61,18 +76,30 @@ function CommentList({ comments, loading }) {
                 <div className="flex justify-between items-center mb-1">
                   <h4 className="text-gray-800 font-medium text-sm">
                     {comment.user || 'Anonymous'} on{' '}
-                    <span className="text-cyan-600 italic">{comment.diseaseName || 'a disease'}</span> says:
+                    <span className="text-cyan-600 italic">
+                      {comment.diseaseName || 'a disease'}
+                    </span>{' '}
+                    says:
                   </h4>
-
                   <span className="text-xs text-gray-400">
                     {new Date(comment.date).toLocaleString()}
                   </span>
                 </div>
 
                 {/* Comment content */}
-                <p className="text-gray-700 text-sm whitespace-pre-wrap">
-                  {comment.content}
+                <p className="text-gray-700 text-sm whitespace-pre-wrap mb-2">
+                  {formatMentions(comment.content)}
                 </p>
+
+                {/* Reply button */}
+                {onReply && comment.user && (
+                  <button
+                    onClick={() => onReply(comment.user)}
+                    className="text-sm text-cyan-600 hover:underline"
+                  >
+                    Reply
+                  </button>
+                )}
               </div>
             </div>
           </div>

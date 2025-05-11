@@ -28,43 +28,36 @@ function Comment() {
         const res = await api.get('/reviews');
         const rawComments = res.data.reverse() || [];
 
-        // Get unique disease IDs
         const diseaseIds = [...new Set(rawComments.map((c) => c.disease_id))];
-
-        // Fetch disease names for each unique disease_id
         const diseaseMap = {};
         await Promise.all(
           diseaseIds.map(async (id) => {
             try {
               const diseaseRes = await api.get(`/diseases/${id}`);
               diseaseMap[id] = diseaseRes.data?.name || `Disease #${id}`;
-            } catch (err) {
+            } catch {
               diseaseMap[id] = 'Unknown Disease';
             }
           })
         );
 
-        // Get unique user IDs
         const userIds = [...new Set(rawComments.map((c) => c.user_id))];
-
-        // Fetch usernames for each unique user_id
         const userMap = {};
         await Promise.all(
           userIds.map(async (id) => {
             try {
               const userRes = await api.get(`/users/${id}`);
               userMap[id] = userRes.data?.username || `User #${id}`;
-            } catch (err) {
+            } catch {
               userMap[id] = 'Anonymous';
             }
           })
         );
 
-        // Enrich comments with usernames, disease names, and consistent date field
         const enrichedComments = rawComments.map((c) => ({
           ...c,
           user: userMap[c.user_id],
-          diseaseName: diseaseMap[c.disease_id],  // Add the disease name
+          diseaseName: diseaseMap[c.disease_id],
           date: c.updated_at,
         }));
 
@@ -80,7 +73,7 @@ function Comment() {
     fetchComments();
 
     if (user) {
-      const getCurrentUserId = () => 11;
+      const getCurrentUserId = () => 11; // hardcoded ID
       const currentUserId = getCurrentUserId();
       setUserId(currentUserId);
 
@@ -142,86 +135,85 @@ function Comment() {
       toast.success('Comment submitted successfully!');
       setContent('');
       setError('');
-      // Refresh comments after posting
-      window.location.reload(); // TEMP: or you could re-run fetchComments here
+      window.location.reload(); // TEMP: re-fetch comments
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message);
+      toast.error(err.response?.data?.message || 'Failed to submit comment');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleReply = (username) => {
+    setContent(`@${username}: `);
+  };
+
   return (
     <div className="min-h-screen bg-white px-4 py-10 flex flex-col items-center">
       <div className="w-full max-w-3xl">
-        <div className="mb-8  text-center">
+        <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Discussion Forum</h1>
           <p className="text-gray-600">Start a conversation about any disease</p>
         </div>
 
-<div className="bg-gray-100 p-6 rounded-lg shadow-md mb-10">
-  <h2 className="text-xl font-semibold text-gray-800 mb-4">Post a Comment</h2>
+        {user ? (
+          <div className="bg-gray-100 p-6 rounded-lg shadow-md mb-10">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Post a Comment</h2>
 
-  {!user ? (
-    <p className="text-gray-700">
-      Please{' '}
-      <a
-        href="/login"
-        className="text-cyan-600 hover:underline font-medium"
-      >
-        log in
-      </a>{' '}
-      to post a comment.
-    </p>
-  ) : (
-    <>
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-1">Select Disease</label>
-        <select
-          value={selectedDiseaseId}
-          onChange={(e) => setSelectedDiseaseId(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600"
-        >
-          {diseases.map((disease) => (
-            <option key={disease.id} value={disease.id}>
-              {disease.name}
-            </option>
-          ))}
-        </select>
-      </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">Select Disease</label>
+              <select
+                value={selectedDiseaseId}
+                onChange={(e) => setSelectedDiseaseId(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-600"
+              >
+                {diseases.map((disease) => (
+                  <option key={disease.id} value={disease.id}>
+                    {disease.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-1">Your Comment</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Write your comment here..."
-          rows="4"
-          className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-cyan-600"
-        />
-      </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-1">Your Comment</label>
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write your comment here..."
+                rows="4"
+                className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-cyan-600"
+              />
+            </div>
 
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+            {error && <p className="text-red-500 mb-2">{error}</p>}
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        className="w-full bg-cyan-600 text-white font-semibold py-2 rounded-md hover:bg-cyan-700 transition-colors"
-      >
-        {loading ? 'Submitting...' : 'Post Comment'}
-      </button>
-    </>
-  )}
-</div>
-
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className="w-full bg-cyan-600 text-white font-semibold py-2 rounded-md hover:bg-cyan-700 transition-colors"
+            >
+              {loading ? 'Submitting...' : 'Post Comment'}
+            </button>
+          </div>
+        ) : (
+          <div className="bg-yellow-50 border border-yellow-300 p-6 rounded-lg shadow mb-10 text-center">
+            <p className="text-yellow-700">
+              Please{' '}
+              <a href="/login" className="text-cyan-700 font-semibold hover:underline">
+                log in
+              </a>{' '}
+              to post a comment.
+            </p>
+          </div>
+        )}
 
         <div className="bg-white border-t pt-6">
-          {/* <h2 className="text-xl font-semibold text-gray-800 mb-4">Discussion Threads</h2> */}
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Discussion Threads</h2>
           {commentsLoading ? (
             <p className="text-gray-600">Loading comments...</p>
           ) : (
-            <CommentList comments={comments} />
+            <CommentList comments={comments} onReply={handleReply} />
           )}
         </div>
       </div>

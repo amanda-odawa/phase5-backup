@@ -63,4 +63,4 @@ function ReviewForm({ areaId, diseaseId, onCommentSubmit }) {
   );
 }
 
-export default ReviewForm;
+export default ReviewForm;
