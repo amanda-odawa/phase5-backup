@@ -41,8 +41,8 @@ function CommentList({ comments, loading, onReply }) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 py-16 px-4 sm:px-8">
-      <h1 className="text-3xl font-semibold text-center mb-2">Discussion Thread</h1>
+    <div className="min-h-screen bg-white text-gray-900 py-4 px-4 sm:px-8">
+      <h1 className="text-xl font-semibold text-center mb-2">Discussion Thread</h1>
       <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
         Read comments and discussions about different diseases and related topics.
       </p>
@@ -74,17 +74,17 @@ function CommentList({ comments, loading, onReply }) {
               {/* User info and comment */}
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-1">
-                  <h4 className="text-gray-800 font-medium text-sm">
-                    {comment.user || 'Anonymous'} on{' '}
-                    <span className="text-cyan-600 italic">
-                      {comment.diseaseName || 'a disease'}
-                    </span>{' '}
-                    says:
-                  </h4>
-                  <span className="text-xs text-gray-400">
-                    {new Date(comment.date).toLocaleString()}
-                  </span>
-                </div>
+    <h4 className="text-gray-800 font-medium text-sm">
+      <span className="font-bold">{comment.user || 'Anonymous'}</span> on{' '}
+      <span className="text-cyan-600 italic">
+        {comment.diseaseName || 'a disease'}
+      </span>{' '}
+      says:
+    </h4>
+    <span className="text-xs text-gray-400">
+      {new Date(comment.date).toLocaleString()}
+    </span>
+  </div>
 
                 {/* Comment content */}
                 <p className="text-gray-700 text-sm whitespace-pre-wrap mb-2">
