@@ -11,6 +11,8 @@ function Comment() {
   const location = useLocation();
   const hasNotified = useRef(false);
 
+  const commentInputRef = useRef(null); // NEW: Ref to comment box
+
   const [content, setContent] = useState('');
   const [diseases, setDiseases] = useState([]);
   const [selectedDiseaseId, setSelectedDiseaseId] = useState('');
@@ -146,6 +148,10 @@ function Comment() {
 
   const handleReply = (username) => {
     setContent(`@${username}: `);
+    setTimeout(() => {
+      commentInputRef.current?.focus();
+      commentInputRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   return (
@@ -178,6 +184,7 @@ function Comment() {
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-1">Your Comment</label>
               <textarea
+                ref={commentInputRef} // 👈 This enables scroll + focus
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your comment here..."
@@ -212,7 +219,11 @@ function Comment() {
           {commentsLoading ? (
             <p className="text-gray-600">Loading comments...</p>
           ) : (
-            <CommentList comments={comments} onReply={handleReply} />
+            <CommentList
+              comments={comments}
+              onReply={handleReply}
+              commentInputRef={commentInputRef}
+            />
           )}
         </div>
       </div>
