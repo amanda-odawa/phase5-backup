@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 function CommentList({ comments, loading }) {
@@ -28,21 +27,21 @@ function CommentList({ comments, loading }) {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 py-16 px-4 sm:px-8">
-      <h1 className="text-3xl font-semibold text-center mb-2">Comments</h1>
+      <h1 className="text-3xl font-semibold text-center mb-2">Discussion Thread</h1>
       <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
         Read comments and discussions about different diseases and related topics.
       </p>
 
       {/* Search Bar */}
-      <div className="flex justify-center mb-6">
-        <input
-          type="text"
-          placeholder="Search keywords eg: malaria, africa, infection..."
-          value={localSearch}
-          onChange={handleSearchChange}
-          className="border border-gray-300 rounded px-3 py-2 w-48"
-        />
-      </div>
+<div className="flex justify-center mb-6">
+  <input
+    type="text"
+    placeholder="Search keywords eg: malaria, africa, infection..."
+    value={localSearch}
+    onChange={handleSearchChange}
+    className="border border-gray-300 rounded px-4 py-2 w-full max-w-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-600"
+  />
+</div>
 
       {/* Comment Cards */}
       <div className="mt-6 space-y-6">
